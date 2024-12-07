@@ -8,10 +8,10 @@ namespace Temple_of_doom.data.Model
 {
     public class PressurePlatePublisher
     {
-        private List<IObserver> observers = new();
+        private List<UIObserver> observers = new();
 
-        public void Attach(IObserver observer) => observers.Add(observer);
-        public void Detach(IObserver observer) => observers.Remove(observer);
+        public void Attach(UIObserver observer) => observers.Add(observer);
+        public void Detach(UIObserver observer) => observers.Remove(observer);
         public void Notify() => observers.ForEach(o => o.Update());
     }
 }

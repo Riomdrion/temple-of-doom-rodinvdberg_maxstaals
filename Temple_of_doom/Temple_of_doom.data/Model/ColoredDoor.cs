@@ -14,6 +14,10 @@ namespace Temple_of_doom.Model
         public ColoredDoor(string type) : base(type)
         {
         }
+
+        public ColoredDoor()
+        {
+        }
     }
 
 }

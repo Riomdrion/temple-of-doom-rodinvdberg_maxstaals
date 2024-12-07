@@ -15,7 +15,7 @@ namespace Temple_of_doom.data.Model
             {
                 "ColoredDoor" => new ColoredDoor(),
                 "ToggleDoor" => new ToggleDoor(),
-                _ => new Door()
+                _ => throw new NotImplementedException()
             };
         }
     }
