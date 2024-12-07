@@ -8,6 +8,10 @@ namespace Temple_of_doom.Model
 {
     public class ToggleDoor : Door
     {
+        public bool IsLocked { get; set; }
+        public ToggleDoor()
+        {
+        }
     }
 
 }
