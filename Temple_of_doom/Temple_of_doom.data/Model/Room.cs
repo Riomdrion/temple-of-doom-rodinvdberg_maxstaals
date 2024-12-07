@@ -11,7 +11,7 @@ namespace Temple_of_doom.Model
         private int id;
         private int size;
         private List<Item> items;
-    }
+    
 
     public List<Connection> Connections { get; } = new();
 
