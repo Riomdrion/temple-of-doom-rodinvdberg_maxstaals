@@ -8,7 +8,13 @@ namespace Temple_of_doom.Model
 {
     public class Connection
     {
-        private Dictionary<Direction, Door> doors;
-    }
+        public Direction Direction { get; set; }
+        public Room ConnectedRoom { get; set; }
 
+        public Connection(Direction direction, Room connectedRoom)
+        {
+            Direction = direction;
+            ConnectedRoom = connectedRoom;
+        }
+    }
 }

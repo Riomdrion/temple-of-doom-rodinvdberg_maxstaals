@@ -10,15 +10,15 @@ namespace Temple_of_doom.Model
     public abstract class Door : UIObserver
     {
 
-        public Door()
-        {
-        }
-
         public void Update()
         {
-            Console.WriteLine("Door is opening in response to PressurePlate.");
+            Console.WriteLine("Door has been notified and will open.");
+            Open();
         }
 
-        public abstract void Open();
+        public virtual void Open()
+        {
+            Console.WriteLine("The door is opening...");
+        }
     }
 }

@@ -9,14 +9,11 @@ namespace Temple_of_doom.Model
 {
     public class ColoredDoor : Door
     {
-        public string Color { get; set; } = "Red";
+        public Color Color { get; set; }
 
-        public ColoredDoor(string type) : base(type)
+        public override void Open()
         {
-        }
-
-        public ColoredDoor()
-        {
+            Console.WriteLine($"The {Color} door is opening...");
         }
     }
 

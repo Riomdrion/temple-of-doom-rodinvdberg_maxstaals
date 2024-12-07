@@ -13,4 +13,12 @@ namespace Temple_of_doom.Model
         private List<Item> items;
     }
 
+    public List<Connection> Connections { get; } = new();
+
+        public void AddConnection(Connection connection)
+        {
+            Connections.Add(connection);
+        }
+    }
+
 }

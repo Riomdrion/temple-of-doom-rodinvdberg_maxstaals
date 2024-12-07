@@ -9,13 +9,14 @@ namespace Temple_of_doom.data.Model
 {
     public abstract class DoorFactory
     {
-        public Door CreateDoor(string type)
+        public Door CreateDoor(string type, Color color)
         {
             return type switch
             {
-                "ColoredDoor" => new ColoredDoor(),
+                "SimpleDoor" => new SimpleDoor(),
+                "ColoredDoor" => new ColoredDoor { Color = Color.RED },
                 "ToggleDoor" => new ToggleDoor(),
-                _ => throw new NotImplementedException()
+                _ => throw new ArgumentException("Unknown door type")
             };
         }
     }
