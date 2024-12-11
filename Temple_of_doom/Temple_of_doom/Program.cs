@@ -1,10 +1,13 @@
-﻿namespace Temple_of_doom
+﻿using Temple_of_doom.Controllers;
+
+namespace Temple_of_doom
 {
-    internal class Program
+    class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            GameController gameController = new GameController();
+            gameController.StartGame();
         }
     }
 }

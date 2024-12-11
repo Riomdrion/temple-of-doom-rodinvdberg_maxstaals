@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Temple_of_doom.Model
+﻿
+namespace Temple_of_doom.Models
 {
     public class ColoredDoor : Door
     {

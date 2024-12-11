@@ -54,6 +54,11 @@ namespace Temple_of_doom
         public string type { get; set; }
         public string color { get; set; }
         public int no_of_stones { get; set; }
+
+        public void Open()
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }

@@ -49,9 +49,6 @@
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAIAAAAAQAAAAABAQgAAAA=</HashCode>
       <FileName>Model\PressurePlatePuzzle.cs</FileName>
     </TypeIdentifier>
-    <ShowAsCollectionAssociation>
-      <Property Name="Doors" />
-    </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Temple_of_doom.data.Model.SimpleDoor">
     <Position X="20" Y="5.75" Width="1.5" />

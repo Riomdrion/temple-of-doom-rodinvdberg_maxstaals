@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Temple_of_doom.Model;
+﻿
+using Temple_of_doom.Models;
 
-namespace Temple_of_doom.data.Model
+namespace Temple_of_doom.Factories
 {
     public abstract class DoorFactory
     {
@@ -14,7 +10,7 @@ namespace Temple_of_doom.data.Model
             return type switch
             {
                 "SimpleDoor" => new SimpleDoor(),
-                "ColoredDoor" => new ColoredDoor { Color = Color.RED },
+                "ColoredDoor" => new Models.ColoredDoor { Color = Color.RED },
                 "ToggleDoor" => new ToggleDoor(),
                 _ => throw new ArgumentException("Unknown door type")
             };

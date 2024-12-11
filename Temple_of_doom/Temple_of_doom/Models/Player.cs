@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Temple_of_doom.data.Model;
-
-namespace Temple_of_doom.Model
+﻿namespace Temple_of_doom.Models
 {
     public class Player
     {
@@ -15,9 +8,8 @@ namespace Temple_of_doom.Model
         private List<Item> backpack;
         private IDoorStrategy strategy;
 
-        public Player(IDoorStrategy strategy)
+        public Player()
         {
-            this.strategy = strategy;
         }
 
         public void SetStrategy(IDoorStrategy strategy)
