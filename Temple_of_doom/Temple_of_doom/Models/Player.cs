@@ -2,31 +2,20 @@
 {
     public class Player
     {
-        private int startRoomID;
-        private int[] startCoordinates;
-        private int lives;
-        private List<Item> backpack;
-        private IDoorStrategy strategy;
+        public int Lives { get; set; }
+        public bool HasWon { get; set; }
+        public Position Position { get; set; }
+        public Inventory Inventory { get; set; }
 
         public Player()
         {
+            Inventory = new Inventory();
+            Position = new Position();
         }
 
-        public int Lives { get; set; }
-
-        public void SetStrategy(IDoorStrategy strategy)
+        public bool HasKey(string keyColor)
         {
-            this.strategy = strategy;
-        }
-
-        public void OpenDoor(Door door)
-        {
-            strategy.OpenDoor(door);
-        }
-
-        public bool HasKey(string requiredKeyColor)
-        {
-            throw new NotImplementedException();
+            return Inventory.HasItem(keyColor);
         }
     }
 }

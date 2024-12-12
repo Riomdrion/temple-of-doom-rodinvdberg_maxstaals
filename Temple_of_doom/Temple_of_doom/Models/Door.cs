@@ -2,13 +2,19 @@
 {
     public abstract class Door : UIObserver
     {
+        public string Id { get; set; }
+        public bool IsOpen { get; set; }
 
-        public void Update()
+        public abstract bool CanOpen(Player player);
+
+        public void Open()
         {
-            Console.WriteLine("Door has been notified and will open.");
-            Open();
+            IsOpen = true;
         }
 
-        public abstract void Open();
+        public void Close()
+        {
+            IsOpen = false;
+        }
     }
 }

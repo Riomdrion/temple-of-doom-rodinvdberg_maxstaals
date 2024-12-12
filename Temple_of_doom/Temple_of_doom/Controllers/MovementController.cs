@@ -10,33 +10,36 @@ namespace Temple_of_doom.Controllers
 {
     public class MovementController
     {
-        private GameWorld _gameWorld;
-
-        public MovementController(GameWorld gameWorld)
+        public static bool MovePlayer(GameWorld gameWorld, string direction)
         {
-            _gameWorld = gameWorld;
-        }
+            var currentRoom = gameWorld.CurrentRoom;
+            var player = gameWorld.Player;
+            var newPosition = player.Position;
 
-        public void ProcessMovement(ConsoleKey key)
-        {
-            switch (key)
+            switch (direction)
             {
-                case ConsoleKey.UpArrow:
-                    _gameWorld.MovePlayer("up");
+                case "up":
+                    newPosition.Y--;
                     break;
-                case ConsoleKey.DownArrow:
-                    _gameWorld.MovePlayer("down");
+                case "down":
+                    newPosition.Y++;
                     break;
-                case ConsoleKey.LeftArrow:
-                    _gameWorld.MovePlayer("left");
+                case "left":
+                    newPosition.X--;
                     break;
-                case ConsoleKey.RightArrow:
-                    _gameWorld.MovePlayer("right");
-                    break;
-                default:
-                    Console.WriteLine("Invalid key for movement.");
+                case "right":
+                    newPosition.X++;
                     break;
             }
+
+            if (currentRoom.IsPositionWalkable(newPosition))
+            {
+                player.Position = newPosition;
+                currentRoom.HandlePlayerInteraction(player);
+                return true;
+            }
+
+            return false;
         }
     }
 }

@@ -2,12 +2,12 @@
 {
     public class ToggleDoor : Door
     {
-        public bool CanOpen(Player player)
+        public override bool CanOpen(Player player)
         {
             return true;
         }
 
-        public override void Open()
+        public void Open()
         {
             throw new NotImplementedException();
         }

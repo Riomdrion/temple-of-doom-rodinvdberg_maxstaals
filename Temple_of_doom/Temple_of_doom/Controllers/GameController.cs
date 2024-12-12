@@ -5,30 +5,25 @@ using Temple_of_doom.Views;
 
 namespace Temple_of_doom.Controllers
 {
-    public class GameController
+        public class GameController
     {
-        private GameWorld _gameWorld;
-        private ConsoleView _view;
-
-        public GameController()
-        {
-            _gameWorld = new GameWorld();
-            _view = new ConsoleView();
-        }
+        private readonly GameWorld gameWorld = JsonFileReader.LoadGameWorld("C:\\Users\\rodin\\OneDrive\\Documenten\\GitHub\\avans-code\\deelopdracht-1-24-25-temple-of-doom-rodinvdberg_maxstaals-1\\Temple_of_doom\\Temple_of_doom\\TempleOfDoom.json");
+        private readonly ConsoleView view = new();
 
         public void StartGame()
         {
-            // Initialize components
-            _view = new ConsoleView();
-            _gameWorld = JsonFileReader.LoadGameWorld("Data/TempleOfDoom.json");
+            // Assign player start Position
+            gameWorld.Player.Position = gameWorld.CurrentRoom.GetPlayerStartPosition();
 
             // Start the game loop
-            while (true)
+            while (!gameWorld.IsGameOver)
             {
-                _view.DisplayRoom(_gameWorld.CurrentRoom);
-                var command = _view.GetPlayerInput();
+                view.DisplayRoom(gameWorld.CurrentRoom, gameWorld.Player);
+                var command = view.GetPlayerInput();
                 ProcessCommand(command);
             }
+
+            view.DisplayGameOver(gameWorld.Player.HasWon);
         }
 
         private void ProcessCommand(string command)
@@ -36,11 +31,11 @@ namespace Temple_of_doom.Controllers
             // Handle player movement and interactions
             if (command == "up" || command == "down" || command == "left" || command == "right")
             {
-                _gameWorld.MovePlayer(command);
+                gameWorld.MovePlayer(command);
             }
             else
             {
-                _view.DisplayInvalidCommand();
+                view.DisplayInvalidCommand();
             }
         }
     }

@@ -1,22 +1,20 @@
 ﻿
 
+using Temple_of_doom.Controllers;
+
 namespace Temple_of_doom.Models
 {
     public class GameWorld
     {
-        public GameWorld()
-        {
-            Player = new Player();
-            CurrentRoom = new Room();
-        }
-
         public Player Player { get; set; }
         public Room CurrentRoom { get; set; }
+        public bool IsGameOver => Player.Lives <= 0 || Player.HasWon;
 
         public void MovePlayer(string direction)
         {
-            // Logic for moving player in the current room
+            MovementController.MovePlayer(this, direction);
         }
     }
 }
+
 

@@ -4,9 +4,26 @@ namespace Temple_of_doom.Views
 {
     public class ConsoleView
     {
-        public void DisplayRoom(Room room)
+        public void DisplayRoom(Room room, Player player)
         {
-            new NotImplementedException();
+            Console.Clear();
+            Console.WriteLine($"You are in {room.Name}");
+
+            for (int y = 0; y < room.Layout.GetLength(0); y++)
+            {
+                for (int x = 0; x < room.Layout.GetLength(1); x++)
+                {
+                    if (player.Position.X == x && player.Position.Y == y)
+                    {
+                        Console.Write('X'); // Display player position
+                    }
+                    else
+                    {
+                        Console.Write(room.Layout[y, x]);
+                    }
+                }
+                Console.WriteLine();
+            }
         }
 
         public ConsoleKey GetPlayerKeyInput()

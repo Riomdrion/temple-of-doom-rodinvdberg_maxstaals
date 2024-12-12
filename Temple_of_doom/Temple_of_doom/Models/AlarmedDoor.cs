@@ -4,13 +4,13 @@ namespace Temple_of_doom.Models
 {
     public class AlarmedDoor : Door
     {
-        public bool CanOpen(Player player)
+        public override bool CanOpen(Player player)
         {
             Console.WriteLine("Alarm triggered!");
             return false;
         }
 
-        public override void Open()
+        public void Open()
         {
             throw new NotImplementedException();
         }
