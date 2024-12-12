@@ -17,19 +17,24 @@ namespace Temple_of_doom.Data
             try
             {
                 string json = File.ReadAllText(filePath);
-                var gameWorld = JsonConvert.DeserializeObject<GameWorld>(json, new JsonSerializerSettings
-                {
-                    TypeNameHandling = TypeNameHandling.Auto
-                });
 
-                // Link player and starting room
+                // Custom JsonSerializerSettings
+                var settings = new JsonSerializerSettings
+                {
+                    TypeNameHandling = TypeNameHandling.None,
+                    Converters = new List<JsonConverter> { new ItemConverter() } // Add the custom converter
+                };
+
+                var gameWorld = JsonConvert.DeserializeObject<GameWorld>(json, settings);
+
+                // Link player to starting room
                 gameWorld.CurrentRoom = gameWorld.Rooms.FirstOrDefault(r => r.id == gameWorld.Player.StartingRoomId);
                 if (gameWorld.CurrentRoom != null)
                 {
                     gameWorld.Player.Position = new Position
                     {
-                        X = gameWorld.Player.Position.X,
-                        Y = gameWorld.Player.Position.Y
+                        X = gameWorld.Player.StartX,
+                        Y = gameWorld.Player.StartY
                     };
                 }
 

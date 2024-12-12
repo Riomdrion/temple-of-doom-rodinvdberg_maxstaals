@@ -2,28 +2,38 @@
 {
     public class Room
     {
-        public Room(string name, List<Item> items, List<Door> doors, char[,] layout)
+        public Room(string id, string name, int width, int height, List<Item> items, List<Door> doors)
         {
+            this.id = id;
             Name = name;
             Items = items ?? new List<Item>();
             Doors = doors ?? new List<Door>();
-            Layout = layout ?? throw new ArgumentNullException(nameof(layout), "Room layout cannot be null.");
+
+            // Genereer een lege layout
+            Layout = new char[height, width];
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    Layout[y, x] = '.'; // Default lege ruimte
+                }
+            }
+
+            // Voeg standaardmuren toe
+            for (int x = 0; x < width; x++)
+            {
+                Layout[0, x] = '#'; // Bovenrand
+                Layout[height - 1, x] = '#'; // Onderkant
+            }
+
+            for (int y = 0; y < height; y++)
+            {
+                Layout[y, 0] = '#'; // Linkerrand
+                Layout[y, width - 1] = '#'; // Rechterrand
+            }
         }
 
-        public Room()
-        {
-            Name = "Unnamed Room";
-            Items = new List<Item>();
-            Doors = new List<Door>();
-            Layout = new char[5, 5] // Default layout
-            {
-                { '#', '#', '#', '#', '#' },
-                { '#', 'X', '.', '.', '#' },
-                { '#', '.', '#', 'S', '#' },
-                { '#', 'K', '.', '.', '#' },
-                { '#', '#', '#', '#', '#' }
-            };
-        }
+        
 
         public string Name { get; set; }
         public List<Item> Items { get; set; }

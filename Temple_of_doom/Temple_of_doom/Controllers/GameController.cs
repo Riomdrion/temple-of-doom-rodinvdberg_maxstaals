@@ -16,7 +16,7 @@ namespace Temple_of_doom.Controllers
             _view = new ConsoleView();
             try
             {
-                _gameWorld = JsonFileReader.LoadGameWorld("C:\\Users\\rodin\\OneDrive\\Documenten\\GitHub\\avans-code\\deelopdracht-1-24-25-temple-of-doom-rodinvdberg_maxstaals-1\\Temple_of_doom\\Temple_of_doom\\TempleOfDoom.json") ?? CreateDefaultGameWorld();
+                _gameWorld = JsonFileReader.LoadGameWorld("C:\\Users\\rodin\\OneDrive\\Documenten\\GitHub\\avans-code\\deelopdracht-1-24-25-temple-of-doom-rodinvdberg_maxstaals-1\\Temple_of_doom\\Temple_of_doom\\TempleOfDoom.json");
 
                 if (_gameWorld.CurrentRoom == null || _gameWorld.Player == null)
                 {
@@ -55,31 +55,6 @@ namespace Temple_of_doom.Controllers
             {
                 _view.DisplayInvalidCommand();
             }
-        }
-
-        private GameWorld CreateDefaultGameWorld()
-        {
-            Console.WriteLine("Loading default GameWorld.");
-            var defaultRoom = new Room
-            {
-                Name = "Default Room",
-                Items = new List<Item> { new SankaraStone {Power = 10}, new Key {Color = "Red"} },
-                Doors = new List<Door>(),
-                Layout = new char[,]
-                {
-                    { '#', '#', '#', '#', '#' },
-                    { '#', 'X', '.', 'S', '#' },
-                    { '#', '.', '#', '.', '#' },
-                    { '#', 'K', '.', '.', '#' },
-                    { '#', '#', '#', '#', '#' }
-                }
-            };
-
-            return new GameWorld
-            {
-                Player = new Player { Lives = 3 },
-                CurrentRoom = defaultRoom
-            };
         }
     }
 }

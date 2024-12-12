@@ -7,6 +7,8 @@
         public Position Position { get; set; }
         public Inventory Inventory { get; set; }
         public string StartingRoomId { get; set; }
+        public int StartX { get; }
+        public int StartY { get; }
 
 
         public Player()
