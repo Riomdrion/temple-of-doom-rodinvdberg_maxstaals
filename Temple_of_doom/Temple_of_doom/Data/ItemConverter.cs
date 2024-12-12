@@ -14,7 +14,7 @@ public class ItemConverter : JsonConverter
     public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
     {
         var jObject = JObject.Load(reader);
-        var type = jObject["Type"]?.ToString();
+        var type = jObject["type"]?.ToString();
 
         if (string.IsNullOrEmpty(type))
         {
@@ -24,7 +24,8 @@ public class ItemConverter : JsonConverter
         Item item = type switch
         {
             "Key" => new Key(jObject["Name"]?.ToString()),
-            "SankaraStone" => new SankaraStone(jObject["Name"]?.ToString()),
+            "sankara stone" => new SankaraStone(jObject["Name"]?.ToString()),
+            "disappearing boobytrap" => new DisappearingBoobytrap(jObject["Name"]?.ToString(), jObject["Damage"]?.Value<int>() ?? 0),
             _ => throw new JsonSerializationException($"Unknown item type: {type}")
         };
 
