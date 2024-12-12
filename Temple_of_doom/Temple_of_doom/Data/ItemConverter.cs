@@ -14,15 +14,17 @@ public class ItemConverter : JsonConverter
     public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
     {
         var jObject = JObject.Load(reader);
-        var type = jObject["Name"]?.ToString();
+        var type = jObject["type"]?.ToString();  // Changed from "Name" to "type"
 
         Item item = type switch
         {
-            "Sankara Stone" => new SankaraStone(),
-            "Key" => new Key(),
+            "sankara stone" => new SankaraStone(),  // Lowercase type
+            "key" => new Key(),
+            "disappearing boobytrap" => new Boobytrap() { Disappearing = true },
+            "boobytrap" => new Boobytrap(),
+            "pressure plate" => new PressurePlate(),
             _ => throw new JsonSerializationException($"Unknown item type: {type}")
         };
-
         serializer.Populate(jObject.CreateReader(), item);
         return item;
     }

@@ -1,6 +1,6 @@
 ﻿namespace Temple_of_doom.Models
 {
-    public class PressurePlate
+    public class PressurePlate : Item
     {
         public bool IsActive { get; set; }
         public event Action Activated;

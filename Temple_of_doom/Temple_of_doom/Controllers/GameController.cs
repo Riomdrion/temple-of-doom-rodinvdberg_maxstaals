@@ -16,7 +16,7 @@ namespace Temple_of_doom.Controllers
             _view = new ConsoleView();
             try
             {
-                _gameWorld = JsonFileReader.LoadGameWorld("C:\\Users\\rodin\\OneDrive\\Documenten\\GitHub\\avans-code\\deelopdracht-1-24-25-temple-of-doom-rodinvdberg_maxstaals-1\\Temple_of_doom\\Temple_of_doom\\TempleOfDoom.json");
+                _gameWorld = JsonFileReader.LoadGameWorld("../../../TempleOfDoom.json");
 
                 if (_gameWorld.CurrentRoom == null || _gameWorld.Player == null)
                 {
