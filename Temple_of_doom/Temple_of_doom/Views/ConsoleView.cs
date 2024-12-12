@@ -22,6 +22,7 @@ namespace Temple_of_doom.Views
                         Console.Write(room.Layout[y, x]);
                     }
                 }
+
                 Console.WriteLine();
             }
         }
@@ -44,7 +45,17 @@ namespace Temple_of_doom.Views
 
         public string GetPlayerInput()
         {
-            throw new NotImplementedException("GetPlayerInput not implemented");
+            ConsoleKeyInfo keyInfo = Console.ReadKey(intercept: true);
+
+            return keyInfo.Key switch
+            {
+                ConsoleKey.UpArrow => "up",
+                ConsoleKey.DownArrow => "down",
+                ConsoleKey.LeftArrow => "left",
+                ConsoleKey.RightArrow => "right",
+                ConsoleKey.Q => "quit", // Optioneel: sluit het spel
+                _ => string.Empty // Onbekende invoer
+            };
         }
     }
 }

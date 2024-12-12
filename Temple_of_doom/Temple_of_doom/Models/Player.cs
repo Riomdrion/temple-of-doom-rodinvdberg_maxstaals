@@ -25,5 +25,11 @@
         {
             return Inventory.HasItem(keyColor);
         }
+
+        public Position GetPlayerStartPosition()
+        {
+            return new Position(StartX, StartY);
+        }
+        
     }
 }

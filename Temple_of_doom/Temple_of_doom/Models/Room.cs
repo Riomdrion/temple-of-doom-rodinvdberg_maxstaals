@@ -16,6 +16,7 @@
             Name = name;
             Width = width;
             Height = height;
+            Layout = new char[height, width];
             Items = items ?? new List<Item>();
             Doors = doors ?? new List<Door>();
         }

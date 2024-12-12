@@ -1,45 +1,49 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Temple_of_doom.Models;
-
-
-namespace Temple_of_doom.Controllers
+﻿using Temple_of_doom.Models;
+public class MovementController
 {
-    public class MovementController
+    private GameWorld _gameWorld;
+
+    public MovementController(GameWorld gameWorld)
     {
-        public static bool MovePlayer(GameWorld gameWorld, string direction)
+        _gameWorld = gameWorld;
+    }
+
+    public void HandleInput(string command)
+    {
+        if (string.IsNullOrEmpty(command)) return;
+
+        Position currentPosition = _gameWorld.Player.Position;
+        Position newPosition = currentPosition;
+
+        switch (command)
         {
-            var currentRoom = gameWorld.CurrentRoom;
-            var player = gameWorld.Player;
-            var newPosition = player.Position;
+            case "up":
+                newPosition = new Position(currentPosition.X, currentPosition.Y - 1);
+                break;
+            case "down":
+                newPosition = new Position(currentPosition.X, currentPosition.Y + 1);
+                break;
+            case "left":
+                newPosition = new Position(currentPosition.X - 1, currentPosition.Y);
+                break;
+            case "right":
+                newPosition = new Position(currentPosition.X + 1, currentPosition.Y);
+                break;
+            case "quit":
+                Console.WriteLine("Exiting game.");
+                Environment.Exit(0);
+                break;
+        }
 
-            switch (direction)
-            {
-                case "up":
-                    newPosition.Y--;
-                    break;
-                case "down":
-                    newPosition.Y++;
-                    break;
-                case "left":
-                    newPosition.X--;
-                    break;
-                case "right":
-                    newPosition.X++;
-                    break;
-            }
-
-            if (currentRoom.IsPositionWalkable(newPosition))
-            {
-                player.Position = newPosition;
-                currentRoom.HandlePlayerInteraction(player);
-                return true;
-            }
-
-            return false;
+        // Check if the new position is walkable
+        if (_gameWorld.CurrentRoom.IsPositionWalkable(newPosition))
+        {
+            _gameWorld.Player.Position = newPosition;
+            Console.WriteLine($"Player moved to: {newPosition.X}, {newPosition.Y}");
+        }
+        else
+        {
+            Console.WriteLine("You can't move there!");
         }
     }
 }

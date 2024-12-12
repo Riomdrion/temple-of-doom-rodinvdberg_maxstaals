@@ -18,21 +18,19 @@ namespace Temple_of_doom.Controllers
             {
                 _gameWorld = JsonFileReader.LoadGameWorld("../../../TempleOfDoom.json");
 
-                if (_gameWorld.CurrentRoom == null )
-                {
-                    Console.WriteLine("Debug: CurrentRoom is missing.");
-                    throw new NullReferenceException("GameWorld is missing essential components (CurrentRoom). Check JSON or default world initialization.");
-                }
-                if (_gameWorld.Player == null)
-                {
-                    Console.WriteLine("Debug: Player is missing.");
-                    throw new NullReferenceException("GameWorld is missing essential components (Player). Check JSON or default world initialization.");
-                }
-               
+                // if (_gameWorld.CurrentRoom == null )
+                // {
+                //     Console.WriteLine("Debug: CurrentRoom is missing.");
+                //     throw new NullReferenceException("GameWorld is missing essential components (CurrentRoom). Check JSON or default world initialization.");
+                // }
+                // if (_gameWorld.Player == null)
+                // {
+                //     Console.WriteLine("Debug: Player is missing.");
+                //     throw new NullReferenceException("GameWorld is missing essential components (Player). Check JSON or default world initialization.");
+                // }
                 
-
                 // Assign player start position
-                _gameWorld.Player.Position = _gameWorld.CurrentRoom.GetPlayerStartPosition();
+                _gameWorld.Player.Position = _gameWorld.Player.GetPlayerStartPosition();
 
                 // Start the game loop
                 while (!_gameWorld.IsGameOver)
@@ -53,8 +51,14 @@ namespace Temple_of_doom.Controllers
 
         private void ProcessCommand(string command)
         {
-            // Handle player movement and interactions
-            if (command == "up" || command == "down" || command == "left" || command == "right")
+            if (string.IsNullOrEmpty(command)) return;
+
+            if (command == "quit")
+            {
+                Console.WriteLine("Exiting game.");
+                Environment.Exit(0);
+            }
+            else if (command == "up" || command == "down" || command == "left" || command == "right")
             {
                 _gameWorld.MovePlayer(command);
             }
