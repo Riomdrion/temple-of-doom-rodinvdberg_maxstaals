@@ -23,10 +23,12 @@ public class ItemConverter : JsonConverter
 
         Item item = type switch
         {
-            "Key" => new Key(jObject["Name"]?.ToString()),
+            "key" => new Key(jObject["Name"]?.ToString()),
             "sankara stone" => new SankaraStone(jObject["Name"]?.ToString()),
             "disappearing boobytrap" => new DisappearingBoobytrap(jObject["Name"]?.ToString(),
                 jObject["Damage"]?.Value<int>() ?? 0),
+            "boobytrap" => new Boobytrap(jObject["Damage"]?.Value<int>() ?? 0),
+            "pressure plate" => new PressurePlate(jObject["Name"]?.ToString()),
             _ => throw new JsonSerializationException($"Unknown item type: {type}")
         };
 

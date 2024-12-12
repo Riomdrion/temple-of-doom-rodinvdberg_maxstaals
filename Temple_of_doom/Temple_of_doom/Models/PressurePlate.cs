@@ -2,6 +2,11 @@
 {
     public class PressurePlate : Item
     {
+        public PressurePlate(string? toString)
+        {   
+            IsActive = false;
+        }
+
         public bool IsActive { get; set; }
         public event Action Activated;
 

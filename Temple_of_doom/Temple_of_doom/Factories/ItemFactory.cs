@@ -9,7 +9,7 @@ public static class ItemFactory
     {
         return itemDTO.Type switch
         {
-            "Key" => new Key(itemDTO.Name),
+            "key" => new Key(itemDTO.Name),
             "SankaraStone" => new SankaraStone(itemDTO.Name),
             _ => throw new ArgumentException($"Unknown item type: {itemDTO.Type}")
         };

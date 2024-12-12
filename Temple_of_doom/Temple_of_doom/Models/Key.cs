@@ -2,11 +2,11 @@
 {
     public class Key : Item
     {
-        public Key(string itemDtoName)
-        {
-            throw new NotImplementedException("Key constructor not implemented");
-        }
+        public string KeyColor { get; set; }
 
-        public string Color { get; set; }
+        public Key(string itemDtoName) : base()
+        {
+            KeyColor = itemDtoName;
+        }
     }
 }

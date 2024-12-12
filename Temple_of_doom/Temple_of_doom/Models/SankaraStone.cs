@@ -2,11 +2,11 @@
 {
     public class SankaraStone : Item
     {
-        public SankaraStone(string itemDtoName)
-        {
-            throw new NotImplementedException("SankaraStone constructor not implemented");
-        }
-
         public int Power { get; set; }
+
+        public SankaraStone(string itemDtoName, int power = 100)
+        {
+            Power = power;
+        }
     }
 }
