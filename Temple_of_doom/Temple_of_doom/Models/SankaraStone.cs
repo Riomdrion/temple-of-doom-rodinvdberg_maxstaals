@@ -2,6 +2,11 @@
 {
     public class SankaraStone : Item
     {
+        public SankaraStone(string itemDtoName)
+        {
+            throw new NotImplementedException();
+        }
+
         public int Power { get; set; }
     }
 }

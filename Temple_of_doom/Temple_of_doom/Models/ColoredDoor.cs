@@ -3,6 +3,11 @@ namespace Temple_of_doom.Models
 {
     public class ColoredDoor : Door
     {
+        public ColoredDoor(int doorDtoId, int doorDtoTargetRoomId)
+        {
+            throw new NotImplementedException();
+        }
+
         public Color Color { get; set; }
         public string Id { get; set; }
         public string KeyColor { get; set; }

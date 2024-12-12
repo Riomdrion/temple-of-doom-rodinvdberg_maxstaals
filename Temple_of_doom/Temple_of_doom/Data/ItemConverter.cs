@@ -14,23 +14,27 @@ public class ItemConverter : JsonConverter
     public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
     {
         var jObject = JObject.Load(reader);
-        var type = jObject["type"]?.ToString();  // Changed from "Name" to "type"
+        var type = jObject["Type"]?.ToString();
+
+        if (string.IsNullOrEmpty(type))
+        {
+            throw new JsonSerializationException("Item type is not specified.");
+        }
 
         Item item = type switch
         {
-            "sankara stone" => new SankaraStone(),  // Lowercase type
-            "key" => new Key(),
-            "disappearing boobytrap" => new Boobytrap() { Disappearing = true },
-            "boobytrap" => new Boobytrap(),
-            "pressure plate" => new PressurePlate(),
+            "Key" => new Key(jObject["Name"]?.ToString()),
+            "SankaraStone" => new SankaraStone(jObject["Name"]?.ToString()),
             _ => throw new JsonSerializationException($"Unknown item type: {type}")
         };
+
         serializer.Populate(jObject.CreateReader(), item);
         return item;
     }
 
     public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
     {
-        serializer.Serialize(writer, value);
+        throw new NotImplementedException("Writing JSON is not required for this use case.");
     }
 }
+

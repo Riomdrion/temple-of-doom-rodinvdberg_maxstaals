@@ -2,6 +2,11 @@
 {
     public class LockedDoor : Door
     {
+        public LockedDoor(int doorDtoId, int doorDtoTargetRoomId)
+        {
+            throw new NotImplementedException();
+        }
+
         public string RequiredKeyColor { get; set; }
         public string Id { get; set; }
 

@@ -18,11 +18,18 @@ namespace Temple_of_doom.Controllers
             {
                 _gameWorld = JsonFileReader.LoadGameWorld("../../../TempleOfDoom.json");
 
-                if (_gameWorld.CurrentRoom == null || _gameWorld.Player == null)
+                if (_gameWorld.CurrentRoom == null )
                 {
-                    Console.WriteLine("Debug: CurrentRoom or Player is missing.");
-                    throw new NullReferenceException("GameWorld is missing essential components (CurrentRoom or Player). Check JSON or default world initialization.");
+                    Console.WriteLine("Debug: CurrentRoom is missing.");
+                    throw new NullReferenceException("GameWorld is missing essential components (CurrentRoom). Check JSON or default world initialization.");
                 }
+                if (_gameWorld.Player == null)
+                {
+                    Console.WriteLine("Debug: Player is missing.");
+                    throw new NullReferenceException("GameWorld is missing essential components (Player). Check JSON or default world initialization.");
+                }
+               
+                
 
                 // Assign player start position
                 _gameWorld.Player.Position = _gameWorld.CurrentRoom.GetPlayerStartPosition();

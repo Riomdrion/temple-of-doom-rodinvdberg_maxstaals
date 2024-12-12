@@ -2,8 +2,9 @@
 {
     public abstract class Door : UIObserver
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
         public bool IsOpen { get; set; }
+        public int TargetRoomId { get; set; }
 
         public abstract bool CanOpen(Player player);
 

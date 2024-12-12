@@ -2,6 +2,11 @@
 {
     public class Key : Item
     {
+        public Key(string itemDtoName)
+        {
+            throw new NotImplementedException();
+        }
+
         public string Color { get; set; }
     }
 }

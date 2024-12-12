@@ -6,15 +6,19 @@
         public bool HasWon { get; set; }
         public Position Position { get; set; }
         public Inventory Inventory { get; set; }
-        public string StartingRoomId { get; set; }
-        public int StartX { get; }
-        public int StartY { get; }
+        public int StartingRoomId { get; set; }
+        public int StartX { get; set; }
+        public int StartY { get; set; }
 
 
-        public Player()
+        public Player(int startX, int startY, int lives)
         {
+            StartX = startX;
+            StartY = startY;
+            Lives = lives;
+            HasWon = false;
             Inventory = new Inventory();
-            Position = new Position();
+            Position = new Position(startX, startY);
         }
 
         public bool HasKey(string keyColor)

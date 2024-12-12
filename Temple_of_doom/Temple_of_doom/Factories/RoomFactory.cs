@@ -1,11 +1,20 @@
-﻿using Temple_of_doom.Models;
+﻿using Temple_of_doom.DTO;
+using Temple_of_doom.Mappers;
+using Temple_of_doom.Models;
 
 namespace Temple_of_doom.Factories;
 
-public static class RoomFactory
+public class RoomFactory
 {
-    // public static Room CreateRoom(string name, List<Item> items, List<Door> doors, char[,] layout)
-    // {
-    //     return new Room(name, items, doors, layout);
-    // }
+    private readonly RoomMapper _roomMapper;
+
+    public RoomFactory(RoomMapper roomMapper)
+    {
+        _roomMapper = roomMapper;
+    }
+
+    public Room CreateRoom(RoomDTO roomDTO)
+    {
+        return _roomMapper.MapToRoom(roomDTO);
+    }
 }

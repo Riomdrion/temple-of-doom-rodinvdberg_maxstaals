@@ -2,45 +2,23 @@
 {
     public class Room
     {
-        public Room(string id, string name, int width, int height, List<Item> items, List<Door> doors)
-        {
-            this.id = id;
-            Name = name;
-            Items = items ?? new List<Item>();
-            Doors = doors ?? new List<Door>();
-
-            // Genereer een lege layout
-            Layout = new char[height, width];
-            for (int y = 0; y < height; y++)
-            {
-                for (int x = 0; x < width; x++)
-                {
-                    Layout[y, x] = '.'; // Default lege ruimte
-                }
-            }
-
-            // Voeg standaardmuren toe
-            for (int x = 0; x < width; x++)
-            {
-                Layout[0, x] = '#'; // Bovenrand
-                Layout[height - 1, x] = '#'; // Onderkant
-            }
-
-            for (int y = 0; y < height; y++)
-            {
-                Layout[y, 0] = '#'; // Linkerrand
-                Layout[y, width - 1] = '#'; // Rechterrand
-            }
-        }
-
-        
-
+        public int Id { get; set; }
         public string Name { get; set; }
         public List<Item> Items { get; set; }
         public List<Door> Doors { get; set; }
-        public char[,] Layout { get; set; } // 2D layout representing walls, items, etc.
-        public String id { get; set; }
-
+        public int Width { get; set; }
+        public int Height { get; set; }
+        public char[,] Layout { get; set; }
+        
+        public Room(int id, string name, int width, int height, List<Item> items, List<Door> doors)
+        {
+            Id = id;
+            Name = name;
+            Width = width;
+            Height = height;
+            Items = items ?? new List<Item>();
+            Doors = doors ?? new List<Door>();
+        }
         public bool IsPositionWalkable(Position position)
         {
             if (Layout == null)
@@ -66,7 +44,7 @@
             {
                 case 'S':
                     player.Inventory.AddItem("Sankara Stone");
-                    Layout[player.Position.Y, player.Position.X] = '.'; // Remove the item
+                    Layout[player.Position.Y, player.Position.X] = '.';
                     Console.WriteLine("You picked up a Sankara Stone!");
                     break;
                 case 'K':
@@ -88,7 +66,7 @@
                 {
                     if (Layout[y, x] == 'X')
                     {
-                        return new Position { X = x, Y = y };
+                        return new Position(x, y);
                     }
                 }
             }

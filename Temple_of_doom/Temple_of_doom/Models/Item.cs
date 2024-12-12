@@ -2,8 +2,8 @@
 {
     public abstract class Item
     {
-        private int[] coordinates;
-        private String type;
-        private String name;
+        public int[] Coordinates {get; set;}
+        public String Type {get; set;}
+        public String Name {get; set;}
     }
 }
