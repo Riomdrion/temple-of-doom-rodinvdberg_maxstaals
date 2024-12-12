@@ -9,7 +9,7 @@
 
         public void Open()
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException("Open not implemented for ToggleDoor");
         }
 
         public string Id { get; set; }

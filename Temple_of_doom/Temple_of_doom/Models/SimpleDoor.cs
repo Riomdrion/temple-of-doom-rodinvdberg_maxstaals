@@ -4,7 +4,7 @@
     {
         public SimpleDoor(int doorDtoId, int doorDtoTargetRoomId)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException("SimpleDoor constructor not implemented");
         }
 
         public override bool CanOpen(Player player)
@@ -14,7 +14,7 @@
 
         public void Open()
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException("Open not implemented for SimpleDoor");
         }
     }
 }

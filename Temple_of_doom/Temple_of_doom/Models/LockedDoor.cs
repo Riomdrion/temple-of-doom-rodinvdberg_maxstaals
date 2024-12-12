@@ -4,7 +4,7 @@
     {
         public LockedDoor(int doorDtoId, int doorDtoTargetRoomId)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException("LockedDoor constructor not implemented");
         }
 
         public string RequiredKeyColor { get; set; }
@@ -17,7 +17,7 @@
 
         public void Open()
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException("Open not implemented for LockedDoor");
         }
     }
 }

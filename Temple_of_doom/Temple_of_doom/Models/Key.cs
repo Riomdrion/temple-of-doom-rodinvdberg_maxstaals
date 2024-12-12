@@ -4,7 +4,7 @@
     {
         public Key(string itemDtoName)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException("Key constructor not implemented");
         }
 
         public string Color { get; set; }

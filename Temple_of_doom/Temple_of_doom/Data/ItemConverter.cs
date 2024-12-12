@@ -10,7 +10,7 @@ public class ItemConverter : JsonConverter
     {
         return typeof(Item).IsAssignableFrom(objectType);
     }
-
+    
     public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
     {
         var jObject = JObject.Load(reader);
@@ -25,17 +25,18 @@ public class ItemConverter : JsonConverter
         {
             "Key" => new Key(jObject["Name"]?.ToString()),
             "sankara stone" => new SankaraStone(jObject["Name"]?.ToString()),
-            "disappearing boobytrap" => new DisappearingBoobytrap(jObject["Name"]?.ToString(), jObject["Damage"]?.Value<int>() ?? 0),
+            "disappearing boobytrap" => new DisappearingBoobytrap(jObject["Name"]?.ToString(),
+                jObject["Damage"]?.Value<int>() ?? 0),
             _ => throw new JsonSerializationException($"Unknown item type: {type}")
         };
 
         serializer.Populate(jObject.CreateReader(), item);
         return item;
     }
-
-    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+    public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
     {
-        throw new NotImplementedException("Writing JSON is not required for this use case.");
+        throw new NotImplementedException();
     }
 }
+
 

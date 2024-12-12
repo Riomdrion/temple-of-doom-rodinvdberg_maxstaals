@@ -31,16 +31,20 @@ namespace Temple_of_doom.Data
                 // Link player to starting room
                 int startRoomId = gameWorld.Player.StartingRoomId;
                 gameWorld.CurrentRoom = gameWorld.Rooms.Find(r => r.Id == startRoomId);
-
-                    gameWorld.Player.Position = new Position(gameWorld.Player.StartX, gameWorld.Player.StartY);
-               
-
+                gameWorld.Player.Position = new Position(gameWorld.Player.StartX, gameWorld.Player.StartY);
+                
+                Console.WriteLine("Debug: JSON file loaded successfully.");
                 return gameWorld;
+            }
+            catch (NotImplementedException ex)
+            {
+                Console.WriteLine($"Error: A method is not implemented - {ex.Message}");
+                throw;
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error reading JSON file: {ex.Message}");
-                return null;
+                throw;
             }
         }
     }

@@ -9,7 +9,7 @@
 
         public void OpenDoor(Door door)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException("OpenDoor not implemented for StandardKeyStrategy");
         }
     }
 }

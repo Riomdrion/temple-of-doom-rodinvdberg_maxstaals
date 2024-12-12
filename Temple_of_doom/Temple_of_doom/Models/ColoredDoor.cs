@@ -5,7 +5,7 @@ namespace Temple_of_doom.Models
     {
         public ColoredDoor(int doorDtoId, int doorDtoTargetRoomId)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException("CollorDoor constructor not implemented");
         }
 
         public Color Color { get; set; }
@@ -14,7 +14,7 @@ namespace Temple_of_doom.Models
 
         public override bool CanOpen(Player player)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException("CANOPEN not implemented for ColoredDoor");
         }
 
         public void Open()

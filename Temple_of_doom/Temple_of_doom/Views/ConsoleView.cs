@@ -44,7 +44,7 @@ namespace Temple_of_doom.Views
 
         public string GetPlayerInput()
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException("GetPlayerInput not implemented");
         }
     }
 }
