@@ -28,7 +28,7 @@ public class ItemConverter : JsonConverter
             "disappearing boobytrap" => new DisappearingBoobytrap(jObject["Name"]?.ToString(),
                 jObject["Damage"]?.Value<int>() ?? 0),
             "boobytrap" => new Boobytrap(jObject["Damage"]?.Value<int>() ?? 0),
-            "pressure plate" => new PressurePlate(jObject["Name"]?.ToString()),
+            "pressure plate" => new PressurePlate(),
             _ => throw new JsonSerializationException($"Unknown item type: {type}")
         };
 

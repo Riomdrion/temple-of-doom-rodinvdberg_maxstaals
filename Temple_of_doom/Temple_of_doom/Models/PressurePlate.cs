@@ -2,7 +2,7 @@
 {
     public class PressurePlate : Item
     {
-        public PressurePlate(string? toString)
+        public PressurePlate()
         {   
             IsActive = false;
         }

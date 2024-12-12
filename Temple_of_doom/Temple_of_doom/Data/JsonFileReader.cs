@@ -29,8 +29,8 @@ namespace Temple_of_doom.Data
                 var gameWorld = JsonConvert.DeserializeObject<GameWorld>(json, settings);
 
                 // Link player to starting room
-                int startRoomId = gameWorld.Player.StartingRoomId;
-                gameWorld.CurrentRoom = gameWorld.Rooms.Find(r => r.Id == startRoomId);
+                int startRoomId = 1;
+                gameWorld.CurrentRoom = gameWorld.Rooms.FirstOrDefault(r => r.Id == startRoomId);
                 gameWorld.Player.Position = new Position(gameWorld.Player.StartX, gameWorld.Player.StartY);
                 
                 Console.WriteLine("Debug: JSON file loaded successfully.");
