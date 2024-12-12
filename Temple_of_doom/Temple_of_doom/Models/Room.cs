@@ -2,7 +2,6 @@
 {
     public class Room
     {
-        // Constructor with parameters
         public Room(string name, List<Item> items, List<Door> doors, char[,] layout)
         {
             Name = name;
@@ -11,7 +10,6 @@
             Layout = layout ?? throw new ArgumentNullException(nameof(layout), "Room layout cannot be null.");
         }
 
-        // Default constructor
         public Room()
         {
             Name = "Unnamed Room";
@@ -31,6 +29,7 @@
         public List<Item> Items { get; set; }
         public List<Door> Doors { get; set; }
         public char[,] Layout { get; set; } // 2D layout representing walls, items, etc.
+        public String id { get; set; }
 
         public bool IsPositionWalkable(Position position)
         {
@@ -83,6 +82,7 @@
                     }
                 }
             }
+
             throw new Exception("Player start position not defined in room layout.");
         }
     }

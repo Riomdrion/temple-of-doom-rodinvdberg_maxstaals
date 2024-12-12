@@ -6,6 +6,8 @@
         public bool HasWon { get; set; }
         public Position Position { get; set; }
         public Inventory Inventory { get; set; }
+        public string StartingRoomId { get; set; }
+
 
         public Player()
         {

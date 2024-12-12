@@ -1,12 +1,11 @@
-﻿
-
-using Temple_of_doom.Controllers;
+﻿using Temple_of_doom.Controllers;
 
 namespace Temple_of_doom.Models
 {
     public class GameWorld
     {
         public Player Player { get; set; }
+        public List<Room> Rooms { get; set; }
         public Room CurrentRoom { get; set; }
         public bool IsGameOver => Player?.Lives <= 0 || Player?.HasWon == true;
 
@@ -19,5 +18,3 @@ namespace Temple_of_doom.Models
         }
     }
 }
-
-
