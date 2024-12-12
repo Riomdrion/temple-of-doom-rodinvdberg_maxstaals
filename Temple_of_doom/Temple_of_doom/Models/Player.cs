@@ -12,6 +12,8 @@
         {
         }
 
+        public int Lives { get; set; }
+
         public void SetStrategy(IDoorStrategy strategy)
         {
             this.strategy = strategy;
@@ -22,5 +24,9 @@
             strategy.OpenDoor(door);
         }
 
+        public bool HasKey(string requiredKeyColor)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

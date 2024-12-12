@@ -3,17 +3,23 @@ using Temple_of_doom.Models;
 
 namespace Temple_of_doom.Factories
 {
-    public abstract class DoorFactory
+    public static class DoorFactory
     {
-        public Door CreateDoor(string type, Color color)
+        public static Door CreateDoor(string type, string id, string condition = null)
         {
-            return type switch
+            switch (type)
             {
-                "SimpleDoor" => new SimpleDoor(),
-                "ColoredDoor" => new Models.ColoredDoor { Color = Color.RED },
-                "ToggleDoor" => new ToggleDoor(),
-                _ => throw new ArgumentException("Unknown door type")
-            };
+                case "colored":
+                    return new ColoredDoor { Id = id, KeyColor = condition };
+                case "toggle":
+                    return new ToggleDoor { Id = id };
+                case "locked":
+                    return new LockedDoor { Id = id, RequiredKeyColor = condition };
+                case "alarmed":
+                    return new AlarmedDoor { Id = id };
+                default:
+                    throw new ArgumentException("Invalid door type");
+            }
         }
     }
 }

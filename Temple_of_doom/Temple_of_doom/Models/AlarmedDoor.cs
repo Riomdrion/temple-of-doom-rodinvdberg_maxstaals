@@ -2,14 +2,19 @@
 
 namespace Temple_of_doom.Models
 {
-    public class AlarmedDoor : DoorDecorator
+    public class AlarmedDoor : Door
     {
-        public AlarmedDoor(Door door) : base(door) { }
-
+        public bool CanOpen(Player player)
+        {
+            Console.WriteLine("Alarm triggered!");
+            return false;
+        }
 
         public override void Open()
         {
             throw new NotImplementedException();
         }
+
+        public string Id { get; set; }
     }
 }

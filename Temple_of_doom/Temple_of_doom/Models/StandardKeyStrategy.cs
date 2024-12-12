@@ -2,9 +2,14 @@
 {
     public class StandardKeyStrategy : IDoorStrategy
     {
+        public bool CanOpen(Door door, Player player)
+        {
+            return door is LockedDoor lockedDoor && player.HasKey(lockedDoor.RequiredKeyColor);
+        }
+
         public void OpenDoor(Door door)
         {
-            Console.WriteLine("Door opened with a standard key.");
+            throw new NotImplementedException();
         }
     }
 }

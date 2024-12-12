@@ -2,10 +2,12 @@
 {
     public class PressurePlatePublisher
     {
-        private List<UIObserver> observers = new();
-
-        public void Attach(UIObserver observer) => observers.Add(observer);
-        public void Detach(UIObserver observer) => observers.Remove(observer);
-        public void Notify() => observers.ForEach(o => o.Update());
+        public void Notify(PressurePlate plate)
+        {
+            if (plate.IsActive)
+            {
+                Console.WriteLine("Pressure plate activated!");
+            }
+        }
     }
 }

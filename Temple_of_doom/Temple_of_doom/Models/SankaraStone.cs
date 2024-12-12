@@ -2,6 +2,6 @@
 {
     public class SankaraStone : Item
     {
+        public int Power { get; set; }
     }
-
 }

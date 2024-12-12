@@ -2,9 +2,15 @@
 {
     public class SimpleDoor : Door
     {
+        public bool CanOpen(Player player)
+        {
+            return true;
+        }
+
         public override void Open()
         {
-            Console.WriteLine("Simple door opens.");
+            throw new NotImplementedException();
         }
     }
 }
+

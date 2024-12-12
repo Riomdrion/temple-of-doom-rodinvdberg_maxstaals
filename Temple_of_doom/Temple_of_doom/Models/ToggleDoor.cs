@@ -2,15 +2,16 @@
 {
     public class ToggleDoor : Door
     {
-        public bool IsLocked { get; set; }
-        public ToggleDoor()
+        public bool CanOpen(Player player)
         {
+            return true;
         }
 
         public override void Open()
         {
             throw new NotImplementedException();
         }
-    }
 
+        public string Id { get; set; }
+    }
 }

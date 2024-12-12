@@ -2,22 +2,13 @@
 {
     public class PressurePlate
     {
-        private readonly List<UIObserver> observers = new();
+        public bool IsActive { get; set; }
+        public event Action Activated;
 
-        public void Attach(UIObserver observer) => observers.Add(observer);
-        public void Detach(UIObserver observer) => observers.Remove(observer);
-        public void Notify()
+        public void StepOn()
         {
-            foreach (var observer in observers)
-            {
-                observer.Update();
-            }
-        }
-
-        public void Activate()
-        {
-            Console.WriteLine("PressurePlate activated!");
-            Notify(); // Alle observers worden geïnformeerd
+            IsActive = true;
+            Activated?.Invoke();
         }
     }
 
