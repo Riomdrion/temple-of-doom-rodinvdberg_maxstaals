@@ -1,0 +1,20 @@
+﻿namespace TempleOfDoom.Models
+{
+    public class PressurePlate : Item
+    {
+        public PressurePlate()
+        {   
+            IsActive = false;
+        }
+
+        public bool IsActive { get; set; }
+        public event Action Activated;
+
+        public void StepOn()
+        {
+            IsActive = true;
+            Activated?.Invoke();
+        }
+    }
+
+}
