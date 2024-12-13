@@ -6,53 +6,50 @@ public class ConsoleView
 {
     public void DisplayRoom(Room room, Player player)
     {
-        Console.Clear();  // Dit wist de hele console, wat misschien niet nodig is
-
-        Console.WriteLine($"You are in {room.Name}");
+        Console.Clear();
+        Console.WriteLine($"Debug: Room Dimensions -> Width: {room.Width+1}, Height: {room.Height+1}");
         Console.WriteLine($"Debug: Player Position -> X: {player.Position.X}, Y: {player.Position.Y}");
 
-        // Controleer of de spelerpositie binnen de grenzen van de kamer ligt
-        if (player.Position.X < 0 || player.Position.X >= room.Layout.GetLength(1) ||
-            player.Position.Y < 0 || player.Position.Y >= room.Layout.GetLength(0))
-        {
-            Console.WriteLine("Error: Player position is out of bounds!");
-            return;
-        }
-
-        // Verkrijg de breedte en hoogte van de console
+        // Bereken consolebreedte/-hoogte en startpositie voor centreren
         int consoleWidth = Console.WindowWidth;
         int consoleHeight = Console.WindowHeight;
+        int startX = (consoleWidth / 2) - (room.Width / 2);
+        int startY = (consoleHeight / 2) - (room.Height / 2);
 
-        // Bereken het midden van de console
-        int centerX = consoleWidth / 2;
-        int centerY = consoleHeight / 2;
-
-        // Verschuif de startpositie van de kamer 1/4 van de breedte naar links
-        int offsetX = consoleWidth / 4;
-        int startX = centerX - room.Layout.GetLength(1) / 2 - offsetX; // Verplaats naar links
-        int startY = centerY - room.Layout.GetLength(0) / 2;
-
-        // Loop door het kamerrooster en teken de lay-out
-        for (var y = 0; y < room.Layout.GetLength(0); y++) // Y-as (rijen)
+        // Itereer door de kamerhoogte en -breedte
+        for (var y = 0; y < room.Height; y++)
         {
-            // Verplaats de cursor naar de juiste y-positie in de console
-            Console.SetCursorPosition(startX, startY + y);
-
-            for (var x = 0; x < room.Layout.GetLength(1); x++) // X-as (kolommen)
+            for (var x = 0; x < room.Width; x++)
             {
-                if (x == player.Position.X && y == player.Position.Y)
+                // Bereken de positie in de console
+                int cursorX = startX + x;
+                int cursorY = startY + y;
+
+                Console.SetCursorPosition(cursorX, cursorY);
+
+                // Teken de randen met `#`
+                if (y == 0 || y == room.Height - 1 || x == 0 || x == room.Width - 1)
                 {
-                    // Zet de cursor naar de nieuwe spelerpositie en teken 'X'
-                    Console.SetCursorPosition(startX + x, startY + y);
-                    Console.Write('@'); // De speler wordt weergegeven als '@'
+                    Console.Write("#");
                 }
+                // Teken de speler als deze op de huidige positie staat
+                else if (x == player.Position.X && y == player.Position.Y)
+                {
+                    Console.Write("@");
+                }
+                // Vul overige ruimte met spaties
                 else
                 {
-                    Console.Write(room.Layout[y, x]); // Weergeef de tegelinhoud
+                    Console.Write(" ");
                 }
             }
         }
+
+        // Plaats de cursor naar een veilige plek onderaan
+        Console.SetCursorPosition(0, consoleHeight - 1);
     }
+
+
 
     public void DisplayGameOver(bool hasWon)
     {
