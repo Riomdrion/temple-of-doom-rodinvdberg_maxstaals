@@ -45,6 +45,7 @@ public static class JsonFileReader
             gameWorld.CurrentRoom = gameWorld.Rooms.FirstOrDefault(r => r.Id == startRoomId);
             gameWorld.Player.Position = new Position(gameWorld.Player.StartX, gameWorld.Player.StartY);
 
+
             Console.WriteLine("Debug: JSON file loaded successfully.");
             return gameWorld;
         }

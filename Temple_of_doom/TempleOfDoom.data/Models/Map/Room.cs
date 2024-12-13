@@ -13,6 +13,9 @@ public class Room
         Layout = new char[height, width];
         Items = items ?? new List<Item>();
         Doors = doors ?? new List<Door.Door>();
+
+        // Vul de layout met muren
+        InitializeRoomLayout();
     }
 
     public int Id { get; set; }
@@ -22,6 +25,26 @@ public class Room
     public int Width { get; set; }
     public int Height { get; set; }
     public char[,] Layout { get; set; }
+
+
+    private void InitializeRoomLayout()
+    {
+        // Stel muren in
+        for (int y = 0; y < Height; y++)
+        {
+            for (int x = 0; x < Width; x++)
+            {
+                if (y == 0 || y == Height - 1 || x == 0 || x == Width - 1)
+                {
+                    Layout[y, x] = '#'; // Muur
+                }
+                else
+                {
+                    Layout[y, x] = '.'; // Lege ruimte
+                }
+            }
+        }
+    }
 
     public bool IsPositionWalkable(Position position)
     {
