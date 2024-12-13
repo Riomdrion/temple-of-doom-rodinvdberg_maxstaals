@@ -2,13 +2,24 @@
 
 namespace TempleOfDoom.Controllers;
 
-public class MovementController(GameWorld gameWorld)
+public class MovementController
 {
+    public GameWorld GameWorld { get; set; }
+
+    public MovementController(GameWorld gameWorld)
+    {
+        GameWorld = gameWorld;
+    }
     public void HandleInput(string command)
     {
         if (string.IsNullOrEmpty(command)) return;
+        if (GameWorld?.Player == null)
+        {
+            Console.WriteLine("Player object is not initialized.");
+            return;
+        }
 
-        var currentPosition = gameWorld.Player.Position;
+        var currentPosition = GameWorld.Player.Position;
         var newPosition = currentPosition;
 
         switch (command)
@@ -32,9 +43,9 @@ public class MovementController(GameWorld gameWorld)
         }
 
         // Check if the new position is walkable
-        if (gameWorld.CurrentRoom.IsPositionWalkable(newPosition))
+        if (GameWorld.CurrentRoom.IsPositionWalkable(newPosition))
         {
-            gameWorld.Player.Position = newPosition;
+            GameWorld.Player.Position = newPosition;
             Console.WriteLine($"Player moved to: {newPosition.X}, {newPosition.Y}");
         }
         else

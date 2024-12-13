@@ -24,6 +24,13 @@ namespace TempleOfDoom.Controllers
             try
             {
                 _gameWorld = JsonFileReader.LoadGameWorld("../../../../TempleOfDoom.data/Levels/TempleOfDoom.json");
+
+                if (_gameWorld?.Player == null)
+                {
+                    throw new Exception("Player object is not initialized in the game world.");
+                }
+
+                _movementController.GameWorld = _gameWorld; // Update the reference
                 _gameWorld.Player.Position = _gameWorld.Player.GetPlayerStartPosition();
 
                 // Start the game loop

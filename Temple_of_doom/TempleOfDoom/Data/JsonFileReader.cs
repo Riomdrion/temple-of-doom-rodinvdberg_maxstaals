@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using TempleOfDoom.data.Models.Map;
 
 namespace TempleOfDoom.Data;
@@ -21,6 +22,19 @@ public static class JsonFileReader
             var settings = new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.None,
+                NullValueHandling = NullValueHandling.Ignore,
+                MissingMemberHandling = MissingMemberHandling.Ignore,
+                DefaultValueHandling = DefaultValueHandling.Ignore,
+                ContractResolver = new DefaultContractResolver
+                {
+                    NamingStrategy = new CamelCaseNamingStrategy()
+                    {
+                        ProcessDictionaryKeys = true,
+                        OverrideSpecifiedNames = true
+                    }
+                },
+
+
                 Converters = new List<JsonConverter> { new ItemConverter() }
             };
 
