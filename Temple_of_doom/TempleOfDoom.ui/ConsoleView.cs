@@ -7,19 +7,29 @@ public class ConsoleView
     public void DisplayRoom(Room room, Player player)
     {
         Console.Clear();
-        Console.WriteLine($"You are in {room.Name}");
-
         for (var y = 0; y < room.Layout.GetLength(0); y++)
         {
             for (var x = 0; x < room.Layout.GetLength(1); x++)
-                if (player.Position.X == x && player.Position.Y == y)
-                    Console.Write('@'); 
+            {
+                // Controleer of het een randpositie is
+                if (y == 0 || y == room.Layout.GetLength(0) - 1 || x == 0 || x == room.Layout.GetLength(1) - 1)
+                {
+                    Console.Write("# "); // Rand
+                }
+                else if (player.Position.X == x && player.Position.Y == y)
+                {
+                    Console.Write("@ "); // Speler
+                }
                 else
-                    Console.Write(room.Layout[y, x]);
-
+                {
+                    Console.Write("  "); // Lege ruimte
+                }
+            }
             Console.WriteLine();
         }
     }
+
+
 
     public void DisplayGameOver(bool hasWon)
     {
