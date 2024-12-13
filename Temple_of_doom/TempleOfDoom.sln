@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TempleOfDoom", "TempleOfDoo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TempleOfDoom.data", "TempleOfDoom.data\TempleOfDoom.data.csproj", "{F2B16C54-B82B-42A3-83EC-64E0C0170FAE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TempleOfDoom.ui2", "TempleOfDoom.ui2\TempleOfDoom.ui2.csproj", "{7629E76A-23A7-4BDB-8264-EA8C79E76AE6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TempleOfDoom.ui", "TempleOfDoom.ui\TempleOfDoom.ui.csproj", "{7629E76A-23A7-4BDB-8264-EA8C79E76AE6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

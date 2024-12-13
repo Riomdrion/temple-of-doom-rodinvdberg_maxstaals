@@ -13,7 +13,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\TempleOfDoom.data\TempleOfDoom.data.csproj"/>
-        <ProjectReference Include="..\TempleOfDoom.ui2\TempleOfDoom.ui2.csproj" />
+        <ProjectReference Include="..\TempleOfDoom.ui\TempleOfDoom.ui.csproj" />
     </ItemGroup>
 
 </Project>
