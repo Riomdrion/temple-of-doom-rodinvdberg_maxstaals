@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TempleOfDoom", "TempleOfDoo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TempleOfDoom.data", "TempleOfDoom.data\TempleOfDoom.data.csproj", "{F2B16C54-B82B-42A3-83EC-64E0C0170FAE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TempleOfDoom.UI", "TempleOfDoom.UI\TempleOfDoom.UI.csproj", "{4F7229AA-8682-4E6C-9423-71A26A8955E7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TempleOfDoom.ui2", "TempleOfDoom.ui2\TempleOfDoom.ui2.csproj", "{7629E76A-23A7-4BDB-8264-EA8C79E76AE6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{F2B16C54-B82B-42A3-83EC-64E0C0170FAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2B16C54-B82B-42A3-83EC-64E0C0170FAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2B16C54-B82B-42A3-83EC-64E0C0170FAE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4F7229AA-8682-4E6C-9423-71A26A8955E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4F7229AA-8682-4E6C-9423-71A26A8955E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4F7229AA-8682-4E6C-9423-71A26A8955E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4F7229AA-8682-4E6C-9423-71A26A8955E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7629E76A-23A7-4BDB-8264-EA8C79E76AE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7629E76A-23A7-4BDB-8264-EA8C79E76AE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7629E76A-23A7-4BDB-8264-EA8C79E76AE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7629E76A-23A7-4BDB-8264-EA8C79E76AE6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

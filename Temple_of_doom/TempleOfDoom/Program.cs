@@ -1,13 +1,12 @@
 ﻿using TempleOfDoom.Controllers;
 
-namespace TempleOfDoom
+namespace TempleOfDoom;
+
+internal class Program
 {
-    class Program
+    private static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
-            GameController gameController = new GameController();
-            gameController.StartGame();
-        }
+        var gameController = new GameController();
+        gameController.StartGame();
     }
 }

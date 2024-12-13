@@ -1,61 +1,60 @@
 ﻿using TempleOfDoom.Data;
-using TempleOfDoom.Models;
-using TempleOfDoom.Views;
+using TempleOfDoom.data.Models.Map;
+using TempleOfDoom.ui;
 
-namespace TempleOfDoom.Controllers
+namespace TempleOfDoom.Controllers;
+
+public class GameController
 {
-    public class GameController
+    private readonly MovementController _movementController;
+    private GameWorld _gameWorld;
+    private ConsoleView _view;
+
+    public GameController()
     {
-        private GameWorld _gameWorld;
-        private ConsoleView _view;
-        private MovementController _movementController; 
-        
-        public GameController()
+        _gameWorld = new GameWorld();
+        _view = new ConsoleView();
+        _movementController = new MovementController(_gameWorld);
+    }
+
+    public void StartGame()
+    {
+        // Initialize components
+        _view = new ConsoleView();
+        try
         {
-            _gameWorld = new GameWorld();
-            _view = new ConsoleView();
-            _movementController = new MovementController(_gameWorld);
+            _gameWorld = JsonFileReader.LoadGameWorld("../../../../TempleOfDoom.json");
+            _gameWorld.Player.Position = _gameWorld.Player.GetPlayerStartPosition();
+
+            // Start the game loop
+            while (!_gameWorld.IsGameOver)
+            {
+                _view.DisplayRoom(_gameWorld.CurrentRoom, _gameWorld.Player);
+                var command = _view.GetPlayerArrowInput();
+                ProcessCommand(command);
+            }
+
+            _view.DisplayGameOver(_gameWorld.Player.HasWon);
         }
-
-        public void StartGame()
+        catch (Exception ex)
         {
-            // Initialize components
-            _view = new ConsoleView();
-            try
-            {
-                _gameWorld = JsonFileReader.LoadGameWorld("../../../TempleOfDoom.json");
-                _gameWorld.Player.Position = _gameWorld.Player.GetPlayerStartPosition();
-
-                // Start the game loop
-                while (!_gameWorld.IsGameOver)
-                {
-                    _view.DisplayRoom(_gameWorld.CurrentRoom, _gameWorld.Player);
-                    var command = _view.GetPlayerArrowInput();
-                    ProcessCommand(command);
-                }
-
-                _view.DisplayGameOver(_gameWorld.Player.HasWon);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error: {ex.Message}");
-                Console.WriteLine("Exiting game.");
-            }
+            Console.WriteLine($"Error: {ex.Message}");
+            Console.WriteLine("Exiting game.");
         }
+    }
 
-        private void ProcessCommand(string command)
+    private void ProcessCommand(string command)
+    {
+        if (string.IsNullOrEmpty(command)) return;
+
+        if (command == "quit")
         {
-            if (string.IsNullOrEmpty(command)) return;
-
-            if (command == "quit")
-            {
-                Console.WriteLine("Exiting game.");
-                Environment.Exit(0);
-            }
-            else
-            {
-                _movementController.HandleInput(command);
-            }
+            Console.WriteLine("Exiting game.");
+            Environment.Exit(0);
+        }
+        else
+        {
+            _movementController.HandleInput(command);
         }
     }
 }

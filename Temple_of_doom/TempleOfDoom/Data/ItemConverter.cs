@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using TempleOfDoom.Models;
+using TempleOfDoom.data.Models.Items;
 
 namespace TempleOfDoom.Data;
 
@@ -10,16 +10,13 @@ public class ItemConverter : JsonConverter
     {
         return typeof(Item).IsAssignableFrom(objectType);
     }
-    
+
     public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
     {
         var jObject = JObject.Load(reader);
         var type = jObject["type"]?.ToString();
 
-        if (string.IsNullOrEmpty(type))
-        {
-            throw new JsonSerializationException("Item type is not specified.");
-        }
+        if (string.IsNullOrEmpty(type)) throw new JsonSerializationException("Item type is not specified.");
 
         Item item = type switch
         {
@@ -35,10 +32,9 @@ public class ItemConverter : JsonConverter
         serializer.Populate(jObject.CreateReader(), item);
         return item;
     }
+
     public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
     {
         throw new NotImplementedException();
     }
 }
-
-

@@ -1,4 +1,4 @@
-﻿using TempleOfDoom.Models;
+﻿using TempleOfDoom.data.Models.Map;
 
 namespace TempleOfDoom.Controllers;
 
@@ -8,8 +8,8 @@ public class MovementController(GameWorld gameWorld)
     {
         if (string.IsNullOrEmpty(command)) return;
 
-        Position currentPosition = gameWorld.Player.Position;
-        Position newPosition = currentPosition;
+        var currentPosition = gameWorld.Player.Position;
+        var newPosition = currentPosition;
 
         switch (command)
         {
