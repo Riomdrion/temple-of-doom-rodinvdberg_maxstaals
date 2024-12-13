@@ -5,22 +5,23 @@ namespace TempleOfDoom.data.Models.Door;
 
 public class ColoredDoor : Door
 {
-    public ColoredDoor(int doorDtoId, int doorDtoTargetRoomId)
+    public string KeyColor { get; set; }
+
+    public ColoredDoor(int id, int targetRoomId, string keyColor)
     {
-        throw new NotImplementedException("CollorDoor constructor not implemented");
+        Id = id;
+        TargetRoomId = targetRoomId;
+        KeyColor = keyColor;
+        IsOpen = false;
     }
 
-    public Color Color { get; set; }
-    public string Id { get; set; }
-    public string KeyColor { get; set; }
+    public ColoredDoor(int doorDtoId, int doorDtoTargetRoomId)
+    {
+        throw new NotImplementedException();
+    }
 
     public override bool CanOpen(Player player)
     {
-        throw new NotImplementedException("CANOPEN not implemented for ColoredDoor");
-    }
-
-    public void Open()
-    {
-        Console.WriteLine($"The {Color} door is opening...");
+        return player.HasKey(KeyColor);
     }
 }

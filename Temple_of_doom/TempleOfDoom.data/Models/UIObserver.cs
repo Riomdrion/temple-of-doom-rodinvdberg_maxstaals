@@ -1,6 +1,6 @@
 ﻿namespace TempleOfDoom.data.Models;
 
-public class UIObserver
+public class UiObserver
 {
     public void Update(string message)
     {

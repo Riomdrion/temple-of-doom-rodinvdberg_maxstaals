@@ -13,7 +13,7 @@ public class ConsoleView
         {
             for (var x = 0; x < room.Layout.GetLength(1); x++)
                 if (player.Position.X == x && player.Position.Y == y)
-                    Console.Write('X'); // Display player position
+                    Console.Write('@'); 
                 else
                     Console.Write(room.Layout[y, x]);
 

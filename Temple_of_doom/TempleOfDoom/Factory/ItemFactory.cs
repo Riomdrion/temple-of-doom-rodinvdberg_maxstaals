@@ -5,13 +5,13 @@ namespace TempleOfDoom.Factory;
 
 public static class ItemFactory
 {
-    public static Item CreateItem(ItemDTO itemDTO)
+    public static Item CreateItem(ItemDto itemDto)
     {
-        return itemDTO.Type switch
+        return itemDto.Type switch
         {
-            "key" => new Key(itemDTO.Name),
-            "SankaraStone" => new SankaraStone(itemDTO.Name),
-            _ => throw new ArgumentException($"Unknown item type: {itemDTO.Type}")
+            "key" => new Key(itemDto.Name),
+            "SankaraStone" => new SankaraStone(itemDto.Name),
+            _ => throw new ArgumentException($"Unknown item type: {itemDto.Type}")
         };
     }
 }
