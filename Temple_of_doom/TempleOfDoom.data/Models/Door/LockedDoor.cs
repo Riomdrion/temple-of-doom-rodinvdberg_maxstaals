@@ -4,21 +4,23 @@ namespace TempleOfDoom.data.Models.Door;
 
 public class LockedDoor : Door
 {
-    public LockedDoor(int doorDtoId, int doorDtoTargetRoomId)
+    public string RequiredKeyColor { get; set; }
+
+    public LockedDoor(int id, int targetRoomId, string requiredKeyColor)
     {
-        throw new NotImplementedException("LockedDoor constructor not implemented");
+        Id = id;
+        TargetRoomId = targetRoomId;
+        RequiredKeyColor = requiredKeyColor;
+        IsOpen = false;
     }
 
-    public string RequiredKeyColor { get; set; }
-    public string Id { get; set; }
+    public LockedDoor(int doorDtoId, int doorDtoTargetRoomId)
+    {
+        throw new NotImplementedException();
+    }
 
     public override bool CanOpen(Player player)
     {
         return player.HasKey(RequiredKeyColor);
-    }
-
-    public void Open()
-    {
-        throw new NotImplementedException("Open not implemented for LockedDoor");
     }
 }

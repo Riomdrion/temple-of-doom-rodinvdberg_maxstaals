@@ -6,7 +6,6 @@ namespace TempleOfDoom.Controllers
 {
     public class GameController
     {
-        private readonly MovementController _movementController;
         private GameWorld _gameWorld;
         private ConsoleView _view;
 
@@ -14,7 +13,6 @@ namespace TempleOfDoom.Controllers
         {
             _gameWorld = new GameWorld();
             _view = new ConsoleView();
-            _movementController = new MovementController(_gameWorld);
         }
 
         public void StartGame()
@@ -61,7 +59,7 @@ namespace TempleOfDoom.Controllers
             }
             else
             {
-                _movementController.HandleInput(command);
+                _gameWorld.Player.Move(command, _gameWorld.CurrentRoom);
             }
         }
     }

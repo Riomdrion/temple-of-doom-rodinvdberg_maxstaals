@@ -3,16 +3,16 @@ using TempleOfDoom.data.Models.Door;
 
 namespace TempleOfDoom.Factory;
 
-public static class DoorFactory
+public class DoorFactory
 {
-    public static Door CreateDoor(DoorDTO doorDTO)
+    public static Door CreateDoor(DoorDto dto)
     {
-        return doorDTO.Type switch
+        return dto.Type switch
         {
-            "SimpleDoor" => new SimpleDoor(doorDTO.Id, doorDTO.TargetRoomId),
-            "LockedDoor" => new LockedDoor(doorDTO.Id, doorDTO.TargetRoomId),
-            "ColoredDoor" => new ColoredDoor(doorDTO.Id, doorDTO.TargetRoomId),
-            _ => throw new ArgumentException($"Unknown door type: {doorDTO.Type}")
+            "locked" => new LockedDoor(dto.Id, dto.TargetRoomId, dto.KeyColor),
+            "colored" => new ColoredDoor(dto.Id, dto.TargetRoomId, dto.KeyColor),
+            "toggle" => new ToggleDoor { Id = dto.Id, TargetRoomId = dto.TargetRoomId },
+            _ => new SimpleDoor(dto.Id, dto.TargetRoomId)
         };
     }
 }

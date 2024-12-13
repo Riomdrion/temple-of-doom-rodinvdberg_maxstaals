@@ -2,7 +2,7 @@
 
 namespace TempleOfDoom.data.Models.Door;
 
-public abstract class Door : UIObserver
+public abstract class Door : UiObserver
 {
     public int Id { get; set; }
     public bool IsOpen { get; set; }

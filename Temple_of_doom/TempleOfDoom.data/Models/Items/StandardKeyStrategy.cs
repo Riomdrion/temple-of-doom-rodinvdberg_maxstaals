@@ -1,4 +1,5 @@
-﻿using TempleOfDoom.data.Models.Door;
+﻿using TempleOfDoom.data.Interfaces;
+using TempleOfDoom.data.Models.Door;
 using TempleOfDoom.data.Models.Map;
 
 namespace TempleOfDoom.data.Models.Items;

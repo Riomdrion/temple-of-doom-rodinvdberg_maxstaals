@@ -1,11 +1,13 @@
-﻿namespace TempleOfDoom.data.Models.Door;
+﻿using TempleOfDoom.data.Models.Map;
+
+namespace TempleOfDoom.data.Models.Door;
 
 public abstract class DoorDecorator : Door
 {
     protected Door door;
-
-    protected DoorDecorator(Door door)
+    
+    public override bool CanOpen(Player player)
     {
-        this.door = door;
+        return door.CanOpen(player);
     }
 }

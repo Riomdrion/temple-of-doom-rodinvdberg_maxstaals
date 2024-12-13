@@ -1,8 +1,10 @@
 ﻿namespace TempleOfDoom.data.DTO;
 
-public class DoorDTO
+public class DoorDto
 {
     public int Id { get; set; }
     public int TargetRoomId { get; set; }
-    public object Type { get; }
+    public string Type { get; set; }
+    public string KeyColor { get; set; } 
+    public bool IsToggle { get; set; } 
 }
