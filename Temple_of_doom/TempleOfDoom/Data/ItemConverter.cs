@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using TempleOfDoom.data.DTO;
 using TempleOfDoom.data.Models.Items;
+using TempleOfDoom.Factory;
 
 namespace TempleOfDoom.Data;
 
@@ -14,31 +16,45 @@ public class ItemConverter : JsonConverter
     public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
     {
         var jObject = JObject.Load(reader);
-        var type = jObject["type"]?.ToString();
 
-        if (string.IsNullOrEmpty(type)) throw new JsonSerializationException("Item type is not specified.");
+        Console.WriteLine($"Debug: Loaded JSON object: {jObject}");
 
-        // Get x and y coordinates from the JSON (or use default values)
+        string type = jObject["type"]?.Value<string>();
+        if (string.IsNullOrEmpty(type))
+        {
+            Console.WriteLine("Error: Item type is missing in the JSON object.");
+            throw new JsonSerializationException("Item type is missing.");
+        }
+
         int x = jObject["x"]?.Value<int>() ?? 0;
         int y = jObject["y"]?.Value<int>() ?? 0;
-        string name = jObject["Name"]?.ToString();
 
-        Item item = type switch
+        var itemDto = new ItemDto
         {
-            "key" => new Key(x, y),  // Include color if available
-            "sankara stone" => new SankaraStone(x, y),
-            "disappearing boobytrap" => new DisappearingBoobytrap(x, y, 10),
-            "boobytrap" => new Boobytrap(x, y, jObject["Damage"]?.Value<int>() ?? 0),  // Ensure Damage is passed
-            "pressure plate" => new PressurePlate(x, y),  // PressurePlate might not require x, y
-            _ => throw new JsonSerializationException($"Unknown item type: {type}")
+            Type = type.ToLower(),
+            X = x,
+            Y = y
         };
 
-        serializer.Populate(jObject.CreateReader(), item);
-        return item;
+        return ItemFactory.CreateItem(itemDto);
     }
 
     public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
     {
-        throw new NotImplementedException();
+        if (value is Item item)
+        {
+            // Serialize the Item back into JSON
+            var jObject = new JObject
+            {
+                ["Type"] = item.Type,
+                ["X"] = item.X,
+                ["Y"] = item.Y
+            };
+            jObject.WriteTo(writer);
+        }
+        else
+        {
+            throw new JsonSerializationException("Unexpected value when converting Item.");
+        }
     }
 }

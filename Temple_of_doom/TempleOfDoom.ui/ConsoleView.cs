@@ -11,6 +11,13 @@ public class ConsoleView
         Console.WriteLine($"Debug: Player Position -> X: {player.Position.X}, Y: {player.Position.Y}");
         Console.WriteLine($"Room: Width = {room.Width}, Height = {room.Height}");
 
+        // Print out all items in the room for debugging
+        Console.WriteLine("Debug: Items in room:");
+        foreach (var item in room.Items)
+        {
+            Console.WriteLine($"Item: {item.Type} at ({item.X}, {item.Y})");
+        }
+
         // Bereken consolebreedte/-hoogte en startpositie voor centreren
         int consoleWidth = Console.WindowWidth;
         int consoleHeight = Console.WindowHeight;
@@ -56,23 +63,29 @@ public class ConsoleView
                     var itemAtPosition = room.Items.FirstOrDefault(i => i.X == x && i.Y == y);
                     if (itemAtPosition != null)
                     {
-                        // Item type check
-                        Console.Write(itemAtPosition.Type == "key" ? "K" :
-                                      itemAtPosition.Type == "sankara stone" ? "S" :
-                                      itemAtPosition.Type == "boobytrap" ? "O" :
-                                      itemAtPosition.Type == "disappearing boobytrap" ? "@" :
-                                      itemAtPosition.Type == "pressure plate" ? "T" : " ");
+                        // Map item types to specific symbols
+                        char itemSymbol = itemAtPosition.Type switch
+                        {
+                            "key" => 'K',
+                            "sankara stone" => 'S',
+                            "boobytrap" => 'O',
+                            "disappearing boobytrap" => '@',
+                            "pressure plate" => 'T',
+                            _ => ' '  // Default empty space for unknown items
+                        };
+
+                        Console.Write(itemSymbol);
                     }
                     else
                     {
-                        // Vul overige ruimte met spaties
+                        // Fill remaining space with blank spaces
                         Console.Write(" ");
                     }
                 }
             }
         }
 
-        // Plaats de cursor naar een veilige plek onderaan
+        // Place the cursor in a safe position at the bottom
         Console.SetCursorPosition(0, consoleHeight - 1);
         Console.WriteLine($"Player: Lives = {player.Lives}, HasWon = {player.HasWon}");
         Console.WriteLine($"Sankara Stones: {player.GetItemCount()}");  // Show the count of Sankara Stones

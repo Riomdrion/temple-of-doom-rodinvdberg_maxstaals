@@ -101,7 +101,6 @@ public class Room
             case 'B': // Boobytrap
                 player.Lives--;
                 Layout[player.Position.Y, player.Position.X] = '.'; // Remove the boobytrap if it's disappearing
-                Console.WriteLine("You stepped on a boobytrap! Lives remaining: " + player.Lives);
 
                 if (player.Lives <= 0)
                 {
@@ -111,7 +110,7 @@ public class Room
                 break;
 
             default:
-                Console.WriteLine("Nothing to interact with here.");
+                //Console.WriteLine("Nothing to interact with here.");
                 break;
         }
     }

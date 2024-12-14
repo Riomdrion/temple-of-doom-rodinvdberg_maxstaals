@@ -35,13 +35,17 @@ public static class JsonFileReader
                 },
 
 
-                Converters = new List<JsonConverter> { new ItemConverter() }
+                // Add the ItemConverter to handle item deserialization
+                Converters = new List<JsonConverter>
+                {
+                    new ItemConverter() // Custom converter for deserializing items
+                }
             };
 
             var gameWorld = JsonConvert.DeserializeObject<GameWorld>(json, settings);
 
             // Link player to starting room
-            var startRoomId = 9;
+            var startRoomId = 4;
             gameWorld.CurrentRoom = gameWorld.Rooms.FirstOrDefault(r => r.Id == startRoomId);
             gameWorld.Player.Position = new Position(gameWorld.Player.StartX, gameWorld.Player.StartY);
 

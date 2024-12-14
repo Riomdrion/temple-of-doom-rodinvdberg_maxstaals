@@ -1,4 +1,6 @@
-﻿namespace TempleOfDoom.data.Models.Map;
+﻿using TempleOfDoom.data.Models.Items;
+
+namespace TempleOfDoom.data.Models.Map;
 
 public class Player
 {
@@ -10,6 +12,8 @@ public class Player
     public int StartX { get; set; }
     public int StartY { get; set; }
 
+    public List<string> MessageQueue { get; set; }
+
     public Player(int startX, int startY, int lives)
     {
         StartX = startX;
@@ -18,6 +22,22 @@ public class Player
         HasWon = false;
         Inventory = new Inventory();
         Position = new Position(startX, startY);
+        MessageQueue = new List<string>();
+
+    }
+
+    public void AddMessage(string message)
+    {
+        MessageQueue.Add(message);
+    }
+
+    public void PrintMessages()
+    {
+        foreach (var message in MessageQueue)
+        {
+            Console.WriteLine(message);
+        }
+        MessageQueue.Clear(); // Clear messages after printing
     }
 
     public bool HasKey(string keyColor)
@@ -81,17 +101,10 @@ public class Player
 
             // Handle interactions with items at the new position
             currentRoom.HandlePlayerInteraction(this);
-
-            // Check win condition
-            //if (CheckWinCondition())
-            //{
-            //    Console.WriteLine("Game Over: You won!");
-            //    return;
-            //}
         }
         else
         {
-            Console.WriteLine($"Player cannot move to X:{newPosition.X}, Y:{newPosition.Y} - position is not walkable.");
+            //Console.WriteLine($"Player cannot move to X:{newPosition.X}, Y:{newPosition.Y} - position is not walkable.");
         }
 
 
@@ -106,6 +119,26 @@ public class Player
             {
                 Inventory.AddItem("Sankara Stone");
                 room.Items.Remove(itemAtPosition); // Remove the Sankara Stone from the room
+            }
+            // Handle boobytrap activation
+            else if (itemAtPosition.Type == "boobytrap")
+            {
+                if (itemAtPosition is Boobytrap boobytrap)
+                {
+                    boobytrap.Trigger(this); // Apply damage
+                    //Console.WriteLine($"Boobytrap triggered! Player loses 1 life. Remaining lives: {Lives}");
+                }
+            }
+
+            // Handle disappearing boobytrap activation
+            else if (itemAtPosition.Type == "disappearing boobytrap")
+            {
+                if (itemAtPosition is DisappearingBoobytrap disappearingBoobytrap)
+                {
+                    disappearingBoobytrap.Activate(this); // Apply damage
+                    Console.WriteLine($"Disappearing boobytrap triggered! Player loses 1 life. Remaining lives: {Lives}");
+                    room.Items.Remove(itemAtPosition); // Remove the disappearing boobytrap
+                }
             }
             // Additional item types can be handled here similarly
         }
