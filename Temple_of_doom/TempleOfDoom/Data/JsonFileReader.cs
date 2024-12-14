@@ -33,8 +33,7 @@ public static class JsonFileReader
                         OverrideSpecifiedNames = true
                     }
                 },
-
-
+                
                 Converters = new List<JsonConverter> { new ItemConverter() }
             };
 

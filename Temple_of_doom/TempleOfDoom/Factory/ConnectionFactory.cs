@@ -30,8 +30,7 @@ namespace TempleOfDoom.Factory
             return connections;
         }
 
-        private static Connection CreateConnection(List<Room> rooms, int targetRoomId, Direction direction,
-            dynamic doorsData)
+        private static Connection CreateConnection(List<Room> rooms, int targetRoomId, Direction direction, dynamic doorsData)
         {
             var targetRoom = rooms.Find(room => room.Id == targetRoomId);
 
@@ -50,10 +49,11 @@ namespace TempleOfDoom.Factory
                         Id = doorData.id,
                         TargetRoomId = targetRoomId,
                         Type = doorData.type,
-                        KeyColor = doorData.color
+                        KeyColor = doorData.color,
+                        Direction = direction
                     };
 
-                    var door = DoorFactory.CreateDoor(doorDto);
+                    var door = DoorFactory.CreateDoor(doorDto, targetRoom);
                     targetRoom.Doors.Add(door);
                 }
             }

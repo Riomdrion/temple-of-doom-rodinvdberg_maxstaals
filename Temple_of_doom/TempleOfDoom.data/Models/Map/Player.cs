@@ -32,19 +32,27 @@ public class Player
 
     public void Move(string command, Room currentRoom)
     {
-        var currentPosition = this.Position;
         var newPosition = command switch
         {
-            "up" => new Position(currentPosition.X, currentPosition.Y - 1),
-            "down" => new Position(currentPosition.X, currentPosition.Y + 1),
-            "left" => new Position(currentPosition.X - 1, currentPosition.Y),
-            "right" => new Position(currentPosition.X + 1, currentPosition.Y),
-            _ => currentPosition
+            "up" => new Position(Position.X, Position.Y - 1),
+            "down" => new Position(Position.X, Position.Y + 1),
+            "left" => new Position(Position.X - 1, Position.Y),
+            "right" => new Position(Position.X + 1, Position.Y),
+            _ => Position
         };
-    
-        if (currentRoom.IsPositionWalkable(newPosition))
+
+        var door = currentRoom.Doors.FirstOrDefault(d => d.Position.Equals(newPosition));
+        if (door != null)
         {
-            this.Position = newPosition;
+            if (door.CanOpen(this))
+            {
+                door.Open();
+                Position = newPosition;
+            }
+        }
+        else if (currentRoom.IsPositionWalkable(newPosition))
+        {
+            Position = newPosition;
         }
     }
 }

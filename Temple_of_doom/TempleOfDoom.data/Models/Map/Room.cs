@@ -1,4 +1,6 @@
-﻿using TempleOfDoom.data.Models.Items;
+﻿using TempleOfDoom.data.Enums;
+using TempleOfDoom.data.Models.Door;
+using TempleOfDoom.data.Models.Items;
 
 namespace TempleOfDoom.data.Models.Map;
 
@@ -69,4 +71,40 @@ public class Room
 
         throw new Exception("Player start position not defined in room layout.");
     }
+    
+    public void InitializeRoomLayout()
+    {
+        // Vul de layout met muren en lege ruimte
+        for (var y = 0; y < Height; y++)
+        {
+            for (var x = 0; x < Width; x++)
+            {
+                if (y == 0 || y == Height - 1 || x == 0 || x == Width - 1)
+                {
+                    Layout[y, x] = (char)Symbols.WALL; // Randen
+                }
+                else
+                {
+                    Layout[y, x] = ' '; // Lege ruimte
+                }
+            }
+        }
+
+        // Plaats de deuren in de lay-out
+        foreach (var door in Doors)
+        {
+            if (door.Position.Y >= 0 && door.Position.Y < Height &&
+                door.Position.X >= 0 && door.Position.X < Width)
+            {
+                var doorSymbol =
+                    door is ToggleDoor ? (char)Symbols.TOGGLEDOOR :
+                    door is ColoredDoor ? (char)Symbols.HORIZONTALDOOR :
+                    door is ClosingGate ? (char)Symbols.CLOSINGGATE :
+                    (char)Symbols.VERTICALDOOR; // Default voor andere deuren
+
+                Layout[door.Position.Y, door.Position.X] = doorSymbol;
+            }
+        }
+    }
+
 }
