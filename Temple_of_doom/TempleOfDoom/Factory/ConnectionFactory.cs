@@ -5,7 +5,7 @@ namespace TempleOfDoom.Factory
 {
     public static class ConnectionFactory
     {
-        public static List<Connection> CreateConnections(List<Room> rooms, List<dynamic> connectionsData)
+        public static List<Connection> CreateRoomDoors(List<Room> rooms, List<dynamic> connectionsData)
         {
             var connections = new List<Connection>();
 

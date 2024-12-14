@@ -74,7 +74,7 @@ public class Room
     
     public void InitializeRoomLayout()
     {
-        // Vul de layout met muren en lege ruimte
+        // Vul de lay-out met muren en lege ruimte
         for (var y = 0; y < Height; y++)
         {
             for (var x = 0; x < Width; x++)
@@ -90,21 +90,24 @@ public class Room
             }
         }
 
-        // Plaats de deuren in de lay-out
+        // Voeg deuren toe aan de lay-out
         foreach (var door in Doors)
         {
             if (door.Position.Y >= 0 && door.Position.Y < Height &&
                 door.Position.X >= 0 && door.Position.X < Width)
             {
-                var doorSymbol =
-                    door is ToggleDoor ? (char)Symbols.TOGGLEDOOR :
-                    door is ColoredDoor ? (char)Symbols.HORIZONTALDOOR :
-                    door is ClosingGate ? (char)Symbols.CLOSINGGATE :
-                    (char)Symbols.VERTICALDOOR; // Default voor andere deuren
+                var doorSymbol = door switch
+                {
+                    ToggleDoor => (char)Symbols.TOGGLEDOOR,
+                    ColoredDoor => (char)Symbols.HORIZONTALDOOR,
+                    ClosingGate => (char)Symbols.CLOSINGGATE,
+                    _ => (char)Symbols.VERTICALDOOR // Default symbool
+                };
 
                 Layout[door.Position.Y, door.Position.X] = doorSymbol;
             }
         }
     }
+
 
 }

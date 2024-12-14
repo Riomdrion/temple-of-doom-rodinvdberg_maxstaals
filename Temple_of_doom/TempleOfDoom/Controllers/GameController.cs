@@ -11,7 +11,6 @@ namespace TempleOfDoom.Controllers
 
         public GameController()
         {
-            _gameWorld = new GameWorld();
             _view = new ConsoleView();
         }
 
