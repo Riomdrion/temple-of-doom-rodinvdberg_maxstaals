@@ -2,6 +2,7 @@
 
 public class ItemDto
 {
-    public string Name { get; set; }
     public string Type { get; set; }
+    public int X { get; set; }  // Add X and Y coordinates
+    public int Y { get; set; }
 }

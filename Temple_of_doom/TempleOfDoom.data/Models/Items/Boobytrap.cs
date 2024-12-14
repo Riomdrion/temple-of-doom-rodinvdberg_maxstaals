@@ -4,7 +4,8 @@ namespace TempleOfDoom.data.Models.Items;
 
 public class Boobytrap : Item
 {
-    public Boobytrap(int value)
+    public Boobytrap(int x, int y, int value)
+            : base(x, y, "boobytrap")  // Pass parameters to the base Item constructor
     {
         Damage = value;
     }

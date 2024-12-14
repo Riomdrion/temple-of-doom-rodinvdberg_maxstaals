@@ -41,7 +41,7 @@ public static class JsonFileReader
             var gameWorld = JsonConvert.DeserializeObject<GameWorld>(json, settings);
 
             // Link player to starting room
-            var startRoomId = 4;
+            var startRoomId = 3;
             gameWorld.CurrentRoom = gameWorld.Rooms.FirstOrDefault(r => r.Id == startRoomId);
             gameWorld.Player.Position = new Position(gameWorld.Player.StartX, gameWorld.Player.StartY);
 

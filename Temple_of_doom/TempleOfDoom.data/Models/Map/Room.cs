@@ -75,15 +75,39 @@ public class Room
 
         switch (currentTile)
         {
-            case 'S':
-                player.Inventory.AddItem("Sankara Stone");
-                Layout[player.Position.Y, player.Position.X] = '.';
-                Console.WriteLine("You picked up a Sankara Stone!");
-                break;
-            case 'K':
+            case 'K': // Key
                 player.Inventory.AddItem("Key");
-                Layout[player.Position.Y, player.Position.X] = '.';
+                Layout[player.Position.Y, player.Position.X] = '.'; // Remove the key from the room
                 Console.WriteLine("You picked up a Key!");
+                break;
+
+            case 'S': // Sankara Stone
+                player.Inventory.AddItem("Sankara Stone");
+                Layout[player.Position.Y, player.Position.X] = '.'; // Remove the stone from the room
+                Console.WriteLine("You picked up a Sankara Stone!");
+
+                // Check if player has won
+                //if (player.Inventory.Items.Count(item => item == "Sankara Stone") >= 5)
+                //{
+                //    player.HasWon = true;
+                //    Console.WriteLine("You have collected all 5 Sankara Stones! You win!");
+                //}
+                break;
+
+            case 'B': // Boobytrap
+                player.Lives--;
+                Layout[player.Position.Y, player.Position.X] = '.'; // Remove the boobytrap if it's disappearing
+                Console.WriteLine("You stepped on a boobytrap! Lives remaining: " + player.Lives);
+
+                if (player.Lives <= 0)
+                {
+                    Console.WriteLine("Game Over: You have no lives left.");
+                    player.HasWon = false;
+                }
+                break;
+
+            default:
+                Console.WriteLine("Nothing to interact with here.");
                 break;
         }
     }

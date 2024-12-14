@@ -7,6 +7,7 @@ public class ConsoleView
     public void DisplayRoom(Room room, Player player)
     {
         Console.Clear();
+        Console.ForegroundColor = ConsoleColor.White;  // Set to white
         Console.WriteLine($"Debug: Player Position -> X: {player.Position.X}, Y: {player.Position.Y}");
         Console.WriteLine($"Room: Width = {room.Width}, Height = {room.Height}");
 
@@ -30,6 +31,7 @@ public class ConsoleView
                 // Teken de randen met `#` (muren)
                 if (y == 0 || y == room.Height - 1 || x == 0 || x == room.Width - 1)
                 {
+                    Console.ForegroundColor = ConsoleColor.Yellow;  // Set to yellow
                     Console.Write("#");
                 }
                 // Teken de speler als deze op de huidige positie staat
@@ -37,10 +39,24 @@ public class ConsoleView
                 {
                     Console.Write("x");
                 }
-                // Vul overige ruimte met spaties
+                // Teken de items op hun positie in de kamer
                 else
                 {
-                    Console.Write(" ");
+                    var itemAtPosition = room.Items.FirstOrDefault(i => i.X == x && i.Y == y);
+                    if (itemAtPosition != null)
+                    {
+                        // Item type check
+                        Console.Write(itemAtPosition.Type == "key" ? "K" :
+                                      itemAtPosition.Type == "sankara stone" ? "S" :
+                                      itemAtPosition.Type == "boobytrap" ? "O" :
+                                      itemAtPosition.Type == "disappearing boobytrap" ? "@" :
+                                      itemAtPosition.Type == "pressure plate" ? "T" : " ");
+                    }
+                    else
+                    {
+                        // Vul overige ruimte met spaties
+                        Console.Write(" ");
+                    }
                 }
             }
         }

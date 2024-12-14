@@ -2,7 +2,8 @@
 
 public class PressurePlate : Item
 {
-    public PressurePlate()
+    public PressurePlate(int x, int y)
+            : base(x, y, "pressure plate")  // Call the base constructor with required parameters
     {
         IsActive = false;
     }

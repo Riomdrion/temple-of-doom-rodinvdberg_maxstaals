@@ -78,10 +78,33 @@ public class Player
         {
             //Console.WriteLine($"Player moved from X:{currentPosition.X}, Y:{currentPosition.Y} to X:{newPosition.X}, Y:{newPosition.Y}.");
             this.Position = newPosition;
+
+            // Handle interactions with items at the new position
+            currentRoom.HandlePlayerInteraction(this);
+
+            // Check win condition
+            //if (CheckWinCondition())
+            //{
+            //    Console.WriteLine("Game Over: You won!");
+            //    return;
+            //}
         }
         else
         {
             Console.WriteLine($"Player cannot move to X:{newPosition.X}, Y:{newPosition.Y} - position is not walkable.");
         }
+
+
     }
+    // Check if the player has collected all required Sankara Stones
+    //public bool CheckWinCondition(int requiredStones = 5)
+    //{
+    //    if (Inventory.Items.Count(item => item == "Sankara Stone") >= requiredStones)
+    //    {
+    //        HasWon = true;
+    //        Console.WriteLine("You have collected all 5 Sankara Stones! You win!");
+    //        return true;
+    //    }
+    //    return false;
+    //}
 }
