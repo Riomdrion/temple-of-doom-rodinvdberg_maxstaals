@@ -28,23 +28,47 @@ namespace TempleOfDoom.Factory
         private static void AddConnection(List<Room> rooms, int targetRoomId, ConnectionDto connection, Direction direction)
         {
             var currentRoom = rooms.FirstOrDefault(r => r.Id == targetRoomId);
-
-            if (connection.Doors.Count > 0)
+            if (currentRoom == null)
             {
-                foreach (var doorDto in connection.Doors)
-                {
-                    var door = DoorFactory.CreateDoor(doorDto, currentRoom);
-                    currentRoom.Doors.Add(door);
-                }
+                Console.WriteLine($"Warning: Room with ID {targetRoomId} not found.");
+                return;
             }
-            else
+
+            // Bepaal het verbonden kamer ID op basis van de richting
+            int? connectedRoomId = direction switch
+            {
+                Direction.NORTH => connection.SOUTH, // Verbinding naar het zuiden in de verbonden kamer
+                Direction.SOUTH => connection.NORTH, // Verbinding naar het noorden in de verbonden kamer
+                Direction.WEST => connection.EAST,   // Verbinding naar het oosten in de verbonden kamer
+                Direction.EAST => connection.WEST,   // Verbinding naar het westen in de verbonden kamer
+                _ => null
+            };
+
+            if (!connectedRoomId.HasValue)
+            {
+                Console.WriteLine($"No connected room for Room ID={targetRoomId} in direction={direction}");
+                return;
+            }
+
+            // Voeg een SimpleDoor toe als er geen deuren zijn
+            if (connection.Doors == null || connection.Doors.Count == 0)
             {
                 var defaultPosition = CalculateDoorPosition(currentRoom, direction);
-                var simpleDoor = new SimpleDoor(currentRoom.Id, targetRoomId, direction, defaultPosition);
+                var simpleDoor = new SimpleDoor(currentRoom.Id, connectedRoomId.Value, direction, defaultPosition);
                 currentRoom.Doors.Add(simpleDoor);
+                Console.WriteLine($"Added SimpleDoor to Room ID={currentRoom.Id}, TargetRoomId={simpleDoor.TargetRoomId}, Direction={direction}");
+                return;
+            }
+
+            // Verwerk expliciete deuren
+            foreach (var doorDto in connection.Doors)
+            {
+                var door = DoorFactory.CreateDoor(doorDto, currentRoom);
+                door.TargetRoomId = connectedRoomId.Value; // Stel het correcte TargetRoomId in
+                Console.WriteLine($"Adding door to Room ID={currentRoom.Id}, TargetRoomId={door.TargetRoomId}, Direction={direction}");
+                currentRoom.Doors.Add(door);
             }
         }
-
         
         private static Position CalculateDoorPosition(Room room, Direction direction)
         {

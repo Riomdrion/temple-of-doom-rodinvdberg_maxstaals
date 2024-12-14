@@ -32,7 +32,7 @@ public class Room(int id, int width, int height, List<Item> items, List<Door.Doo
         {
             for (var x = 0; x < Width; x++)
             {
-                Layout[y, x] = ' '; // Standaard: lege ruimte
+                Layout[y, x] = ' ';
             }
         }
 
@@ -41,7 +41,7 @@ public class Room(int id, int width, int height, List<Item> items, List<Door.Doo
         {
             for (var x = 0; x < Width; x++)
             {
-                if (y == 0 || y == Height - 1 || x == 0 || x == Width - 1) // Rand van de kamer
+                if (y == 0 || y == Height - 1 || x == 0 || x == Width - 1)
                 {
                     Layout[y, x] = (Layout[y, x] == ' ' || Layout[y, x] == '\0') ? '#' : Layout[y, x];
                 }

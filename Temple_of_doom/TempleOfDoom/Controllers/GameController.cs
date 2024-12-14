@@ -56,7 +56,7 @@ namespace TempleOfDoom.Controllers
             }
             else
             {
-                _gameWorld.Player.Move(command, _gameWorld.CurrentRoom);
+                _gameWorld.Player.Move(command, _gameWorld.CurrentRoom, _gameWorld.Rooms);
             }
         }
     }
