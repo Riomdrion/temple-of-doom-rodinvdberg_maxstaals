@@ -27,51 +27,45 @@ public class Room(int id, int width, int height, List<Item> items, List<Door.Doo
 
     public void InitializeRoomLayout()
     {
-        Console.WriteLine("ffff");
-
-        Console.WriteLine($"Room ID={Id} has the following doors:");
-        for (int i = 0; i < Doors.Count; i++)
+        // Stap 1: Vul alle posities met lege ruimte
+        for (var y = 0; y < Height; y++)
         {
-            var door = Doors[i];
-            Console.WriteLine(
-                $"Door ID={door.Id}, Type={door.GetType().Name}, Position=({door.Position.X}, {door.Position.Y})");
+            for (var x = 0; x < Width; x++)
+            {
+                Layout[y, x] = ' '; // Standaard: lege ruimte
+            }
         }
 
-        // Stap 2: Voeg deuren toe aan de lay-out
+        // Stap 2: Voeg muren toe langs de randen
+        for (var y = 0; y < Height; y++)
+        {
+            for (var x = 0; x < Width; x++)
+            {
+                if (y == 0 || y == Height - 1 || x == 0 || x == Width - 1) // Rand van de kamer
+                {
+                    Layout[y, x] = (Layout[y, x] == ' ' || Layout[y, x] == '\0') ? '#' : Layout[y, x];
+                }
+            }
+        }
+
+        // Stap 3: Voeg deuren toe aan de lay-out
         foreach (var door in Doors)
         {
-            Console.WriteLine("qqqq");
             if (door.Position.X >= 0 && door.Position.X < Width &&
                 door.Position.Y >= 0 && door.Position.Y < Height)
             {
                 var doorSymbol = door switch
                 {
-                    SimpleDoor => (char)Symbols.VERTICALDOOR,
-                    ColoredDoor => (char)Symbols.HORIZONTALDOOR,
-                    ToggleDoor => (char)Symbols.TOGGLEDOOR,
-                    ClosingGate => (char)Symbols.CLOSINGGATE,
+                    SimpleDoor => '|',
+                    ColoredDoor => '=',
+                    ToggleDoor => '_',
+                    ClosingGate => '∩',
+                    OpenOnOddDoor => '?',
+                    OpenOnStonesDoor => '*',
                     _ => '?'
                 };
 
                 Layout[door.Position.Y, door.Position.X] = doorSymbol;
-                Console.WriteLine(
-                    $"Placed door in Room ID={Id} at Position=({door.Position.X}, {door.Position.Y}) with symbol={doorSymbol}");
-            }
-            else
-            {
-                Console.WriteLine($"Invalid door position for Room ID={Id}: ({door.Position.X}, {door.Position.Y})");
-            }
-        }
-
-        // Stap 3: Vul randen met muren, maar laat deuren ongemoeid
-        for (var y = 0; y < Height; y++)
-        {
-            for (var x = 0; x < Width; x++)
-            {
-                if (Layout[y, x] == ' ' && (y == 0 || y == Height - 1 || x == 0 || x == Width - 1))
-                {
-                    Layout[y, x] = (char)Symbols.WALL;
-                }
             }
         }
     }

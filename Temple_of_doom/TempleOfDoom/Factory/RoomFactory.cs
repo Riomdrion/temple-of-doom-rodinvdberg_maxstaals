@@ -11,7 +11,6 @@ public static class RoomFactory
     {
         var rooms = new List<Room>();
 
-        // Stap 1: Maak alle kamers aan zonder deuren
         foreach (var roomData in roomsData)
         {
             var room = new Room(
@@ -24,11 +23,9 @@ public static class RoomFactory
 
             rooms.Add(room);
         }
-
-        // Stap 2: Voeg de deuren toe aan de kamers
+        
         ConnectionFactory.CreateRoomDoors(rooms, connectionData);
-
-        // Stap 3: Initialiseer de lay-out van elke kamer na het toevoegen van deuren
+        
         foreach (var room in rooms)
         {
             room.InitializeRoomLayout();

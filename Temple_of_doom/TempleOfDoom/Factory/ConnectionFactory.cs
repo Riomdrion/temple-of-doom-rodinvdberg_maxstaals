@@ -28,11 +28,6 @@ namespace TempleOfDoom.Factory
         private static void AddConnection(List<Room> rooms, int targetRoomId, ConnectionDto connection, Direction direction)
         {
             var currentRoom = rooms.FirstOrDefault(r => r.Id == targetRoomId);
-            if (currentRoom == null)
-            {
-                Console.WriteLine($"Warning: Room with ID {targetRoomId} not found.");
-                return;
-            }
 
             if (connection.Doors.Count > 0)
             {
@@ -40,7 +35,6 @@ namespace TempleOfDoom.Factory
                 {
                     var door = DoorFactory.CreateDoor(doorDto, currentRoom);
                     currentRoom.Doors.Add(door);
-                    Console.WriteLine($"Added door to Room ID={currentRoom.Id} at Position=({door.Position.X}, {door.Position.Y}), Type={door.GetType().Name}");
                 }
             }
             else
@@ -48,11 +42,7 @@ namespace TempleOfDoom.Factory
                 var defaultPosition = CalculateDoorPosition(currentRoom, direction);
                 var simpleDoor = new SimpleDoor(currentRoom.Id, targetRoomId, direction, defaultPosition);
                 currentRoom.Doors.Add(simpleDoor);
-                Console.WriteLine($"Added default SimpleDoor to Room ID={currentRoom.Id} at Position=({simpleDoor.Position.X}, {simpleDoor.Position.Y}), Type=SimpleDoor");
             }
-
-            // Log het aantal deuren in de kamer
-            Console.WriteLine($"Room ID={currentRoom.Id} now has {currentRoom.Doors.Count} doors.");
         }
 
         
