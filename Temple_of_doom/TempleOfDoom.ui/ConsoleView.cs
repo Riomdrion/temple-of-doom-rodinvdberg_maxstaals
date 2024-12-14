@@ -10,7 +10,7 @@ public class ConsoleView
         Console.ForegroundColor = ConsoleColor.White;  // Set to white
         Console.WriteLine($"Debug: Player Position -> X: {player.Position.X}, Y: {player.Position.Y}");
         Console.WriteLine($"Room: Width = {room.Width}, Height = {room.Height}");
-
+      
         // Bereken consolebreedte/-hoogte en startpositie voor centreren
         int consoleWidth = Console.WindowWidth;
         int consoleHeight = Console.WindowHeight;
@@ -63,6 +63,7 @@ public class ConsoleView
 
         // Plaats de cursor naar een veilige plek onderaan
         Console.SetCursorPosition(0, consoleHeight - 1);
+        Console.WriteLine($"Player: Lives = {player.Lives}, HasWon = {player.HasWon}");
     }
 
 
