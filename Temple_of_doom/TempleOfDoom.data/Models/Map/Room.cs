@@ -6,10 +6,9 @@ namespace TempleOfDoom.data.Models.Map;
 
 public class Room
 {
-    public Room(int id, string name, int width, int height, List<Item> items, List<Door.Door> doors)
+    public Room(int id, int width, int height, List<Item> items, List<Door.Door> doors)
     {
         Id = id;
-        Name = name;
         Width = width;
         Height = height;
         Layout = new char[height, width];

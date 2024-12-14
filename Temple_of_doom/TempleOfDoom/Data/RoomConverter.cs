@@ -19,12 +19,11 @@ public class RoomConverter : JsonConverter
 
         // Extract basic properties
         var id = jObject["id"].Value<int>();
-        var name = jObject["name"].Value<string>();
         var width = jObject["width"].Value<int>();
         var height = jObject["height"].Value<int>();
 
         // Create the Room object
-        Room room = new Room(id, name, width, height, null, null);
+        Room room = new Room(id, width, height, null, null);
 
         // Deserialize items
         if (jObject["items"] != null) room.Items = jObject["items"].ToObject<List<Item>>(serializer);

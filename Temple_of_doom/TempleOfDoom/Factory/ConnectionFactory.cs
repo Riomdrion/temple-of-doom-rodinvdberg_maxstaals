@@ -5,58 +5,40 @@ namespace TempleOfDoom.Factory
 {
     public static class ConnectionFactory
     {
-        public static List<Connection> CreateRoomDoors(List<Room> rooms, List<dynamic> connectionsData)
+        public static List<Connection> CreateRoomDoors(List<Room> rooms, List<RoomDto> roomDtos)
         {
             var connections = new List<Connection>();
 
-            foreach (var connectionData in connectionsData)
+            foreach (var roomDto in roomDtos)
             {
-                // Verkrijg de kamers gebaseerd op het ID
-                int? northRoomId = connectionData.NORTH;
-                int? southRoomId = connectionData.SOUTH;
-                int? eastRoomId = connectionData.EAST;
-                int? westRoomId = connectionData.WEST;
+                foreach (var doorDto in roomDto.Doors)
+                {
+                    var targetRoom = rooms.FirstOrDefault(r => r.Id == doorDto.TargetRoomId);
+                    if (targetRoom == null)
+                        throw new Exception($"Target room with ID {doorDto.TargetRoomId} not found!");
 
-                // Maak verbindingen aan voor elke richting
-                if (northRoomId.HasValue)
-                    connections.Add(CreateConnection(rooms, northRoomId.Value, Direction.NORTH, connectionData.doors));
-                if (southRoomId.HasValue)
-                    connections.Add(CreateConnection(rooms, southRoomId.Value, Direction.SOUTH, connectionData.doors));
-                if (eastRoomId.HasValue)
-                    connections.Add(CreateConnection(rooms, eastRoomId.Value, Direction.EAST, connectionData.doors));
-                if (westRoomId.HasValue)
-                    connections.Add(CreateConnection(rooms, westRoomId.Value, Direction.WEST, connectionData.doors));
+                    var connection = new Connection(Enum.Parse<Direction>(doorDto.Direction.ToString(), true), targetRoom);
+                    connections.Add(connection);
+                }
             }
+
             return connections;
         }
 
-        private static Connection CreateConnection(List<Room> rooms, int targetRoomId, Direction direction, dynamic doorsData)
+        private static Connection CreateConnection(List<Room> rooms, DoorDto doorDto)
         {
-            var targetRoom = rooms.Find(room => room.Id == targetRoomId);
-
+            // Zoek de target room
+            var targetRoom = rooms.FirstOrDefault(room => room.Id == doorDto.TargetRoomId);
             if (targetRoom == null)
-                throw new Exception($"Room with ID {targetRoomId} not found!");
+                throw new Exception($"Room with ID {doorDto.TargetRoomId} not found!");
 
-            var connection = new Connection(direction, targetRoom);
+            // Maak een nieuwe Connection
+            var connection = new Connection(Enum.Parse<Direction>(doorDto.Direction.ToString(), true), targetRoom);
 
-            // Voeg deuren toe aan de verbinding
-            if (doorsData != null)
-            {
-                foreach (var doorData in doorsData)
-                {
-                    DoorDto doorDto = new DoorDto
-                    {
-                        Id = doorData.id,
-                        TargetRoomId = targetRoomId,
-                        Type = doorData.type,
-                        KeyColor = doorData.color,
-                        Direction = direction
-                    };
+            // Voeg deuren toe aan de target room
+            var door = DoorFactory.CreateDoor(doorDto, targetRoom);
+            targetRoom.Doors.Add(door);
 
-                    var door = DoorFactory.CreateDoor(doorDto, targetRoom);
-                    targetRoom.Doors.Add(door);
-                }
-            }
             return connection;
         }
     }

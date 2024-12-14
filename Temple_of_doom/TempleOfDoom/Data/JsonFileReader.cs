@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Serialization;
 using TempleOfDoom.data.Models.Map;
 using TempleOfDoom.Factory;
+using TempleOfDoom.data.DTO;
 
 namespace TempleOfDoom.Data;
 
@@ -28,41 +29,41 @@ public static class JsonFileReader
                 ContractResolver = new DefaultContractResolver
                 {
                     NamingStrategy = new CamelCaseNamingStrategy()
-                    {
-                        ProcessDictionaryKeys = true,
-                        OverrideSpecifiedNames = true
-                    }
                 }
             };
 
-            // Parse JSON into a dynamic object for custom processing
-            dynamic parsedJson = JsonConvert.DeserializeObject(json, settings) ?? throw new InvalidOperationException();
+            // Parse JSON into DTOs
+            var parsedJson = JsonConvert.DeserializeObject<dynamic>(json, settings);
+            var roomsData = JsonConvert.DeserializeObject<List<RoomDto>>(parsedJson["rooms"].ToString(), settings);
+            var connectionsData = JsonConvert.DeserializeObject<List<RoomDto>>(parsedJson["connections"].ToString(), settings);
+            
 
             // Create Rooms using RoomFactory
-            var rooms = RoomFactory.CreateRooms(parsedJson.rooms);
+            var rooms = RoomFactory.CreateRooms(roomsData);
 
-            // Create Connections using ConnectionFactory
-            ConnectionFactory.CreateRoomDoors(rooms, parsedJson.connections);
+            // Add connections and doors
+            ConnectionFactory.CreateRoomDoors(rooms, connectionsData);
 
             // Create Player
-            var playerJson = parsedJson.player;
-            var player = new Player((int)playerJson.lives,
-                new Position((int)playerJson.startX, (int)playerJson.startY));
+            var playerJson = parsedJson["player"];
+            var player = new Player(
+                (int)playerJson["lives"],
+                new Position((int)playerJson["startX"], (int)playerJson["startY"])
+            );
 
-            // Set starting room
-            var startRoomId = (int)playerJson.startRoomId;
-            var startRoom = ((List<Room>)rooms).FirstOrDefault(r => r.Id == startRoomId);
-
+            // Set starting room for Player
+            var startRoomId = (int)playerJson["startRoomId"];
+            var startRoom = rooms.FirstOrDefault(new Func<Room, bool>(r => r.Id == startRoomId));
             if (startRoom == null)
-            {
                 throw new Exception($"Start room with ID {startRoomId} not found.");
-            }
 
-            // Link player to start room
             player.CurrentRoom = startRoom;
 
             // Create GameWorld
-            var gameWorld = new GameWorld(player, rooms) { CurrentRoom = startRoom };
+            var gameWorld = new GameWorld(player, rooms)
+            {
+                CurrentRoom = startRoom
+            };
 
             Console.WriteLine("GameWorld loaded successfully from JSON.");
             return gameWorld;
