@@ -149,6 +149,26 @@
           "y": 2
         },
         {
+          "type": "sankara stone",
+          "x": 1,
+          "y": 2
+        },
+        {
+          "type": "sankara stone",
+          "x": 3,
+          "y": 2
+        },
+        {
+          "type": "sankara stone",
+          "x": 2,
+          "y": 2
+        },
+        {
+          "type": "sankara stone",
+          "x": 2,
+          "y": 2
+        },
+        {
           "type": "boobytrap",
           "damage": 1,
           "x": 1,

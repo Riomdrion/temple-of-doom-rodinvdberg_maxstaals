@@ -82,16 +82,20 @@ public class Room
                 break;
 
             case 'S': // Sankara Stone
-                player.Inventory.AddItem("Sankara Stone");
+                player.Inventory.AddItem("Sankara Stone"); // Add to inventory
                 Layout[player.Position.Y, player.Position.X] = '.'; // Remove the stone from the room
                 Console.WriteLine("You picked up a Sankara Stone!");
 
-                // Check if player has won
-                //if (player.Inventory.Items.Count(item => item == "Sankara Stone") >= 5)
-                //{
-                //    player.HasWon = true;
-                //    Console.WriteLine("You have collected all 5 Sankara Stones! You win!");
-                //}
+                // Display the current count of Sankara Stones in inventory
+                int sankaraStoneCount = player.Inventory.GetItemCount("Sankara Stone");
+                Console.WriteLine("You now have " + sankaraStoneCount + " Sankara Stones.");
+
+                // Optional: Check if the player has won (e.g., collected 5 Sankara Stones)
+                if (sankaraStoneCount >= 5)
+                {
+                    player.HasWon = true;
+                    Console.WriteLine("You have collected all 5 Sankara Stones! You win!");
+                }
                 break;
 
             case 'B': // Boobytrap

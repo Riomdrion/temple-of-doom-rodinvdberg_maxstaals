@@ -9,7 +9,7 @@ public class Player
     public int StartingRoomId { get; set; }
     public int StartX { get; set; }
     public int StartY { get; set; }
-    
+
     public Player(int startX, int startY, int lives)
     {
         StartX = startX;
@@ -96,15 +96,41 @@ public class Player
 
 
     }
-    // Check if the player has collected all required Sankara Stones
-    //public bool CheckWinCondition(int requiredStones = 5)
-    //{
-    //    if (Inventory.Items.Count(item => item == "Sankara Stone") >= requiredStones)
-    //    {
-    //        HasWon = true;
-    //        Console.WriteLine("You have collected all 5 Sankara Stones! You win!");
-    //        return true;
-    //    }
-    //    return false;
-    //}
+    public void PickUpItem(Room room)
+    {
+        var itemAtPosition = room.Items.FirstOrDefault(i => i.X == Position.X && i.Y == Position.Y);
+        if (itemAtPosition != null)
+        {
+            // Check if it's a Sankara Stone and add it to the inventory
+            if (itemAtPosition.Type == "sankara stone")
+            {
+                Inventory.AddItem("Sankara Stone");
+                room.Items.Remove(itemAtPosition); // Remove the Sankara Stone from the room
+            }
+            // Additional item types can be handled here similarly
+        }
+        // After picking up an item, check if the player has won
+        CheckWinCondition(); // Check win condition after picking up an item
+    }
+
+    public int GetItemCount()
+    {
+        return Inventory.GetItemCount("Sankara Stone");
+    }
+
+
+    //Check if the player has collected all required Sankara Stones
+    public bool CheckWinCondition(int requiredStones = 5)
+    {
+        int collectedStones = Inventory.GetItemCount("Sankara Stone");
+
+        if (collectedStones >= requiredStones)
+        {
+            HasWon = true;
+            Console.WriteLine("");
+            Console.WriteLine($"You have collected all {requiredStones} Sankara Stones! You win!");
+            return true;
+        }
+        return false;
+    }
 }

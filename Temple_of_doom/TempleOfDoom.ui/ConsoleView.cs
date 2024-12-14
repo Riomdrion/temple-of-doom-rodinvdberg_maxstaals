@@ -10,7 +10,7 @@ public class ConsoleView
         Console.ForegroundColor = ConsoleColor.White;  // Set to white
         Console.WriteLine($"Debug: Player Position -> X: {player.Position.X}, Y: {player.Position.Y}");
         Console.WriteLine($"Room: Width = {room.Width}, Height = {room.Height}");
-      
+
         // Bereken consolebreedte/-hoogte en startpositie voor centreren
         int consoleWidth = Console.WindowWidth;
         int consoleHeight = Console.WindowHeight;
@@ -38,6 +38,17 @@ public class ConsoleView
                 else if (x == player.Position.X && y == player.Position.Y)
                 {
                     Console.Write("x");
+
+                    // Handle item pickup (e.g., Sankara Stone)
+                    player.PickUpItem(room);
+
+                    // Check if player steps on a disappearing boobytrap
+                    var itemAtPosition = room.Items.FirstOrDefault(i => i.X == x && i.Y == y);
+                    if (itemAtPosition != null && itemAtPosition.Type == "disappearing boobytrap")
+                    {
+                        // Remove the disappearing boobytrap from the room
+                        room.Items.Remove(itemAtPosition);
+                    }
                 }
                 // Teken de items op hun positie in de kamer
                 else
@@ -64,6 +75,7 @@ public class ConsoleView
         // Plaats de cursor naar een veilige plek onderaan
         Console.SetCursorPosition(0, consoleHeight - 1);
         Console.WriteLine($"Player: Lives = {player.Lives}, HasWon = {player.HasWon}");
+        Console.WriteLine($"Sankara Stones: {player.GetItemCount()}");  // Show the count of Sankara Stones
     }
 
 
