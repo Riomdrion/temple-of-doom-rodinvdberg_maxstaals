@@ -44,6 +44,14 @@ public class Room
                 }
             }
         }
+
+        // Zorg ervoor dat het midden altijd loopbaar is voor kamers met minimale grootte
+        if (Width >= 3 && Height >= 3)
+        {
+            int centerX = Width / 2;
+            int centerY = Height / 2;
+            Layout[centerY, centerX] = '.'; // Midden loopbaar maken
+        }
     }
 
     public bool IsPositionWalkable(Position position)

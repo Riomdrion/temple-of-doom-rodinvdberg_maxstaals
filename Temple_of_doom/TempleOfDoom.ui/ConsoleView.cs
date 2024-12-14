@@ -13,8 +13,8 @@ public class ConsoleView
         // Bereken consolebreedte/-hoogte en startpositie voor centreren
         int consoleWidth = Console.WindowWidth;
         int consoleHeight = Console.WindowHeight;
-        int startX = (consoleWidth / 2) - (room.Width * 2 / 2);  // Verhoog de ruimte door de breedte met een factor van 2 te vermenigvuldigen
-        int startY = (consoleHeight / 2) - (room.Height * 2 / 2); // Verhoog de ruimte door de hoogte met een factor van 2 te vermenigvuldigen
+        int startX = Math.Max((consoleWidth - room.Width * 2) / 2, 0);
+        int startY = Math.Max((consoleHeight - room.Height) / 2, 0);
 
         // Itereer door de kamerhoogte en -breedte
         for (var y = 0; y < room.Height; y++)
@@ -23,7 +23,7 @@ public class ConsoleView
             {
                 // Bereken de positie in de console
                 int cursorX = startX + (x * 2);  // Dit creëert extra ruimte door de x-coördinaat te vermenigvuldigen
-                int cursorY = startY + (y);  // Dit creëert extra ruimte door de y-coördinaat te vermenigvuldigen
+                int cursorY = startY + y;  // Dit creëert extra ruimte door de y-coördinaat te vermenigvuldigen
 
                 Console.SetCursorPosition(cursorX, cursorY);
 
