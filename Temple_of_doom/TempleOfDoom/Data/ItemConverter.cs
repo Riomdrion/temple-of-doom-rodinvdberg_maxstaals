@@ -46,9 +46,9 @@ public class ItemConverter : JsonConverter
             // Serialize the Item back into JSON
             var jObject = new JObject
             {
-                ["Type"] = item.Type,
-                ["X"] = item.X,
-                ["Y"] = item.Y
+                ["type"] = item.Type,
+                ["x"] = item.X,
+                ["y"] = item.Y
             };
             jObject.WriteTo(writer);
         }

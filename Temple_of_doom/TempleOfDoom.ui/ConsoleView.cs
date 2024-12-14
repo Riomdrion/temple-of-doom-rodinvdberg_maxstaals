@@ -11,13 +11,6 @@ public class ConsoleView
         Console.WriteLine($"Debug: Player Position -> X: {player.Position.X}, Y: {player.Position.Y}");
         Console.WriteLine($"Room: Width = {room.Width}, Height = {room.Height}");
 
-        // Print out all items in the room for debugging
-        Console.WriteLine("Debug: Items in room:");
-        foreach (var item in room.Items)
-        {
-            Console.WriteLine($"Item: {item.Type} at ({item.X}, {item.Y})");
-        }
-
         // Bereken consolebreedte/-hoogte en startpositie voor centreren
         int consoleWidth = Console.WindowWidth;
         int consoleHeight = Console.WindowHeight;
