@@ -31,9 +31,11 @@ namespace TempleOfDoom.Controllers
                 // Start the game loop
                 while (!_gameWorld.IsGameOver)
                 {
-                    _view.DisplayRoom(_gameWorld.CurrentRoom, _gameWorld.Player);
+                    _view.DisplayRoom(_gameWorld.Player.CurrentRoom, _gameWorld.Player);
                     var command = _view.GetPlayerArrowInput();
                     ProcessCommand(command);
+                    Console.WriteLine($"Player position: {_gameWorld.Player.CurrentRoom.Id}");
+                    _view.DisplayRoom(_gameWorld.Player.CurrentRoom, _gameWorld.Player);
                 }
 
                 _view.DisplayGameOver(_gameWorld.Player.HasWon);
