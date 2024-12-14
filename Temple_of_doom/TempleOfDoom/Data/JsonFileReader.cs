@@ -17,9 +17,8 @@ public static class JsonFileReader
 
         try
         {
+            // Read JSON file
             var json = File.ReadAllText(filePath);
-
-            // Custom JsonSerializerSettings
             var settings = new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.None,
@@ -31,32 +30,34 @@ public static class JsonFileReader
                     NamingStrategy = new CamelCaseNamingStrategy()
                 }
             };
-
-            // Parse JSON into DTOs
+            
+            // Deserialize JSON
             var parsedJson = JsonConvert.DeserializeObject<dynamic>(json, settings);
             var roomsData = JsonConvert.DeserializeObject<List<RoomDto>>(parsedJson["rooms"].ToString(), settings);
-            var connectionsData = JsonConvert.DeserializeObject<List<RoomDto>>(parsedJson["connections"].ToString(), settings);
-            
+            var connectionsData = JsonConvert.DeserializeObject<List<ConnectionDto>>(parsedJson["connections"].ToString(), settings);
 
-            // Create Rooms using RoomFactory
+            // Create rooms and connections
             var rooms = RoomFactory.CreateRooms(roomsData);
-
-            // Add connections and doors
             ConnectionFactory.CreateRoomDoors(rooms, connectionsData);
-
-            // Create Player
+            
+            // Create player
             var playerJson = parsedJson["player"];
             var player = new Player(
                 (int)playerJson["lives"],
                 new Position((int)playerJson["startX"], (int)playerJson["startY"])
             );
-
-            // Set starting room for Player
+            
+            // Set start room
             var startRoomId = (int)playerJson["startRoomId"];
-            var startRoom = rooms.FirstOrDefault(new Func<Room, bool>(r => r.Id == startRoomId));
-            if (startRoom == null)
-                throw new Exception($"Start room with ID {startRoomId} not found.");
-
+            Room? startRoom = null;
+            foreach (var room in rooms)
+            {
+                if (room.Id == startRoomId)
+                {
+                    startRoom = room;
+                    break;
+                }
+            }
             player.CurrentRoom = startRoom;
 
             // Create GameWorld

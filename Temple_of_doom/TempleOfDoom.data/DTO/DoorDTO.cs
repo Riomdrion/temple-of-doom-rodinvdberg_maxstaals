@@ -9,5 +9,5 @@ public class DoorDto
     public string Type { get; set; }
     public string KeyColor { get; set; }
     public Direction Direction { get; set; }
-    public int RequiredStones { get; set; } // Voor "Open on Stones"
+    public int RequiredStones { get; set; }
 }
