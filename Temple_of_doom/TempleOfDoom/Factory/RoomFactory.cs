@@ -7,29 +7,34 @@ namespace TempleOfDoom.Factory;
 
 public static class RoomFactory
 {
-    public static List<Room> CreateRooms(List<RoomDto> roomsData)
+    public static List<Room> CreateRooms(List<RoomDto> roomsData, List<ConnectionDto> connectionData)
     {
         var rooms = new List<Room>();
 
+        // Stap 1: Maak alle kamers aan zonder deuren
         foreach (var roomData in roomsData)
         {
-            // var items = ItemFactory.CreateItems(roomData.Items); // Zet ItemDto's om naar Items
-            var doors = new List<Door>(); // Worden later toegevoegd
-
-            Console.WriteLine($"Creating Room: ID={roomData.Id}, Width={roomData.Width}, Height={roomData.Height}");
-
             var room = new Room(
                 id: roomData.Id,
                 width: roomData.Width,
                 height: roomData.Height,
                 items: new List<Item>(),
-                doors: doors
+                doors: new List<Door>()
             );
 
-            room.InitializeRoomLayout();
             rooms.Add(room);
+        }
+
+        // Stap 2: Voeg de deuren toe aan de kamers
+        ConnectionFactory.CreateRoomDoors(rooms, connectionData);
+
+        // Stap 3: Initialiseer de lay-out van elke kamer na het toevoegen van deuren
+        foreach (var room in rooms)
+        {
+            room.InitializeRoomLayout();
         }
 
         return rooms;
     }
+
 }

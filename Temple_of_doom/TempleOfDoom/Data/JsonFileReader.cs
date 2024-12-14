@@ -15,64 +15,54 @@ public static class JsonFileReader
             throw new FileNotFoundException($"File not found: {filePath}");
         }
 
-        try
+        // Read JSON file
+        var json = File.ReadAllText(filePath);
+        var settings = new JsonSerializerSettings
         {
-            // Read JSON file
-            var json = File.ReadAllText(filePath);
-            var settings = new JsonSerializerSettings
+            TypeNameHandling = TypeNameHandling.None,
+            NullValueHandling = NullValueHandling.Ignore,
+            MissingMemberHandling = MissingMemberHandling.Ignore,
+            DefaultValueHandling = DefaultValueHandling.Ignore,
+            ContractResolver = new DefaultContractResolver
             {
-                TypeNameHandling = TypeNameHandling.None,
-                NullValueHandling = NullValueHandling.Ignore,
-                MissingMemberHandling = MissingMemberHandling.Ignore,
-                DefaultValueHandling = DefaultValueHandling.Ignore,
-                ContractResolver = new DefaultContractResolver
-                {
-                    NamingStrategy = new CamelCaseNamingStrategy()
-                }
-            };
-            
-            // Deserialize JSON
-            var parsedJson = JsonConvert.DeserializeObject<dynamic>(json, settings);
-            var roomsData = JsonConvert.DeserializeObject<List<RoomDto>>(parsedJson["rooms"].ToString(), settings);
-            var connectionsData = JsonConvert.DeserializeObject<List<ConnectionDto>>(parsedJson["connections"].ToString(), settings);
-
-            // Create rooms and connections
-            var rooms = RoomFactory.CreateRooms(roomsData);
-            ConnectionFactory.CreateRoomDoors(rooms, connectionsData);
-            
-            // Create player
-            var playerJson = parsedJson["player"];
-            var player = new Player(
-                (int)playerJson["lives"],
-                new Position((int)playerJson["startX"], (int)playerJson["startY"])
-            );
-            
-            // Set start room
-            var startRoomId = (int)playerJson["startRoomId"];
-            Room? startRoom = null;
-            foreach (var room in rooms)
-            {
-                if (room.Id == startRoomId)
-                {
-                    startRoom = room;
-                    break;
-                }
+                NamingStrategy = new CamelCaseNamingStrategy()
             }
-            player.CurrentRoom = startRoom;
+        };
 
-            // Create GameWorld
-            var gameWorld = new GameWorld(player, rooms)
-            {
-                CurrentRoom = startRoom
-            };
+        // Deserialize JSON
+        var parsedJson = JsonConvert.DeserializeObject<dynamic>(json, settings);
+        var roomsData = JsonConvert.DeserializeObject<List<RoomDto>>(parsedJson["rooms"].ToString(), settings);
+        var connectionsData =
+            JsonConvert.DeserializeObject<List<ConnectionDto>>(parsedJson["connections"].ToString(), settings);
 
-            Console.WriteLine("GameWorld loaded successfully from JSON.");
-            return gameWorld;
-        }
-        catch (Exception ex)
+        // Create rooms and connections
+        var rooms = RoomFactory.CreateRooms(roomsData, connectionsData);
+
+        // Create player
+        var playerJson = parsedJson["player"];
+        var player = new Player(
+            (int)playerJson["lives"],
+            new Position((int)playerJson["startX"], (int)playerJson["startY"])
+        );
+
+        // Set start room
+        var startRoomId = (int)playerJson["startRoomId"];
+        Room? startRoom = null;
+        foreach (var room in rooms)
         {
-            Console.WriteLine($"Error reading JSON file: {ex.Message}");
-            throw;
+            if (room.Id != startRoomId) continue;
+            startRoom = room;
+            break;
         }
+
+        player.CurrentRoom = startRoom;
+
+        // Create GameWorld
+        var gameWorld = new GameWorld(player, rooms)
+        {
+            CurrentRoom = startRoom
+        };
+
+        return gameWorld;
     }
 }

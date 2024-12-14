@@ -1,5 +1,5 @@
-﻿using System.Linq;
-using TempleOfDoom.data.DTO;
+﻿using TempleOfDoom.data.DTO;
+using TempleOfDoom.data.Models.Door;
 using TempleOfDoom.data.Models.Map;
 
 namespace TempleOfDoom.Factory
@@ -34,12 +34,38 @@ namespace TempleOfDoom.Factory
                 return;
             }
 
-            // Voeg de deur toe aan de huidige kamer
-            foreach (var doorDto in connection.Doors)
+            if (connection.Doors.Count > 0)
             {
-                var door = DoorFactory.CreateDoor(doorDto, currentRoom);
-                currentRoom.Doors.Add(door);
+                foreach (var doorDto in connection.Doors)
+                {
+                    var door = DoorFactory.CreateDoor(doorDto, currentRoom);
+                    currentRoom.Doors.Add(door);
+                    Console.WriteLine($"Added door to Room ID={currentRoom.Id} at Position=({door.Position.X}, {door.Position.Y}), Type={door.GetType().Name}");
+                }
             }
+            else
+            {
+                var defaultPosition = CalculateDoorPosition(currentRoom, direction);
+                var simpleDoor = new SimpleDoor(currentRoom.Id, targetRoomId, direction, defaultPosition);
+                currentRoom.Doors.Add(simpleDoor);
+                Console.WriteLine($"Added default SimpleDoor to Room ID={currentRoom.Id} at Position=({simpleDoor.Position.X}, {simpleDoor.Position.Y}), Type=SimpleDoor");
+            }
+
+            // Log het aantal deuren in de kamer
+            Console.WriteLine($"Room ID={currentRoom.Id} now has {currentRoom.Doors.Count} doors.");
+        }
+
+        
+        private static Position CalculateDoorPosition(Room room, Direction direction)
+        {
+            return direction switch
+            {
+                Direction.NORTH => new Position(room.Width / 2, 0), // Midden van de noordmuur
+                Direction.SOUTH => new Position(room.Width / 2, room.Height - 1), // Midden van de zuidmuur
+                Direction.EAST => new Position(room.Width - 1, room.Height / 2), // Midden van de oostmuur
+                Direction.WEST => new Position(0, room.Height / 2), // Midden van de westmuur
+                _ => throw new ArgumentException("Invalid direction")
+            };
         }
 
 

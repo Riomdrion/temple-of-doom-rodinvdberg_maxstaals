@@ -6,8 +6,6 @@ public class ConsoleView
 {
     public void DisplayRoom(Room room, Player player)
     {
-        Console.Clear();
-
         int consoleWidth = Console.WindowWidth;
         int consoleHeight = Console.WindowHeight;
         int startX = (consoleWidth / 2) - (room.Width / 2);
@@ -24,16 +22,16 @@ public class ConsoleView
 
                 if (player.Position.X == x && player.Position.Y == y)
                 {
-                    Console.Write('@'); // Speler
+                    Console.Write('@');
                 }
                 else
                 {
-                    Console.Write(room.Layout[y, x]); // Kamerelementen (inclusief deuren)
+                    Console.Write(room.Layout[y, x]); 
                 }
             }
         }
 
-        Console.SetCursorPosition(0, consoleHeight - 1); // Cursor naar veilige plek
+        Console.SetCursorPosition(0, consoleHeight - 1); 
     }
 
 
@@ -53,8 +51,8 @@ public class ConsoleView
             ConsoleKey.DownArrow => "down",
             ConsoleKey.LeftArrow => "left",
             ConsoleKey.RightArrow => "right",
-            ConsoleKey.Q => "quit", // Optioneel: sluit het spel
-            _ => string.Empty // Onbekende invoer
+            ConsoleKey.Q => "quit",
+            _ => string.Empty 
         };
     }
 }

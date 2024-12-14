@@ -26,10 +26,10 @@ public static class DoorFactory
     {
         return direction switch
         {
-            Direction.NORTH => new Position(room.Width / 2, 0),
-            Direction.SOUTH => new Position(room.Width / 2, room.Height - 1),
-            Direction.WEST => new Position(0, room.Height / 2),
-            Direction.EAST => new Position(room.Width - 1, room.Height / 2),
+            Direction.NORTH => new Position(room.Width / 2, 0), // Midden van de noordmuur
+            Direction.SOUTH => new Position(room.Width / 2, room.Height - 1), // Midden van de zuidmuur
+            Direction.WEST => new Position(0, room.Height / 2), // Midden van de westmuur
+            Direction.EAST => new Position(room.Width - 1, room.Height / 2), // Midden van de oostmuur
             _ => throw new Exception("Invalid direction")
         };
     }
