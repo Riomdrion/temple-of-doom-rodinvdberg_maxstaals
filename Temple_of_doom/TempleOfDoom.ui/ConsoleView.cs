@@ -31,7 +31,7 @@ public class ConsoleView
             }
         }
 
-        Console.SetCursorPosition(0, consoleHeight - 1); 
+        Console.SetCursorPosition(0, consoleHeight-1); 
     }
 
 

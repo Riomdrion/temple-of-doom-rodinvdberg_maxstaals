@@ -85,15 +85,6 @@ public class Room
                 Layout[item.Y, item.X] = itemSymbol;
             }
         }
-        Console.WriteLine($"Room ID={Id} Layout:");
-        for (var y = 0; y < Height; y++)
-        {
-            for (var x = 0; x < Width; x++)
-            {
-                Console.Write(Layout[y, x]);
-            }
-            Console.WriteLine();
-        }
     }
     
     public void HandlePlayerInteraction(Player player)

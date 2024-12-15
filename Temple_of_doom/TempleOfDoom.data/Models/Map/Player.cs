@@ -63,8 +63,6 @@ public class Player
         {
             if (door.Position.X == Position.X && door.Position.Y == Position.Y)
             {
-                Console.WriteLine($"You used the door to Room ID={door.TargetRoomId.ToString()}");
-
                 // Teleporteer naar de verbonden kamer
                 var targetRoom = rooms.FirstOrDefault(r => r.Id == door.TargetRoomId);
                 if (targetRoom == null)
@@ -73,7 +71,6 @@ public class Player
                     return;
                 }
                 
-                Console.WriteLine($"Player currentRoom: {currentRoom.Id} || doors: {currentRoom.Doors[1].TargetRoomId}");
                 currentRoom = targetRoom;
 
                 // Stel de nieuwe positie in

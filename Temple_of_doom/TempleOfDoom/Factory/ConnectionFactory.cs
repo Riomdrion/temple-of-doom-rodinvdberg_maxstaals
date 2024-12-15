@@ -49,11 +49,6 @@ namespace TempleOfDoom.Factory
                     var door = new SimpleDoor(currentRoom.Id, targetRoom.Id,direction, doorPosition);
 
                     currentRoom.Doors.Add(door);
-                    Console.WriteLine($"Added door between Room ID={currentRoom.Id} and Room ID={targetRoom.Id}");
-                }
-                else
-                {
-                    Console.WriteLine($"Error: Room IDs {currentRoomId} or {targetRoomId} not found!");
                 }
             }
         }
