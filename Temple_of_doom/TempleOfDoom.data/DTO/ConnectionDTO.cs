@@ -2,9 +2,9 @@
 
 public class ConnectionDto
 {
-    public int? NORTH { get; set; }
-    public int? SOUTH { get; set; }
-    public int? EAST { get; set; }
-    public int? WEST { get; set; }
+    public int? north { get; set; }
+    public int? south { get; set; }
+    public int? east { get; set; }
+    public int? west { get; set; }
     public List<DoorDto> Doors { get; set; }
 }

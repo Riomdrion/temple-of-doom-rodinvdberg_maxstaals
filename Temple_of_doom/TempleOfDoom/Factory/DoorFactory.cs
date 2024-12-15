@@ -11,6 +11,8 @@ public static class DoorFactory
         var position = CalculateDoorPosition(room, dto.Direction);
         Door baseDoor = new SimpleDoor(dto.Id, dto.TargetRoomId, dto.Direction, position);
 
+        Console.WriteLine($"Creating door with ID={dto.Id}, TargetRoomId={dto.TargetRoomId}, Direction={dto.Direction}");
+
         return dto.Type switch
         {
             "colored" => new ColoredDoor(baseDoor, dto.KeyColor),
@@ -20,16 +22,17 @@ public static class DoorFactory
             "open on stones in room" => new OpenOnStonesDoor(baseDoor, dto.RequiredStones),
             _ => baseDoor
         };
+        
     }
 
-    private static Position CalculateDoorPosition(Room room, Direction direction)
+    public static Position CalculateDoorPosition(Room room, Direction direction)
     {
         return direction switch
         {
-            Direction.NORTH => new Position(room.Width / 2, 0), // Midden van de noordmuur
-            Direction.SOUTH => new Position(room.Width / 2, room.Height - 1), // Midden van de zuidmuur
-            Direction.WEST => new Position(0, room.Height / 2), // Midden van de westmuur
-            Direction.EAST => new Position(room.Width - 1, room.Height / 2), // Midden van de oostmuur
+            Direction.NORTH => new Position(room.Width / 2, 0),
+            Direction.SOUTH => new Position(room.Width / 2, room.Height - 1),
+            Direction.WEST => new Position(0, room.Height / 2),
+            Direction.EAST => new Position(room.Width - 1, room.Height / 2),
             _ => throw new Exception("Invalid direction")
         };
     }

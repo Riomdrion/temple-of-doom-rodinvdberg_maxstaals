@@ -6,46 +6,29 @@ namespace TempleOfDoom.Controllers
 {
     public class GameController
     {
-        private GameWorld _gameWorld;
-        private ConsoleView _view;
-
-        public GameController()
-        {
-            _view = new ConsoleView();
-        }
+        private GameWorld? _gameWorld;
+        private ConsoleView _view = new();
 
         public void StartGame()
         {
             // Initialize components
             _view = new ConsoleView();
-            try
+            _gameWorld = JsonFileReader.LoadGameWorld("../../../../TempleOfDoom.data/Levels/TempleOfDoom.json");
+            _gameWorld.Player.Position = _gameWorld.Player.GetPlayerStartPosition();
+
+            ValidateFactories(); // Validate door and connection logic
+
+            // Start the game loop
+            while (!_gameWorld.IsGameOver)
             {
-                _gameWorld = JsonFileReader.LoadGameWorld("../../../../TempleOfDoom.data/Levels/TempleOfDoom.json");
-
-                if (_gameWorld?.Player == null)
-                {
-                    throw new Exception("Player object is not initialized in the game world.");
-                }
-                _gameWorld.Player.Position = _gameWorld.Player.GetPlayerStartPosition(_gameWorld.CurrentRoom);
-
-                // Start the game loop
-                while (!_gameWorld.IsGameOver)
-                {
-                    
-                    _view.DisplayRoom(_gameWorld.Player.CurrentRoom, _gameWorld.Player);
-                    var command = _view.GetPlayerArrowInput();
-                    ProcessCommand(command);
-                    Console.WriteLine($"Player position: {_gameWorld.Player.CurrentRoom.Id}");
-                    _view.DisplayRoom(_gameWorld.Player.CurrentRoom, _gameWorld.Player);
-                }
-
-                _view.DisplayGameOver(_gameWorld.Player.HasWon);
+                _view.DisplayRoom(_gameWorld.Player.CurrentRoom, _gameWorld.Player);
+                var command = _view.GetPlayerArrowInput();
+                ProcessCommand(command);
+                Console.WriteLine($"Player currentroom: {_gameWorld.Player.CurrentRoom.Id}");
+                _view.DisplayRoom(_gameWorld.Player.CurrentRoom, _gameWorld.Player);
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error: {ex.Message}");
-                Console.WriteLine("Exiting game.");
-            }
+
+            _view.DisplayGameOver(_gameWorld.Player.HasWon);
         }
 
         private void ProcessCommand(string command)
@@ -59,7 +42,32 @@ namespace TempleOfDoom.Controllers
             }
             else
             {
+                Console.WriteLine($"Processing command: {command}");
+                var previousRoom = _gameWorld.Player.CurrentRoom;
                 _gameWorld.Player.Move(command, _gameWorld.Player.CurrentRoom, _gameWorld.Rooms);
+                if (previousRoom != _gameWorld.Player.CurrentRoom)
+                {
+                    Console.WriteLine($"Player moved to Room ID: {_gameWorld.Player.CurrentRoom.Id}");
+                }
+            }
+        }
+
+        private void ValidateFactories()
+        {
+            foreach (var room in _gameWorld.Rooms)
+            {
+                if (room.Doors.Count == 0)
+                {
+                    Console.WriteLine($"Warning: Room ID={room.Id} has no doors.");
+                }
+
+                foreach (var door in room.Doors)
+                {
+                    if (door.TargetRoomId <= 0)
+                    {
+                        Console.WriteLine($"Warning: Invalid TargetRoomId for Door ID={door.Id} in Room ID={room.Id}.");
+                    }
+                }
             }
         }
     }

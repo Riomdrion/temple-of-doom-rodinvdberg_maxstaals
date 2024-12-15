@@ -23,9 +23,9 @@ public static class RoomFactory
 
             rooms.Add(room);
         }
-        
+
         ConnectionFactory.CreateRoomDoors(rooms, connectionData);
-        
+
         foreach (var room in rooms)
         {
             room.InitializeRoomLayout();
@@ -33,5 +33,4 @@ public static class RoomFactory
 
         return rooms;
     }
-
 }

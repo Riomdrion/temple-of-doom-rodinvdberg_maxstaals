@@ -14,10 +14,10 @@ namespace TempleOfDoom.Factory
                 {
                     var targetRoomId = direction switch
                     {
-                        Direction.NORTH => connection.NORTH,
-                        Direction.SOUTH => connection.SOUTH,
-                        Direction.EAST => connection.EAST,
-                        Direction.WEST => connection.WEST,
+                        Direction.NORTH => connection.south,
+                        Direction.SOUTH => connection.north,
+                        Direction.WEST => connection.east,
+                        Direction.EAST => connection.west,
                         _ => null
                     };
 
@@ -27,8 +27,7 @@ namespace TempleOfDoom.Factory
             }
         }
 
-        private static void AddConnection(List<Room> rooms, int targetRoomId, ConnectionDto connection,
-            Direction direction)
+        private static void AddConnection(List<Room> rooms, int targetRoomId, ConnectionDto connection, Direction direction)
         {
             var currentRoom = rooms.FirstOrDefault(r => r.Id == targetRoomId);
             if (currentRoom == null)
@@ -37,13 +36,12 @@ namespace TempleOfDoom.Factory
                 return;
             }
 
-            // Bepaal het verbonden kamer ID op basis van de richting
             int? connectedRoomId = direction switch
             {
-                Direction.NORTH => connection.SOUTH, // Verbinding naar het zuiden in de verbonden kamer
-                Direction.SOUTH => connection.NORTH, // Verbinding naar het noorden in de verbonden kamer
-                Direction.WEST => connection.EAST, // Verbinding naar het oosten in de verbonden kamer
-                Direction.EAST => connection.WEST, // Verbinding naar het westen in de verbonden kamer
+                Direction.NORTH => connection.south,
+                Direction.SOUTH => connection.north,
+                Direction.WEST => connection.east,
+                Direction.EAST => connection.west,
                 _ => null
             };
 
@@ -53,35 +51,23 @@ namespace TempleOfDoom.Factory
                 return;
             }
 
-            // Voeg een SimpleDoor toe als er geen deuren zijn
             if (connection.Doors.Count == 0)
             {
-                var defaultPosition = CalculateDoorPosition(currentRoom, direction);
+                var defaultPosition = DoorFactory.CalculateDoorPosition(currentRoom, direction);
                 var simpleDoor = new SimpleDoor(currentRoom.Id, connectedRoomId.Value, direction, defaultPosition);
-                Console.WriteLine($"Added SimpleDoor to Room ID={currentRoom.Id} at {defaultPosition}");
                 currentRoom.Doors.Add(simpleDoor);
                 return;
             }
 
-            // Verwerk expliciete deuren
             foreach (var doorDto in connection.Doors)
             {
+                Console.WriteLine($"DoorDto: ID={doorDto.Id}, TargetRoomId={doorDto.TargetRoomId}, Type={doorDto.Type}, Direction={doorDto.Direction}");
                 var door = DoorFactory.CreateDoor(doorDto, currentRoom);
                 door.TargetRoomId = connectedRoomId.Value;
                 currentRoom.Doors.Add(door);
-            }
-        }
+                Console.WriteLine($"DoorDto: ID={doorDto.Id}, TargetRoomId={doorDto.TargetRoomId}, Type={doorDto.Type}, Direction={doorDto.Direction}");
 
-        private static Position CalculateDoorPosition(Room room, Direction direction)
-        {
-            return direction switch
-            {
-                Direction.NORTH => new Position(room.Width / 2, 0), // Midden van de noordmuur
-                Direction.SOUTH => new Position(room.Width / 2, room.Height - 1), // Midden van de zuidmuur
-                Direction.EAST => new Position(room.Width - 1, room.Height / 2), // Midden van de oostmuur
-                Direction.WEST => new Position(0, room.Height / 2), // Midden van de westmuur
-                _ => throw new ArgumentException("Invalid direction")
-            };
+            }
         }
     }
 }

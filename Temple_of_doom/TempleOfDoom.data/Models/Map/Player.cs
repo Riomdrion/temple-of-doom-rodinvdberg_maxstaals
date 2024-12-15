@@ -29,19 +29,6 @@ public class Player
 
     public void Move(string command, Room currentRoom, List<Room> rooms)
     {
-        if (currentRoom == null || rooms == null)
-        {
-            Console.WriteLine("Error: Room or room list is not initialized.");
-            return;
-        }
-
-        // Controleer op geldige input
-        if (command != "up" && command != "down" && command != "left" && command != "right")
-        {
-            Console.WriteLine("Invalid command! Use 'up', 'down', 'left', or 'right'.");
-            return;
-        }
-
         // Bereken de nieuwe positie
         var newPosition = new Position
         (
@@ -83,7 +70,8 @@ public class Player
                     Console.WriteLine($"Error: TargetRoomId={door.TargetRoomId} not found!");
                     return;
                 }
-
+                
+                Console.WriteLine($"Player currentroom: {currentRoom.Id} || targetRoom: {targetRoom.Id}");
                 CurrentRoom = targetRoom;
 
                 // Stel de nieuwe positie in
