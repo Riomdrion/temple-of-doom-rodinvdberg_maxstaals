@@ -10,9 +10,7 @@ public static class DoorFactory
     {
         var position = CalculateDoorPosition(room, dto.Direction);
         Door baseDoor = new SimpleDoor(dto.Id, dto.TargetRoomId, dto.Direction, position);
-
-        Console.WriteLine($"Creating door with ID={dto.Id}, TargetRoomId={dto.TargetRoomId}, Direction={dto.Direction}");
-
+        
         return dto.Type switch
         {
             "colored" => new ColoredDoor(baseDoor, dto.KeyColor),
@@ -22,7 +20,6 @@ public static class DoorFactory
             "open on stones in room" => new OpenOnStonesDoor(baseDoor, dto.RequiredStones),
             _ => baseDoor
         };
-        
     }
 
     public static Position CalculateDoorPosition(Room room, Direction direction)
@@ -37,4 +34,3 @@ public static class DoorFactory
         };
     }
 }
-
