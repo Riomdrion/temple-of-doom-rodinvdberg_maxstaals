@@ -1,6 +1,6 @@
 ﻿namespace TempleOfDoom.data.Enums;
 
-public enum Color
+public enum ColorEnum
 {
     Red,
     Green,

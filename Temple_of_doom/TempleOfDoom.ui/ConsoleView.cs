@@ -61,7 +61,7 @@ public class ConsoleView
 
 
 
-    public void DisplayGameOver(bool hasWon)
+    public static void DisplayGameOver(bool hasWon)
     {
         Console.WriteLine();
         Console.WriteLine(hasWon ? "You have won! " : "Game over! ");

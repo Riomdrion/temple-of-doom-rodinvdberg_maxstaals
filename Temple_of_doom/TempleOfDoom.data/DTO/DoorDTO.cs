@@ -4,10 +4,10 @@ namespace TempleOfDoom.data.DTO;
 
 public class DoorDto
 {
-    public int Id { get; set; }
-    public int TargetRoomId { get; set; }
-    public string Type { get; set; }
-    public string? KeyColor { get; set; }
-    public Direction Direction { get; set; }
-    public int RequiredStones { get; set; }
+    public int Id { get; }
+    public int TargetRoomId { get; }
+    public string Type { get; }
+    public string? KeyColor { get; }
+    public Direction Direction { get; }
+    public int RequiredStones { get; }
 }

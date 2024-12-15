@@ -10,7 +10,7 @@ public static class DoorFactory
     {
         var position = CalculateDoorPosition(room, dto.Direction);
         Door baseDoor = new SimpleDoor(dto.Id, dto.TargetRoomId, dto.Direction, position);
-        
+
         return dto.Type switch
         {
             "colored" => new ColoredDoor(baseDoor, dto.KeyColor),

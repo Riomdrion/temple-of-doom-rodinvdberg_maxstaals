@@ -27,7 +27,7 @@ namespace TempleOfDoom.Factory
             }
         }
 
-        public static void AddConnection(List<Room> rooms, ConnectionDto connection, Direction direction)
+        private static void AddConnection(List<Room> rooms, ConnectionDto connection, Direction direction)
         {
             var (currentRoomId, targetRoomId) = direction switch
             {
