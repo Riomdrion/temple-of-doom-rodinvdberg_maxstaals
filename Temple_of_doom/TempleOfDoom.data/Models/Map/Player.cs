@@ -93,48 +93,6 @@ public class Player
             }
         }
     }
-
-
-    public void PickUpItem(Room room)
-    {
-        var itemAtPosition = room.Items.FirstOrDefault(i => i.X == Position.X && i.Y == Position.Y);
-        if (itemAtPosition != null)
-        {
-            // Check if it's a Sankara Stone and add it to the inventory
-            if (itemAtPosition.Type == "sankara stone")
-            {
-                Inventory.AddItem("Sankara Stone");
-                room.Items.Remove(itemAtPosition); // Remove the Sankara Stone from the room
-            }
-            // Handle boobytrap activation
-            else if (itemAtPosition.Type == "boobytrap")
-            {
-                if (itemAtPosition is Boobytrap boobytrap)
-                {
-                    boobytrap.Trigger(this); // Apply damage
-                    //Console.WriteLine($"Boobytrap triggered! Player loses 1 life. Remaining lives: {Lives}");
-                }
-            }
-
-            // Handle disappearing boobytrap activation
-            else if (itemAtPosition.Type == "disappearing boobytrap")
-            {
-                if (itemAtPosition is DisappearingBoobytrap disappearingBoobytrap)
-                {
-                    disappearingBoobytrap.Activate(this); // Apply damage
-                    Console.WriteLine(
-                        $"Disappearing boobytrap triggered! Player loses 1 life. Remaining lives: {Lives}");
-                    room.Items.Remove(itemAtPosition); // Remove the disappearing boobytrap
-                }
-            }
-            // Additional item types can be handled here similarly
-        }
-        // After picking up an item, check if the player has won
-
-        CheckWinCondition(); // Check win condition after picking up an item
-    }
-
-
     public int GetItemCount()
     {
         return Inventory.GetItemCount("sankara stone");
