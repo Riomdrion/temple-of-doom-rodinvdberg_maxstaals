@@ -31,6 +31,7 @@ namespace TempleOfDoom.Controllers
                 // Start the game loop
                 while (!_gameWorld.IsGameOver)
                 {
+                    
                     _view.DisplayRoom(_gameWorld.Player.CurrentRoom, _gameWorld.Player);
                     var command = _view.GetPlayerArrowInput();
                     ProcessCommand(command);
@@ -58,7 +59,7 @@ namespace TempleOfDoom.Controllers
             }
             else
             {
-                _gameWorld.Player.Move(command, _gameWorld.CurrentRoom, _gameWorld.Rooms);
+                _gameWorld.Player.Move(command, _gameWorld.Player.CurrentRoom, _gameWorld.Rooms);
             }
         }
     }

@@ -15,6 +15,6 @@ public class OpenOnStonesDoor : Door
     {
         // var stonesInRoom = player.CurrentRoom.Items.Count(item => item.Type == "sankara stone");
         // return stonesInRoom == _requiredStones && base.CanOpen(player);
-        return false;
+        return true;
     }
 }

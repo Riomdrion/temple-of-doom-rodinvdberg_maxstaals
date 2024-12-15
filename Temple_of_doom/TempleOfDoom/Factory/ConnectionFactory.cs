@@ -1,6 +1,7 @@
 ﻿using TempleOfDoom.data.DTO;
 using TempleOfDoom.data.Models.Door;
 using TempleOfDoom.data.Models.Map;
+using TempleOfDoom.ui;
 
 namespace TempleOfDoom.Factory
 {
@@ -25,7 +26,8 @@ namespace TempleOfDoom.Factory
             }
         }
 
-        private static void AddConnection(List<Room> rooms, int targetRoomId, ConnectionDto connection, Direction direction)
+        private static void AddConnection(List<Room> rooms, int targetRoomId, ConnectionDto connection,
+            Direction direction)
         {
             var currentRoom = rooms.FirstOrDefault(r => r.Id == targetRoomId);
             if (currentRoom == null)
@@ -39,8 +41,8 @@ namespace TempleOfDoom.Factory
             {
                 Direction.NORTH => connection.SOUTH, // Verbinding naar het zuiden in de verbonden kamer
                 Direction.SOUTH => connection.NORTH, // Verbinding naar het noorden in de verbonden kamer
-                Direction.WEST => connection.EAST,   // Verbinding naar het oosten in de verbonden kamer
-                Direction.EAST => connection.WEST,   // Verbinding naar het westen in de verbonden kamer
+                Direction.WEST => connection.EAST, // Verbinding naar het oosten in de verbonden kamer
+                Direction.EAST => connection.WEST, // Verbinding naar het westen in de verbonden kamer
                 _ => null
             };
 
@@ -51,12 +53,11 @@ namespace TempleOfDoom.Factory
             }
 
             // Voeg een SimpleDoor toe als er geen deuren zijn
-            if (connection.Doors == null || connection.Doors.Count == 0)
+            if (connection.Doors.Count == 0)
             {
                 var defaultPosition = CalculateDoorPosition(currentRoom, direction);
                 var simpleDoor = new SimpleDoor(currentRoom.Id, connectedRoomId.Value, direction, defaultPosition);
                 currentRoom.Doors.Add(simpleDoor);
-                Console.WriteLine($"Added SimpleDoor to Room ID={currentRoom.Id}, TargetRoomId={simpleDoor.TargetRoomId}, Direction={direction}");
                 return;
             }
 
@@ -64,12 +65,11 @@ namespace TempleOfDoom.Factory
             foreach (var doorDto in connection.Doors)
             {
                 var door = DoorFactory.CreateDoor(doorDto, currentRoom);
-                door.TargetRoomId = connectedRoomId.Value; // Stel het correcte TargetRoomId in
-                Console.WriteLine($"Adding door to Room ID={currentRoom.Id}, TargetRoomId={door.TargetRoomId}, Direction={direction}");
+                door.TargetRoomId = connectedRoomId.Value;
                 currentRoom.Doors.Add(door);
             }
         }
-        
+
         private static Position CalculateDoorPosition(Room room, Direction direction)
         {
             return direction switch
@@ -81,7 +81,5 @@ namespace TempleOfDoom.Factory
                 _ => throw new ArgumentException("Invalid direction")
             };
         }
-
-
     }
 }

@@ -8,9 +8,9 @@ public class OpenOnOddDoor : Door
 
     public override bool CanOpen(Player player)
     {
-        if (player.Lives % 2 == 0) return false;
-
-        Open();
+        // if (player.Lives % 2 == 0) return false;
+        //
+        // Open();
         return true;
     }
 }

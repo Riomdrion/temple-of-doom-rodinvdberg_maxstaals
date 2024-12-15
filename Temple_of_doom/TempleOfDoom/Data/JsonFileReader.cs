@@ -58,10 +58,7 @@ public static class JsonFileReader
         player.CurrentRoom = startRoom;
 
         // Create GameWorld
-        var gameWorld = new GameWorld(player, rooms)
-        {
-            CurrentRoom = startRoom
-        };
+        var gameWorld = new GameWorld(player, rooms);
 
         return gameWorld;
     }

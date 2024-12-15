@@ -8,9 +8,10 @@ public class ClosingGate : Door
 
     public override bool CanOpen(Player player)
     {
-        if (!IsOpen) return false;
 
-        Close();
+        // if (!IsOpen) return false;
+        //
+        // Close();
         return true;
     }
 }
