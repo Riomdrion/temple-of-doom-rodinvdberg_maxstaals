@@ -9,6 +9,6 @@ public class SimpleDoor : Door
 
     public override bool CanOpen(Player player)
     {
-        throw new NotImplementedException("simple door can always be opened");
+        return true; 
     }
 }

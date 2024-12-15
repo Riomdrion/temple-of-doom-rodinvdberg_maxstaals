@@ -3,14 +3,17 @@ using TempleOfDoom.data.Models.Map;
 
 namespace TempleOfDoom.data.Models.Door;
 
-public class ColoredDoor : Door
+public class ColoredDoor : DoorDecorator
 {
-    public string KeyColor { get; private set; }
+    private readonly string KeyColor;
 
-    public ColoredDoor(Door baseDoor, string keyColor) : base(baseDoor.Id, baseDoor.TargetRoomId, baseDoor.Direction, baseDoor.Position)
+    public ColoredDoor(Door door, string keyColor) : base(door)
     {
         KeyColor = keyColor;
     }
 
-    public override bool CanOpen(Player player) => player.HasKey(KeyColor);
+    public override bool CanOpen(Player player)
+    {
+        return player.HasKey(KeyColor) && base.CanOpen(player);
+    }
 }

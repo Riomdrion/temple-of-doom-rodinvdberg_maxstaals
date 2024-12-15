@@ -2,15 +2,14 @@
 
 namespace TempleOfDoom.data.Models.Door;
 
-public class OpenOnOddDoor : Door
+public class OpenOnOddDoor : DoorDecorator
 {
-    public OpenOnOddDoor(Door baseDoor) : base(baseDoor.Id, baseDoor.TargetRoomId, baseDoor.Direction, baseDoor.Position) { }
+    public OpenOnOddDoor(Door door) : base(door)
+    {
+    }
 
     public override bool CanOpen(Player player)
     {
-        // if (player.Lives % 2 == 0) return false;
-        //
-        // Open();
-        return true;
+        return player.Lives % 2 != 0 && base.CanOpen(player);
     }
 }

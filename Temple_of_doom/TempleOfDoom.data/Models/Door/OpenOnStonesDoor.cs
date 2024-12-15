@@ -2,19 +2,18 @@
 
 namespace TempleOfDoom.data.Models.Door;
 
-public class OpenOnStonesDoor : Door
+public class OpenOnStonesDoor : DoorDecorator
 {
-    private readonly int _requiredStones;
+    private readonly int RequiredStones;
 
-    public OpenOnStonesDoor(Door baseDoor, int requiredStones) : base(baseDoor.Id, baseDoor.TargetRoomId, baseDoor.Direction, baseDoor.Position)
+    public OpenOnStonesDoor(Door door, int requiredStones) : base(door)
     {
-        _requiredStones = requiredStones;
+        RequiredStones = requiredStones;
     }
 
     public override bool CanOpen(Player player)
     {
-        // var stonesInRoom = player.CurrentRoom.Items.Count(item => item.Type == "sankara stone");
-        // return stonesInRoom == _requiredStones && base.CanOpen(player);
-        return true;
+        var stonesInRoom = player.currentRoom.Items.Count(item => item.Type == "sankara stone");
+        return stonesInRoom == RequiredStones && base.CanOpen(player);
     }
 }
