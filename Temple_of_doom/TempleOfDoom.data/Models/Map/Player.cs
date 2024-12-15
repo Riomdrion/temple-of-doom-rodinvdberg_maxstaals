@@ -9,35 +9,14 @@ public class Player
     public Position Position { get; set; }
     public Inventory Inventory { get; set; }
     public int StartingRoomId { get; set; }
-    public int StartX { get; set; }
-    public int StartY { get; set; }
+    public Room CurrentRoom { get; set; }
 
-    public List<string> MessageQueue { get; set; }
-
-    public Player(int startX, int startY, int lives)
+    public Player(int lives, Position position)
     {
-        StartX = startX;
-        StartY = startY;
         Lives = lives;
         HasWon = false;
         Inventory = new Inventory();
-        Position = new Position(startX, startY);
-        MessageQueue = new List<string>();
-
-    }
-
-    public void AddMessage(string message)
-    {
-        MessageQueue.Add(message);
-    }
-
-    public void PrintMessages()
-    {
-        foreach (var message in MessageQueue)
-        {
-            Console.WriteLine(message);
-        }
-        MessageQueue.Clear(); // Clear messages after printing
+        Position = position;
     }
 
     public bool HasKey(string keyColor)
@@ -45,70 +24,96 @@ public class Player
         return Inventory.HasItem(keyColor);
     }
 
-    public Position GetPlayerStartPosition(Room room)
+    public Position GetPlayerStartPosition()
     {
-        if (room == null || room.Layout == null)
-        {
-            throw new ArgumentException("Room or room layout is not initialized.");
-        }
-
-        for (var y = 0; y < room.Layout.GetLength(0); y++)
-        {
-            for (var x = 0; x < room.Layout.GetLength(1); x++)
-            {
-                if (room.Layout[y, x] == 'X')
-                {
-                    return new Position(x, y);
-                }
-            }
-        }
-
-        // Default to center for small rooms, ensuring it's walkable
-        int centerX = room.Width / 2;
-        int centerY = room.Height / 2;
-
-        if (room.IsPositionWalkable(new Position(centerX, centerY)))
-        {
-            return new Position(centerX, centerY);
-        }
-
-        throw new Exception("No valid player start position found.");
+        return Position;
     }
 
-    public void Move(string command, Room currentRoom)
+    public void Move(string command, Room currentRoom, List<Room> rooms)
     {
-        if (currentRoom == null)
+        if (currentRoom == null || rooms == null)
         {
-            Console.WriteLine("Error: Current room is null.");
+            Console.WriteLine("Error: Room or room list is not initialized.");
             return;
         }
 
-        var currentPosition = this.Position;
-        var newPosition = command.ToLower() switch
+        // Controleer op geldige input
+        if (command != "up" && command != "down" && command != "left" && command != "right")
         {
-            "up" => new Position(currentPosition.X, currentPosition.Y - 1),
-            "down" => new Position(currentPosition.X, currentPosition.Y + 1),
-            "left" => new Position(currentPosition.X - 1, currentPosition.Y),
-            "right" => new Position(currentPosition.X + 1, currentPosition.Y),
-            _ => currentPosition
-        };
+            Console.WriteLine("Invalid command! Use 'up', 'down', 'left', or 'right'.");
+            return;
+        }
 
-        // Check if the new position is walkable
+        // Bereken de nieuwe positie
+        var newPosition = new Position
+        (
+            command switch
+            {
+                "up" => Position.X,
+                "down" => Position.X,
+                "left" => Position.X - 1,
+                "right" => Position.X + 1,
+                _ => Position.X
+            },
+            command switch
+            {
+                "up" => Position.Y - 1,
+                "down" => Position.Y + 1,
+                "left" => Position.Y,
+                "right" => Position.Y,
+                _ => Position.Y
+            }
+        );
+
+        // Controleer of de nieuwe positie binnen de kamergrenzen ligt
         if (currentRoom.IsPositionWalkable(newPosition))
         {
-            //Console.WriteLine($"Player moved from X:{currentPosition.X}, Y:{currentPosition.Y} to X:{newPosition.X}, Y:{newPosition.Y}.");
-            this.Position = newPosition;
-
-            // Handle interactions with items at the new position
-            currentRoom.HandlePlayerInteraction(this);
+            Position = newPosition;
         }
-        else
+
+
+        foreach (var door in currentRoom.Doors)
         {
-            //Console.WriteLine($"Player cannot move to X:{newPosition.X}, Y:{newPosition.Y} - position is not walkable.");
+            if (door.Position.X == Position.X && door.Position.Y == Position.Y)
+            {
+                Console.WriteLine($"You used the door to Room ID={door.TargetRoomId}");
+
+                // Teleporteer naar de verbonden kamer
+                var targetRoom = rooms.FirstOrDefault(r => r.Id == door.TargetRoomId);
+                if (targetRoom == null)
+                {
+                    Console.WriteLine($"Error: TargetRoomId={door.TargetRoomId} not found!");
+                    return;
+                }
+
+                CurrentRoom = targetRoom;
+
+                // Stel de nieuwe positie in
+                Position = door.Direction switch
+                {
+                    Direction.NORTH => new Position(door.Position.X, CurrentRoom.Height - 1),
+                    Direction.SOUTH => new Position(door.Position.X, 0),
+                    Direction.WEST => new Position(CurrentRoom.Width - 1, door.Position.Y),
+                    Direction.EAST => new Position(0, door.Position.Y),
+                    _ => throw new Exception("Invalid door direction")
+                };
+
+                Console.WriteLine($"Teleported to Room ID={CurrentRoom.Id} at Position=({Position.X}, {Position.Y})");
+
+                // Controleer of de nieuwe positie toegankelijk is
+                if (!CurrentRoom.IsPositionWalkable(Position))
+                {
+                    Console.WriteLine($"current room: {CurrentRoom.Width}, {CurrentRoom.Height}");
+                    Console.WriteLine($"wanted position: {Position.X}, {Position.Y}");
+                    Console.WriteLine("Teleportation position is not walkable, fallback required.");
+                    Position = new Position(CurrentRoom.Width / 2, CurrentRoom.Height / 2);
+                    Console.WriteLine($"Fallback to position: {Position.X}, {Position.Y}");
+                }
+                break;
+            }
         }
-
-
     }
+    
     public void PickUpItem(Room room)
     {
         var itemAtPosition = room.Items.FirstOrDefault(i => i.X == Position.X && i.Y == Position.Y);

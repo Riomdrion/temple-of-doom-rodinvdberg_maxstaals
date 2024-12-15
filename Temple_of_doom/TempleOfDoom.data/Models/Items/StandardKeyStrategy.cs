@@ -13,6 +13,7 @@ public class StandardKeyStrategy : IDoorStrategy
 
     public bool CanOpen(Door.Door door, Player player)
     {
-        return door is LockedDoor lockedDoor && player.HasKey(lockedDoor.RequiredKeyColor);
+        // return door is ColoredDoor coloredDoor && player.HasKey(coloredDoor);
+        return false;
     }
 }

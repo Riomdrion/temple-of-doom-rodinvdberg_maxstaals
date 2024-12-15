@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using TempleOfDoom.data.Models.Map;
+using TempleOfDoom.Factory;
+using TempleOfDoom.data.DTO;
 
 namespace TempleOfDoom.Data;
 
@@ -10,58 +12,62 @@ public static class JsonFileReader
     {
         if (!File.Exists(filePath))
         {
-            Console.WriteLine($"File not found: {filePath}");
-            return null;
+            throw new FileNotFoundException($"File not found: {filePath}");
         }
 
-        try
+        // Read JSON file
+        var json = File.ReadAllText(filePath);
+        var settings = new JsonSerializerSettings
         {
-            var json = File.ReadAllText(filePath);
-
-            // Custom JsonSerializerSettings
-            var settings = new JsonSerializerSettings
+            TypeNameHandling = TypeNameHandling.None,
+            NullValueHandling = NullValueHandling.Ignore,
+            MissingMemberHandling = MissingMemberHandling.Ignore,
+            DefaultValueHandling = DefaultValueHandling.Ignore,
+            ContractResolver = new DefaultContractResolver
             {
-                TypeNameHandling = TypeNameHandling.None,
-                NullValueHandling = NullValueHandling.Ignore,
-                MissingMemberHandling = MissingMemberHandling.Ignore,
-                DefaultValueHandling = DefaultValueHandling.Ignore,
-                ContractResolver = new DefaultContractResolver
-                {
-                    NamingStrategy = new CamelCaseNamingStrategy()
-                    {
-                        ProcessDictionaryKeys = true,
-                        OverrideSpecifiedNames = true
-                    }
-                },
+                NamingStrategy = new CamelCaseNamingStrategy()
+            }
+        };
 
+        // Deserialize JSON
+        var parsedJson = JsonConvert.DeserializeObject<dynamic>(json, settings);
+        var roomsData = JsonConvert.DeserializeObject<List<RoomDto>>(parsedJson["rooms"].ToString(), settings);
+        var connectionsData =
+            JsonConvert.DeserializeObject<List<ConnectionDto>>(parsedJson["connections"].ToString(), settings);
 
-                // Add the ItemConverter to handle item deserialization
-                Converters = new List<JsonConverter>
-                {
-                    new ItemConverter() // Custom converter for deserializing items
-                }
-            };
+        // Create rooms and connections
+        var rooms = RoomFactory.CreateRooms(roomsData, connectionsData);
 
-            var gameWorld = JsonConvert.DeserializeObject<GameWorld>(json, settings);
+        // Create player
+        var playerJson = parsedJson["player"];
+        var player = new Player(
+            (int)playerJson["lives"],
+            new Position((int)playerJson["startX"], (int)playerJson["startY"])
+        );
 
-            // Link player to starting room
-            var startRoomId = 4;
-            gameWorld.CurrentRoom = gameWorld.Rooms.FirstOrDefault(r => r.Id == startRoomId);
-            gameWorld.Player.Position = new Position(gameWorld.Player.StartX, gameWorld.Player.StartY);
-
-
-            Console.WriteLine("Debug: JSON file loaded successfully.");
-            return gameWorld;
-        }
-        catch (NotImplementedException ex)
+        // Set start room
+        var startRoomId = (int)playerJson["startRoomId"];
+        Room? startRoom = null;
+        foreach (var room in rooms)
         {
-            Console.WriteLine($"Error: A method is not implemented - {ex.Message}");
-            throw;
+            if (room.Id != startRoomId) continue;
+            startRoom = room;
+            break;
         }
-        catch (Exception ex)
+
+        // Add the ItemConverter to handle item deserialization
+        var converters = new List<JsonConverter>
         {
-            Console.WriteLine($"Error reading JSON file: {ex.Message}");
-            throw;
-        }
+            new ItemConverter() // Custom converter for deserializing items
+        };
+        settings.Converters = converters;
+
+
+        player.CurrentRoom = startRoom;
+
+        // Create GameWorld
+        var gameWorld = new GameWorld(player, rooms);
+
+        return gameWorld;
     }
 }

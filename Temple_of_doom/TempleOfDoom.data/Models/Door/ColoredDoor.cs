@@ -5,23 +5,12 @@ namespace TempleOfDoom.data.Models.Door;
 
 public class ColoredDoor : Door
 {
-    public string KeyColor { get; set; }
+    public string KeyColor { get; private set; }
 
-    public ColoredDoor(int id, int targetRoomId, string keyColor)
+    public ColoredDoor(Door baseDoor, string keyColor) : base(baseDoor.Id, baseDoor.TargetRoomId, baseDoor.Direction, baseDoor.Position)
     {
-        Id = id;
-        TargetRoomId = targetRoomId;
         KeyColor = keyColor;
-        IsOpen = false;
     }
 
-    public ColoredDoor(int doorDtoId, int doorDtoTargetRoomId)
-    {
-        throw new NotImplementedException();
-    }
-
-    public override bool CanOpen(Player player)
-    {
-        return player.HasKey(KeyColor);
-    }
+    public override bool CanOpen(Player player) => player.HasKey(KeyColor);
 }

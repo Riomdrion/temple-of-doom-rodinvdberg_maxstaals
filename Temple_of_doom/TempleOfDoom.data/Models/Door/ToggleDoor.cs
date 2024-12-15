@@ -4,13 +4,9 @@ namespace TempleOfDoom.data.Models.Door;
 
 public class ToggleDoor : Door
 {
-    public override bool CanOpen(Player player)
+    public ToggleDoor(Door baseDoor) : base(baseDoor.Id, baseDoor.TargetRoomId, baseDoor.Direction, baseDoor.Position)
     {
-        return true;
     }
 
-    public void Open()
-    {
-        throw new NotImplementedException("Open not implemented for ToggleDoor");
-    }
+    public override bool CanOpen(Player player) => IsOpen;
 }

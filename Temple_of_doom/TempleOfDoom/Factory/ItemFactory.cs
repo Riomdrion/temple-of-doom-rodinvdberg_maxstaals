@@ -1,4 +1,4 @@
-﻿using TempleOfDoom.data.DTO;
+using TempleOfDoom.data.DTO;
 using TempleOfDoom.data.Models.Items;
 
 namespace TempleOfDoom.Factory;

@@ -6,82 +6,32 @@ public class ConsoleView
 {
     public void DisplayRoom(Room room, Player player)
     {
-        Console.Clear();
-        Console.ForegroundColor = ConsoleColor.White;  // Set to white
-        Console.WriteLine($"Debug: Player Position -> X: {player.Position.X}, Y: {player.Position.Y}");
-        Console.WriteLine($"Room: Width = {room.Width}, Height = {room.Height}");
-
-        // Bereken consolebreedte/-hoogte en startpositie voor centreren
         int consoleWidth = Console.WindowWidth;
         int consoleHeight = Console.WindowHeight;
-        int startX = Math.Max((consoleWidth - room.Width * 2) / 2, 0);
-        int startY = Math.Max((consoleHeight - room.Height) / 2, 0);
+        int startX = (consoleWidth / 2) - (room.Width / 2);
+        int startY = (consoleHeight / 2) - (room.Height / 2);
 
-        // Itereer door de kamerhoogte en -breedte
         for (var y = 0; y < room.Height; y++)
         {
             for (var x = 0; x < room.Width; x++)
             {
-                // Bereken de positie in de console
-                int cursorX = startX + (x * 2);  // Dit creëert extra ruimte door de x-coördinaat te vermenigvuldigen
-                int cursorY = startY + y;  // Dit creëert extra ruimte door de y-coördinaat te vermenigvuldigen
+                int cursorX = startX + x;
+                int cursorY = startY + y;
 
                 Console.SetCursorPosition(cursorX, cursorY);
 
-                // Teken de randen met `#` (muren)
-                if (y == 0 || y == room.Height - 1 || x == 0 || x == room.Width - 1)
+                if (player.Position.X == x && player.Position.Y == y)
                 {
-                    Console.ForegroundColor = ConsoleColor.Yellow;  // Set to yellow
-                    Console.Write("#");
+                    Console.Write('@');
                 }
-                // Teken de speler als deze op de huidige positie staat
-                else if (x == player.Position.X && y == player.Position.Y)
-                {
-                    Console.Write("x");
-
-                    // Handle item pickup (e.g., Sankara Stone)
-                    player.PickUpItem(room);
-
-                    // Check if player steps on a disappearing boobytrap
-                    var itemAtPosition = room.Items.FirstOrDefault(i => i.X == x && i.Y == y);
-                    if (itemAtPosition != null && itemAtPosition.Type == "disappearing boobytrap")
-                    {
-                        // Remove the disappearing boobytrap from the room
-                        room.Items.Remove(itemAtPosition);
-                    }
-                }
-                // Teken de items op hun positie in de kamer
                 else
                 {
-                    var itemAtPosition = room.Items.FirstOrDefault(i => i.X == x && i.Y == y);
-                    if (itemAtPosition != null)
-                    {
-                        // Map item types to specific symbols
-                        char itemSymbol = itemAtPosition.Type switch
-                        {
-                            "key" => 'K',
-                            "sankara stone" => 'S',
-                            "boobytrap" => 'O',
-                            "disappearing boobytrap" => '@',
-                            "pressure plate" => 'T',
-                            _ => ' '  // Default empty space for unknown items
-                        };
-
-                        Console.Write(itemSymbol);
-                    }
-                    else
-                    {
-                        // Fill remaining space with blank spaces
-                        Console.Write(" ");
-                    }
+                    Console.Write(room.Layout[y, x]); 
                 }
             }
         }
 
-        // Place the cursor in a safe position at the bottom
-        Console.SetCursorPosition(0, consoleHeight - 1);
-        Console.WriteLine($"Player: Lives = {player.Lives}, HasWon = {player.HasWon}");
-        Console.WriteLine($"Sankara Stones: {player.GetItemCount()}");  // Show the count of Sankara Stones
+        Console.SetCursorPosition(0, consoleHeight - 1); 
     }
 
 
@@ -101,8 +51,8 @@ public class ConsoleView
             ConsoleKey.DownArrow => "down",
             ConsoleKey.LeftArrow => "left",
             ConsoleKey.RightArrow => "right",
-            ConsoleKey.Q => "quit", // Optioneel: sluit het spel
-            _ => string.Empty // Onbekende invoer
+            ConsoleKey.Q => "quit",
+            _ => string.Empty 
         };
     }
 }
