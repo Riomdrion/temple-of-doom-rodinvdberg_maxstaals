@@ -79,24 +79,15 @@ public class Player
                 // Stel de nieuwe positie in
                 Position = door.Direction switch
                 {
-                    Direction.NORTH => new Position(door.Position.X, currentRoom.Height - 1),
+                    Direction.NORTH => new Position(door.Position.X, currentRoom.Height/2),
                     Direction.SOUTH => new Position(door.Position.X, 0),
-                    Direction.WEST => new Position(currentRoom.Width - 1, door.Position.Y),
+                    Direction.WEST => new Position(currentRoom.Width - 1, door.Position.Y/2),
                     Direction.EAST => new Position(0, door.Position.Y),
                     _ => throw new Exception("Invalid door direction")
                 };
 
                 Console.WriteLine($"Teleported to Room ID={currentRoom.Id} at Position=({Position.X}, {Position.Y})");
-
-                // Controleer of de nieuwe positie toegankelijk is
-                // if (!currentRoom.IsPositionWalkable(Position))
-                // {
-                //     Console.WriteLine($"current room: {currentRoom.Width}, {currentRoom.Height}");
-                //     Console.WriteLine($"wanted position: {Position.X}, {Position.Y}");
-                //     Console.WriteLine("Teleportation position is not walkable, fallback required.");
-                //     Position = new Position(currentRoom.Width / 2, currentRoom.Height / 2);
-                //     Console.WriteLine($"Fallback to position: {Position.X}, {Position.Y}");
-                // }
+                
                 break;
             }
         }
