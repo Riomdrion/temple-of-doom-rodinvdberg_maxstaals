@@ -68,6 +68,24 @@ public class Room(int id, int width, int height, List<Item> items, List<Door.Doo
                 Layout[door.Position.Y, door.Position.X] = doorSymbol;
             }
         }
+        foreach (var item in Items)
+        {
+            Console.WriteLine($"Item: {item.Type} at ({item.X}, {item.Y})");
+            if (item.X >= 0 && item.X < Width && item.Y >= 0 && item.Y < Height)
+            {
+                var itemSymbol = item switch
+                {
+                    Item keyItem when keyItem.Type == "key" => 'K',
+                    Item sankaraStoneItem when sankaraStoneItem.Type == "sankara stone" => 'S',
+                    Item boobytrapItem when boobytrapItem.Type == "boobytrap" => 'B',
+                    Item disappearingBoobytrapItem when disappearingBoobytrapItem.Type == "disappearing boobytrap" => 'D',
+                    Item pressurePlateItem when pressurePlateItem.Type == "pressure plate" => 'T',
+                    _ => ' '  // Default symbol for unknown item types
+                };
+
+                Layout[item.Y, item.X] = itemSymbol;
+            }
+        }
         Console.WriteLine($"Room ID={Id} Layout:");
         for (var y = 0; y < Height; y++)
         {
