@@ -168,22 +168,41 @@ public class Room(int id, int width, int height, List<Item> items, List<Door.Doo
                 break;
 
             case 'B': // Boobytrap
-                if (currentTile == 'B') // Alleen verwijderen als het een "disappearing" boobytrap is
+                      // Vind het item op de huidige positie van de speler
+                var boobytrapItem = player.CurrentRoom.Items.FirstOrDefault(i => i.X == player.Position.X && i.Y == player.Position.Y);
+
+                if (boobytrapItem != null && boobytrapItem.Type == "boobytrap")
                 {
-                    // Controleer of het een "disappearing" boobytrap is en verwijder het alleen dan
-                    var boobytrapItem = player.CurrentRoom.Items.FirstOrDefault(i => i.X == player.Position.X && i.Y == player.Position.Y);
-                    if (boobytrapItem != null && boobytrapItem is DisappearingBoobytrap)
-                    {
-                        player.Lives--;
-                        player.CurrentRoom.Items.Remove(boobytrapItem); // Verwijder de boobytrap
-                        Console.WriteLine("Disappearing boobytrap triggered! Player loses 1 life.");
-                    }
-                    else if (boobytrapItem != null)
-                    {
-                        // Als het een normale boobytrap is, wordt deze niet verwijderd
-                        player.Lives--;
-                        Console.WriteLine("Boobytrap triggered! Player loses 1 life.");
-                    }
+                    // Debugging: Controleer of het een normale boobytrap is
+                    Console.WriteLine($"Normal boobytrap found at position ({player.Position.X}, {player.Position.Y}).");
+
+                    // Verwerk een normale boobytrap
+                    player.Lives--;
+                    Console.WriteLine("Boobytrap triggered! Player loses 1 life.");
+                }
+                else
+                {
+                    // Debugging: Geen normale boobytrap gevonden
+                    Console.WriteLine("No normal boobytrap found at the player's position.");
+                }
+                break;
+
+            case 'D': // Boobytrap
+                      // Vind het item op de huidige positie van de speler
+                var dboobytrapItem = player.CurrentRoom.Items.FirstOrDefault(i => i.X == player.Position.X && i.Y == player.Position.Y);
+
+                if (dboobytrapItem != null && dboobytrapItem.Type == "disappearing boobytrap")
+                {
+                    // Verwerk een normale boobytrap
+                    player.Lives--;
+                    player.CurrentRoom.Items.Remove(dboobytrapItem);
+
+                    Console.WriteLine("Boobytrap triggered! Player loses 1 life.");
+                }
+                else
+                {
+                    // Debugging: Geen normale boobytrap gevonden
+                    Console.WriteLine("No normal boobytrap found at the player's position.");
                 }
                 break;
 
