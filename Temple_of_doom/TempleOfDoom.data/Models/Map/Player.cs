@@ -86,65 +86,27 @@ public class Player
 
                 CurrentRoom = targetRoom;
 
-                // Log deuren in de nieuwe kamer voor debugging
-                foreach (var targetDoor in CurrentRoom.Doors)
-                {
-                    Console.WriteLine(
-                        $"Door in new Room ID={CurrentRoom.Id}: Position=({targetDoor.Position.X}, {targetDoor.Position.Y})");
-                }
-
-                // Stel de nieuwe positie in op basis van de richting van de deur
-                // Stel de nieuwe positie in op basis van de richting van de deur
+                // Stel de nieuwe positie in
                 Position = door.Direction switch
                 {
-                    Direction.NORTH => new Position(door.Position.X, CurrentRoom.Height - 1), // Onder de deur
-                    Direction.SOUTH => new Position(door.Position.X, 0), // Boven de deur
-                    Direction.WEST => new Position(CurrentRoom.Width - 1, door.Position.Y), // Rechts van de deur
-                    Direction.EAST => new Position(0, door.Position.Y), // Links van de deur
+                    Direction.NORTH => new Position(door.Position.X, CurrentRoom.Height - 1),
+                    Direction.SOUTH => new Position(door.Position.X, 0),
+                    Direction.WEST => new Position(CurrentRoom.Width - 1, door.Position.Y),
+                    Direction.EAST => new Position(0, door.Position.Y),
                     _ => throw new Exception("Invalid door direction")
                 };
 
-// Controleer of de nieuwe positie toegankelijk is
+                Console.WriteLine($"Teleported to Room ID={CurrentRoom.Id} at Position=({Position.X}, {Position.Y})");
+
+                // Controleer of de nieuwe positie toegankelijk is
                 if (!CurrentRoom.IsPositionWalkable(Position))
                 {
-                    Console.WriteLine("Initial teleportation position is not walkable. Searching for alternatives...");
-
-                    // Zoek een alternatieve positie rondom de deur
-                    var alternativePositions = new List<Position>
-                    {
-                        new Position(door.Position.X, door.Position.Y - 1), // Boven de deur
-                        new Position(door.Position.X, door.Position.Y + 1), // Onder de deur
-                        new Position(door.Position.X - 1, door.Position.Y), // Links van de deur
-                        new Position(door.Position.X + 1, door.Position.Y), // Rechts van de deur
-                        new Position(CurrentRoom.Width / 2, CurrentRoom.Height / 2), // Midden van de kamer
-                        new Position(1, 1) // Veilige standaardpositie
-                    };
-
-                    foreach (var altPos in alternativePositions)
-                    {
-                        if (CurrentRoom.IsPositionWalkable(altPos))
-                        {
-                            Position = altPos;
-                            Console.WriteLine(
-                                $"Teleportation fallback succeeded: New position is ({Position.X}, {Position.Y}).");
-                            break;
-                        }
-                    }
-
-                    if (!CurrentRoom.IsPositionWalkable(Position))
-                    {
-                        Console.WriteLine(
-                            "Teleportation failed: No walkable position found. Resetting to default position.");
-                        Position = new Position(1, 1); // Absoluut veilige positie
-                    }
+                    Console.WriteLine($"current room: {CurrentRoom.Width}, {CurrentRoom.Height}");
+                    Console.WriteLine($"wanted position: {Position.X}, {Position.Y}");
+                    Console.WriteLine("Teleportation position is not walkable, fallback required.");
+                    Position = new Position(CurrentRoom.Width / 2, CurrentRoom.Height / 2);
+                    Console.WriteLine($"Fallback to position: {Position.X}, {Position.Y}");
                 }
-                else
-                {
-                    Console.WriteLine(
-                        $"Teleported to Room ID={CurrentRoom.Id} at Position=({Position.X}, {Position.Y})");
-                }
-
-
                 break;
             }
         }

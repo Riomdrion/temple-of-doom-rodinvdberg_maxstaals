@@ -68,5 +68,14 @@ public class Room(int id, int width, int height, List<Item> items, List<Door.Doo
                 Layout[door.Position.Y, door.Position.X] = doorSymbol;
             }
         }
+        Console.WriteLine($"Room ID={Id} Layout:");
+        for (var y = 0; y < Height; y++)
+        {
+            for (var x = 0; x < Width; x++)
+            {
+                Console.Write(Layout[y, x]);
+            }
+            Console.WriteLine();
+        }
     }
 }

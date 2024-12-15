@@ -1,7 +1,6 @@
 ﻿using TempleOfDoom.data.DTO;
 using TempleOfDoom.data.Models.Door;
 using TempleOfDoom.data.Models.Map;
-using TempleOfDoom.ui;
 
 namespace TempleOfDoom.Factory
 {
@@ -11,18 +10,20 @@ namespace TempleOfDoom.Factory
         {
             foreach (var connection in connections)
             {
-                // Controleer elke richting en maak verbindingen
-                if (connection.NORTH.HasValue)
-                    AddConnection(rooms, connection.NORTH.Value, connection, Direction.NORTH);
+                foreach (var direction in new[] { Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST })
+                {
+                    var targetRoomId = direction switch
+                    {
+                        Direction.NORTH => connection.NORTH,
+                        Direction.SOUTH => connection.SOUTH,
+                        Direction.EAST => connection.EAST,
+                        Direction.WEST => connection.WEST,
+                        _ => null
+                    };
 
-                if (connection.SOUTH.HasValue)
-                    AddConnection(rooms, connection.SOUTH.Value, connection, Direction.SOUTH);
-
-                if (connection.EAST.HasValue)
-                    AddConnection(rooms, connection.EAST.Value, connection, Direction.EAST);
-
-                if (connection.WEST.HasValue)
-                    AddConnection(rooms, connection.WEST.Value, connection, Direction.WEST);
+                    if (targetRoomId.HasValue)
+                        AddConnection(rooms, targetRoomId.Value, connection, direction);
+                }
             }
         }
 
@@ -57,6 +58,7 @@ namespace TempleOfDoom.Factory
             {
                 var defaultPosition = CalculateDoorPosition(currentRoom, direction);
                 var simpleDoor = new SimpleDoor(currentRoom.Id, connectedRoomId.Value, direction, defaultPosition);
+                Console.WriteLine($"Added SimpleDoor to Room ID={currentRoom.Id} at {defaultPosition}");
                 currentRoom.Doors.Add(simpleDoor);
                 return;
             }
