@@ -2,7 +2,15 @@
 
 public abstract class Item
 {
-    public int[] Coordinates { get; set; }
+    public int X { get; set; }  // X position
+    public int Y { get; set; }  // Y position
     public string Type { get; set; }
-    public string Name { get; set; }
+
+    // You can keep the constructor for easier initialization
+    public Item(int x, int y, string type)
+    {
+        X = x;
+        Y = y;
+        Type = type;
+    }
 }

@@ -26,7 +26,7 @@ namespace TempleOfDoom.Controllers
                 {
                     throw new Exception("Player object is not initialized in the game world.");
                 }
-                _gameWorld.Player.Position = _gameWorld.Player.GetPlayerStartPosition();
+                _gameWorld.Player.Position = _gameWorld.Player.GetPlayerStartPosition(_gameWorld.CurrentRoom);
 
                 // Start the game loop
                 while (!_gameWorld.IsGameOver)

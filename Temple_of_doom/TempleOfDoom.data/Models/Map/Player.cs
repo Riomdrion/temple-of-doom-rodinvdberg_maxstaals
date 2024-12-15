@@ -110,5 +110,68 @@ public class Player
                 break;
             }
         }
+        else
+        {
+            //Console.WriteLine($"Player cannot move to X:{newPosition.X}, Y:{newPosition.Y} - position is not walkable.");
+        }
+
+
+    }
+    public void PickUpItem(Room room)
+    {
+        var itemAtPosition = room.Items.FirstOrDefault(i => i.X == Position.X && i.Y == Position.Y);
+        if (itemAtPosition != null)
+        {
+            // Check if it's a Sankara Stone and add it to the inventory
+            if (itemAtPosition.Type == "sankara stone")
+            {
+                Inventory.AddItem("Sankara Stone");
+                room.Items.Remove(itemAtPosition); // Remove the Sankara Stone from the room
+            }
+            // Handle boobytrap activation
+            else if (itemAtPosition.Type == "boobytrap")
+            {
+                if (itemAtPosition is Boobytrap boobytrap)
+                {
+                    boobytrap.Trigger(this); // Apply damage
+                    //Console.WriteLine($"Boobytrap triggered! Player loses 1 life. Remaining lives: {Lives}");
+                }
+            }
+
+            // Handle disappearing boobytrap activation
+            else if (itemAtPosition.Type == "disappearing boobytrap")
+            {
+                if (itemAtPosition is DisappearingBoobytrap disappearingBoobytrap)
+                {
+                    disappearingBoobytrap.Activate(this); // Apply damage
+                    Console.WriteLine($"Disappearing boobytrap triggered! Player loses 1 life. Remaining lives: {Lives}");
+                    room.Items.Remove(itemAtPosition); // Remove the disappearing boobytrap
+                }
+            }
+            // Additional item types can be handled here similarly
+        }
+        // After picking up an item, check if the player has won
+        CheckWinCondition(); // Check win condition after picking up an item
+    }
+
+    public int GetItemCount()
+    {
+        return Inventory.GetItemCount("Sankara Stone");
+    }
+
+
+    //Check if the player has collected all required Sankara Stones
+    public bool CheckWinCondition(int requiredStones = 5)
+    {
+        int collectedStones = Inventory.GetItemCount("Sankara Stone");
+
+        if (collectedStones >= requiredStones)
+        {
+            HasWon = true;
+            Console.WriteLine("");
+            Console.WriteLine($"You have collected all {requiredStones} Sankara Stones! You win!");
+            return true;
+        }
+        return false;
     }
 }

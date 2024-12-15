@@ -54,6 +54,12 @@ public static class JsonFileReader
             startRoom = room;
             break;
         }
+                // Add the ItemConverter to handle item deserialization
+                Converters = new List<JsonConverter>
+                {
+                    new ItemConverter() // Custom converter for deserializing items
+                }
+            };
 
         player.CurrentRoom = startRoom;
 

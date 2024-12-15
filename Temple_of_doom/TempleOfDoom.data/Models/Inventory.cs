@@ -13,4 +13,8 @@ public class Inventory
     {
         return _items.Contains(item);
     }
+    public int GetItemCount(string item)
+    {
+        return _items.Count(i => i == item);  // Return the count of specific items (e.g., Sankara Stone)
+    }
 }

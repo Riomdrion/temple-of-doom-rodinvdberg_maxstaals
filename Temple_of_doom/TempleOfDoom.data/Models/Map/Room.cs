@@ -78,4 +78,53 @@ public class Room(int id, int width, int height, List<Item> items, List<Door.Doo
             Console.WriteLine();
         }
     }
+    
+    public void HandlePlayerInteraction(Player player)
+    {
+        if (Layout == null)
+            throw new NullReferenceException("Room layout is not initialized.");
+
+        var currentTile = Layout[player.Position.Y, player.Position.X];
+
+        switch (currentTile)
+        {
+            case 'K': // Key
+                player.Inventory.AddItem("Key");
+                Layout[player.Position.Y, player.Position.X] = '.'; // Remove the key from the room
+                Console.WriteLine("You picked up a Key!");
+                break;
+
+            case 'S': // Sankara Stone
+                player.Inventory.AddItem("Sankara Stone"); // Add to inventory
+                Layout[player.Position.Y, player.Position.X] = '.'; // Remove the stone from the room
+                Console.WriteLine("You picked up a Sankara Stone!");
+
+                // Display the current count of Sankara Stones in inventory
+                int sankaraStoneCount = player.Inventory.GetItemCount("Sankara Stone");
+                Console.WriteLine("You now have " + sankaraStoneCount + " Sankara Stones.");
+
+                // Optional: Check if the player has won (e.g., collected 5 Sankara Stones)
+                if (sankaraStoneCount >= 5)
+                {
+                    player.HasWon = true;
+                    Console.WriteLine("You have collected all 5 Sankara Stones! You win!");
+                }
+                break;
+
+            case 'B': // Boobytrap
+                player.Lives--;
+                Layout[player.Position.Y, player.Position.X] = '.'; // Remove the boobytrap if it's disappearing
+
+                if (player.Lives <= 0)
+                {
+                    Console.WriteLine("Game Over: You have no lives left.");
+                    player.HasWon = false;
+                }
+                break;
+
+            default:
+                //Console.WriteLine("Nothing to interact with here.");
+                break;
+        }
+    }
 }

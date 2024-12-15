@@ -1,33 +1,25 @@
-﻿// using System;
-// using System.Collections.Generic;
-// using TempleOfDoom.data.Models.Items;
-//
-// namespace TempleOfDoom.data.Factory
-// {
-//     public static class ItemFactory
-//     {
-//         public static List<Item> CreateItems(dynamic itemsData)
-//         {
-//             var items = new List<Item>();
-//
-//             if (itemsData == null) return items;
-//
-//             foreach (var itemData in itemsData)
-//             {
-//                 var item = itemData.type switch
-//                 {
-//                     "sankara stone" => new SankaraStone("Sankara Stone", itemData.x, itemData.y),
-//                     "key" => new Item($"Key ({itemData.color})", itemData.x, itemData.y),
-//                     "boobytrap" => new Item("Boobytrap", itemData.x, itemData.y),
-//                     "disappearing boobytrap" => new Item("Disappearing Boobytrap", itemData.x, itemData.y),
-//                     "pressure plate" => new Item("Pressure Plate", itemData.x, itemData.y),
-//                     _ => null
-//                 };
-//
-//                 if (item != null) items.Add(item);
-//             }
-//
-//             return items;
-//         }
-//     }
-// }
+using TempleOfDoom.data.DTO;
+using TempleOfDoom.data.Models.Items;
+
+namespace TempleOfDoom.Factory;
+
+public static class ItemFactory
+{
+    public static Item CreateItem(ItemDto itemDto)
+        {
+        Console.WriteLine($"Creating item of type: {itemDto.Type} at ({itemDto.X}, {itemDto.Y})");
+        // Use default values for x and y (e.g., 0) if they're not available in itemDto
+        int x = itemDto.X;  // Assuming ItemDto has X property
+            int y = itemDto.Y;  // Assuming ItemDto has Y property
+
+            return itemDto.Type switch
+            {
+                "key" => new Key(x, y),  // Pass x, y, and name to the Key constructor
+                "sankara stone" => new SankaraStone(x, y),
+                "pressure plate" => new PressurePlate(x, y),
+                "boobytrap" => new Boobytrap(x, y, 1), // Assuming Damage is optional in ItemDto
+                "disappearing boobytrap" => new DisappearingBoobytrap(x, y, 1),
+                _ => throw new ArgumentException($"Unknown item type: {itemDto.Type}")
+            };
+        }
+}
