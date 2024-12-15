@@ -10,6 +10,10 @@ namespace TempleOfDoom.Factory
         {
             foreach (var connection in connections)
             {
+                foreach (var door in connection.Doors)
+                {
+                    Console.WriteLine($"Parsed DoorDto: ID={door.Id}, TargetRoomId={door.TargetRoomId}, Type={door.Type}, Direction={door.Direction}");
+                }
                 foreach (var direction in new[] { Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST })
                 {
                     var targetRoomId = direction switch
@@ -22,14 +26,27 @@ namespace TempleOfDoom.Factory
                     };
 
                     if (targetRoomId.HasValue)
+                    {
+                        // Console.WriteLine($"Connection: {connection}, Direction: {direction}, TargetRoomId: {targetRoomId}");
                         AddConnection(rooms, targetRoomId.Value, connection, direction);
+                    }
                 }
             }
         }
 
         private static void AddConnection(List<Room> rooms, int targetRoomId, ConnectionDto connection, Direction direction)
         {
-            var currentRoom = rooms.FirstOrDefault(r => r.Id == targetRoomId);
+            Console.WriteLine($"fafaasdasdaAddConnection: targetRoomId={targetRoomId}, connection={connection}, direction={direction}");
+            Room? currentRoom = null;
+            for (int i = 0; i < rooms.Count; i++)
+            {
+                if (rooms[i].Id == targetRoomId)
+                {
+                    currentRoom = rooms[i];
+                    break;
+                }
+            }
+            
             if (currentRoom == null)
             {
                 Console.WriteLine($"Warning: Room with ID {targetRoomId} not found.");

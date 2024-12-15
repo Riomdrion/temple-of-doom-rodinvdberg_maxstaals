@@ -27,7 +27,7 @@ namespace TempleOfDoom.Controllers
                 _view.DisplayRoom(_gameWorld.Player.CurrentRoom, _gameWorld.Player);
             }
 
-                _view.DisplayGameOver(_gameWorld.Player.HasWon);
+            _view.DisplayGameOver(_gameWorld.Player.HasWon);
 
         }
 

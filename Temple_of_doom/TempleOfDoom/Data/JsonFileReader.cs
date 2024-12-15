@@ -32,8 +32,8 @@ public static class JsonFileReader
         // Deserialize JSON
         var parsedJson = JsonConvert.DeserializeObject<dynamic>(json, settings);
         var roomsData = JsonConvert.DeserializeObject<List<RoomDto>>(parsedJson["rooms"].ToString(), settings);
-        var connectionsData =
-            JsonConvert.DeserializeObject<List<ConnectionDto>>(parsedJson["connections"].ToString(), settings);
+        var connectionsData = JsonConvert.DeserializeObject<List<ConnectionDto>>(parsedJson["connections"].ToString(), settings);
+        
 
         // Create rooms and connections
         var rooms = RoomFactory.CreateRooms(roomsData, connectionsData);
