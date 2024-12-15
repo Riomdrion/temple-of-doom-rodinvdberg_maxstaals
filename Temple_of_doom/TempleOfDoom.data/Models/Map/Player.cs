@@ -69,9 +69,12 @@ public class Player
         if (currentRoom.IsPositionWalkable(newPosition))
         {
             Position = newPosition;
+
+            // Handle interactions with items at the new position
+            currentRoom.HandlePlayerInteraction(this); // Verwerkt de interacties (bijv. items oppakken, boobytraps activeren)
         }
 
-
+        // Als de speler een deur is tegengekomen, verplaats naar de nieuwe kamer
         foreach (var door in currentRoom.Doors)
         {
             if (door.Position.X == Position.X && door.Position.Y == Position.Y)
@@ -113,7 +116,7 @@ public class Player
             }
         }
     }
-    
+
     public void PickUpItem(Room room)
     {
         var itemAtPosition = room.Items.FirstOrDefault(i => i.X == Position.X && i.Y == Position.Y);
@@ -126,6 +129,7 @@ public class Player
                 room.Items.Remove(itemAtPosition); // Remove the Sankara Stone from the room
             }
             // Handle boobytrap activation
+
             else if (itemAtPosition.Type == "boobytrap")
             {
                 if (itemAtPosition is Boobytrap boobytrap)
@@ -148,19 +152,20 @@ public class Player
             // Additional item types can be handled here similarly
         }
         // After picking up an item, check if the player has won
+
         CheckWinCondition(); // Check win condition after picking up an item
     }
 
     public int GetItemCount()
     {
-        return Inventory.GetItemCount("Sankara Stone");
+        return Inventory.GetItemCount("sankara stone");
     }
 
 
     //Check if the player has collected all required Sankara Stones
     public bool CheckWinCondition(int requiredStones = 5)
     {
-        int collectedStones = Inventory.GetItemCount("Sankara Stone");
+        int collectedStones = Inventory.GetItemCount("sankara stone");
 
         if (collectedStones >= requiredStones)
         {

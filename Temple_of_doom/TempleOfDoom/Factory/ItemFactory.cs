@@ -7,7 +7,6 @@ public static class ItemFactory
 {
     public static Item CreateItem(ItemDto itemDto)
         {
-        Console.WriteLine($"Creating item of type: {itemDto.Type} at ({itemDto.X}, {itemDto.Y})");
         // Use default values for x and y (e.g., 0) if they're not available in itemDto
         int x = itemDto.X;  // Assuming ItemDto has X property
             int y = itemDto.Y;  // Assuming ItemDto has Y property

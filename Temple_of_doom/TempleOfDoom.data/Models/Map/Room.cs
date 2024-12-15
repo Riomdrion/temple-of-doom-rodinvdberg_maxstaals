@@ -70,7 +70,6 @@ public class Room(int id, int width, int height, List<Item> items, List<Door.Doo
         }
         foreach (var item in Items)
         {
-            Console.WriteLine($"Item: {item.Type} at ({item.X}, {item.Y})");
             if (item.X >= 0 && item.X < Width && item.Y >= 0 && item.Y < Height)
             {
                 var itemSymbol = item switch
@@ -86,21 +85,32 @@ public class Room(int id, int width, int height, List<Item> items, List<Door.Doo
                 Layout[item.Y, item.X] = itemSymbol;
             }
         }
-        Console.WriteLine($"Room ID={Id} Layout:");
-        for (var y = 0; y < Height; y++)
-        {
-            for (var x = 0; x < Width; x++)
-            {
-                Console.Write(Layout[y, x]);
-            }
-            Console.WriteLine();
-        }
+        //Console.WriteLine($"Room ID={Id} Layout:");
+        //for (var y = 0; y < Height; y++)
+        //{
+        //    for (var x = 0; x < Width; x++)
+        //    {
+        //        Console.Write(Layout[y, x]);
+        //    }
+        //    Console.WriteLine();
+        //}
     }
-    
+
     public void HandlePlayerInteraction(Player player)
     {
+        Console.WriteLine("test");
+
         if (Layout == null)
             throw new NullReferenceException("Room layout is not initialized.");
+
+        // Controleer of de speler op een geldige positie is in de huidige kamer
+        if (!player.CurrentRoom.IsPositionWalkable(player.Position))
+        {
+            Console.WriteLine("Player position is not walkable, adjusting...");
+            // Pas de positie aan (bijvoorbeeld terug naar het midden van de kamer)
+            player.Position = new Position(player.CurrentRoom.Width / 2, player.CurrentRoom.Height / 2);
+            Console.WriteLine($"New position: ({player.Position.X}, {player.Position.Y})");
+        }
 
         var currentTile = Layout[player.Position.Y, player.Position.X];
 
@@ -108,41 +118,88 @@ public class Room(int id, int width, int height, List<Item> items, List<Door.Doo
         {
             case 'K': // Key
                 player.Inventory.AddItem("Key");
-                Layout[player.Position.Y, player.Position.X] = '.'; // Remove the key from the room
+                Layout[player.Position.Y, player.Position.X] = '.'; // Verwijder de key uit de kamer
+
+                // Verwijder het item uit de Items-lijst van de kamer
+                var keyItem = player.CurrentRoom.Items.FirstOrDefault(i => i.X == player.Position.X && i.Y == player.Position.Y);
+                if (keyItem != null)
+                {
+                    player.CurrentRoom.Items.Remove(keyItem);
+                    Console.WriteLine("Key removed from the room.");
+                }
+                else
+                {
+                    Console.WriteLine("Key item not found in the room.");
+                }
+
                 Console.WriteLine("You picked up a Key!");
                 break;
 
             case 'S': // Sankara Stone
-                player.Inventory.AddItem("Sankara Stone"); // Add to inventory
-                Layout[player.Position.Y, player.Position.X] = '.'; // Remove the stone from the room
+                Console.WriteLine("You found a Sankara Stone!");
+                player.Inventory.AddItem("sankara stone"); // Voeg toe aan inventaris
+                Layout[player.Position.Y, player.Position.X] = '.'; // Verwijder de steen uit de kamer
+
+                // Verwijder het item uit de Items-lijst van de kamer
+                var sankaraStoneItem = player.CurrentRoom.Items.FirstOrDefault(i => i.X == player.Position.X && i.Y == player.Position.Y);
+                if (sankaraStoneItem != null)
+                {
+                    player.CurrentRoom.Items.Remove(sankaraStoneItem);
+                    Console.WriteLine("Sankara Stone removed from the room.");
+                }
+                else
+                {
+                    Console.WriteLine("Sankara Stone item not found in the room.");
+                }
+
                 Console.WriteLine("You picked up a Sankara Stone!");
 
-                // Display the current count of Sankara Stones in inventory
+                // Toon de huidige hoeveelheid Sankara Stones in de inventaris
                 int sankaraStoneCount = player.Inventory.GetItemCount("Sankara Stone");
                 Console.WriteLine("You now have " + sankaraStoneCount + " Sankara Stones.");
 
-                // Optional: Check if the player has won (e.g., collected 5 Sankara Stones)
-                if (sankaraStoneCount >= 5)
+                // Controleer of de speler heeft gewonnen (bijvoorbeeld: 5 Sankara Stones verzameld)
+                if (sankaraStoneCount == 5)
                 {
                     player.HasWon = true;
                     Console.WriteLine("You have collected all 5 Sankara Stones! You win!");
                 }
+                player.CheckWinCondition();
                 break;
 
             case 'B': // Boobytrap
-                player.Lives--;
-                Layout[player.Position.Y, player.Position.X] = '.'; // Remove the boobytrap if it's disappearing
-
-                if (player.Lives <= 0)
+                if (currentTile == 'B') // Alleen verwijderen als het een "disappearing" boobytrap is
                 {
-                    Console.WriteLine("Game Over: You have no lives left.");
-                    player.HasWon = false;
+                    // Controleer of het een "disappearing" boobytrap is en verwijder het alleen dan
+                    var boobytrapItem = player.CurrentRoom.Items.FirstOrDefault(i => i.X == player.Position.X && i.Y == player.Position.Y);
+                    if (boobytrapItem != null && boobytrapItem is DisappearingBoobytrap)
+                    {
+                        player.Lives--;
+                        player.CurrentRoom.Items.Remove(boobytrapItem); // Verwijder de boobytrap
+                        Console.WriteLine("Disappearing boobytrap triggered! Player loses 1 life.");
+                    }
+                    else if (boobytrapItem != null)
+                    {
+                        // Als het een normale boobytrap is, wordt deze niet verwijderd
+                        player.Lives--;
+                        Console.WriteLine("Boobytrap triggered! Player loses 1 life.");
+                    }
                 }
                 break;
 
             default:
-                //Console.WriteLine("Nothing to interact with here.");
+                // Console.WriteLine("Nothing to interact with here.");
                 break;
+        }
+
+        // Debugging: Toon de inhoud van de kamer na de interactie
+        Console.Clear();
+        InitializeRoomLayout();
+
+        Console.WriteLine("Current items in the room after interaction:");
+        foreach (var item in player.CurrentRoom.Items)
+        {
+            Console.WriteLine($"Item: {item.Type} at ({item.X}, {item.Y})");
         }
     }
 }

@@ -41,9 +41,6 @@ public class ItemConverter : JsonConverter
             Y = y
         };
 
-        // Debug log for Position
-        Console.WriteLine($"Debug: ItemDto Position - x: {itemDto.X}, y: {itemDto.Y}");
-
         return ItemFactory.CreateItem(itemDto);
     }
 
