@@ -9,7 +9,7 @@ public class Player
     public Position Position { get; set; }
     public Inventory Inventory { get; set; }
     public int StartingRoomId { get; set; }
-    public Room CurrentRoom { get; set; }
+    public Room currentRoom { get; set; }
 
     public Player(int lives, Position position)
     {
@@ -29,7 +29,7 @@ public class Player
         return Position;
     }
 
-    public void Move(string command, Room currentRoom, List<Room> rooms)
+    public void Move(string command, List<Room> rooms)
     {
         // Bereken de nieuwe positie
         var newPosition = new Position
@@ -63,7 +63,7 @@ public class Player
         {
             if (door.Position.X == Position.X && door.Position.Y == Position.Y)
             {
-                Console.WriteLine($"You used the door to Room ID={door.TargetRoomId}");
+                Console.WriteLine($"You used the door to Room ID={door.TargetRoomId.ToString()}");
 
                 // Teleporteer naar de verbonden kamer
                 var targetRoom = rooms.FirstOrDefault(r => r.Id == door.TargetRoomId);
@@ -73,30 +73,30 @@ public class Player
                     return;
                 }
                 
-                Console.WriteLine($"Player currentroom: {currentRoom.Id} || targetRoom: {targetRoom.Id}");
-                CurrentRoom = targetRoom;
+                Console.WriteLine($"Player currentRoom: {currentRoom.Id} || doors: {currentRoom.Doors[1].TargetRoomId}");
+                currentRoom = targetRoom;
 
                 // Stel de nieuwe positie in
                 Position = door.Direction switch
                 {
-                    Direction.NORTH => new Position(door.Position.X, CurrentRoom.Height - 1),
+                    Direction.NORTH => new Position(door.Position.X, currentRoom.Height - 1),
                     Direction.SOUTH => new Position(door.Position.X, 0),
-                    Direction.WEST => new Position(CurrentRoom.Width - 1, door.Position.Y),
+                    Direction.WEST => new Position(currentRoom.Width - 1, door.Position.Y),
                     Direction.EAST => new Position(0, door.Position.Y),
                     _ => throw new Exception("Invalid door direction")
                 };
 
-                Console.WriteLine($"Teleported to Room ID={CurrentRoom.Id} at Position=({Position.X}, {Position.Y})");
+                Console.WriteLine($"Teleported to Room ID={currentRoom.Id} at Position=({Position.X}, {Position.Y})");
 
                 // Controleer of de nieuwe positie toegankelijk is
-                if (!CurrentRoom.IsPositionWalkable(Position))
-                {
-                    Console.WriteLine($"current room: {CurrentRoom.Width}, {CurrentRoom.Height}");
-                    Console.WriteLine($"wanted position: {Position.X}, {Position.Y}");
-                    Console.WriteLine("Teleportation position is not walkable, fallback required.");
-                    Position = new Position(CurrentRoom.Width / 2, CurrentRoom.Height / 2);
-                    Console.WriteLine($"Fallback to position: {Position.X}, {Position.Y}");
-                }
+                // if (!currentRoom.IsPositionWalkable(Position))
+                // {
+                //     Console.WriteLine($"current room: {currentRoom.Width}, {currentRoom.Height}");
+                //     Console.WriteLine($"wanted position: {Position.X}, {Position.Y}");
+                //     Console.WriteLine("Teleportation position is not walkable, fallback required.");
+                //     Position = new Position(currentRoom.Width / 2, currentRoom.Height / 2);
+                //     Console.WriteLine($"Fallback to position: {Position.X}, {Position.Y}");
+                // }
                 break;
             }
         }

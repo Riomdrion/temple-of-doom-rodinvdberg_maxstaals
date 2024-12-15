@@ -20,11 +20,11 @@ namespace TempleOfDoom.Controllers
             // Start the game loop
             while (!_gameWorld.IsGameOver)
             {
-                _view.DisplayRoom(_gameWorld.Player.CurrentRoom, _gameWorld.Player);
+                _view.DisplayRoom(_gameWorld.Player.currentRoom, _gameWorld.Player);
                 var command = _view.GetPlayerArrowInput();
                 ProcessCommand(command);
-                Console.WriteLine($"Player currentroom: {_gameWorld.Player.CurrentRoom.Id}");
-                _view.DisplayRoom(_gameWorld.Player.CurrentRoom, _gameWorld.Player);
+                Console.WriteLine($"Player currentRoom: {_gameWorld.Player.currentRoom.Id}");
+                _view.DisplayRoom(_gameWorld.Player.currentRoom, _gameWorld.Player);
             }
 
             _view.DisplayGameOver(_gameWorld.Player.HasWon);
@@ -42,7 +42,7 @@ namespace TempleOfDoom.Controllers
             }
             else
             {
-                _gameWorld.Player.Move(command, _gameWorld.Player.CurrentRoom, _gameWorld.Rooms);
+                _gameWorld.Player.Move(command, _gameWorld.Rooms);
             }
         }
     }

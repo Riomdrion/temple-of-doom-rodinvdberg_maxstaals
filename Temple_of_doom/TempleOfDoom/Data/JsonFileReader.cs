@@ -63,7 +63,7 @@ public static class JsonFileReader
         settings.Converters = converters;
 
 
-        player.CurrentRoom = startRoom;
+        player.currentRoom = startRoom;
 
         // Create GameWorld
         var gameWorld = new GameWorld(player, rooms);

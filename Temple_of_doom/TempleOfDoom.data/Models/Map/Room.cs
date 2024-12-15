@@ -138,10 +138,6 @@ public class Room
                     player.HasWon = false;
                 }
                 break;
-
-            default:
-                //Console.WriteLine("Nothing to interact with here.");
-                break;
         }
     }
 }
