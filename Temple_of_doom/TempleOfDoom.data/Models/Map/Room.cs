@@ -100,10 +100,10 @@ public class Room
                 Layout[player.Position.Y, player.Position.X] = '.'; // Verwijder de key uit de kamer
 
                 // Verwijder het item uit de Items-lijst van de kamer
-                var keyItem = player.CurrentRoom.Items.FirstOrDefault(i => i.X == player.Position.X && i.Y == player.Position.Y);
+                var keyItem = player.currentRoom.Items.FirstOrDefault(i => i.X == player.Position.X && i.Y == player.Position.Y);
                 if (keyItem != null)
                 {
-                    player.CurrentRoom.Items.Remove(keyItem);
+                    player.currentRoom.Items.Remove(keyItem);
                     Console.WriteLine("Key removed from the room.");
                 }
                 else
@@ -120,10 +120,10 @@ public class Room
                 Layout[player.Position.Y, player.Position.X] = '.'; // Verwijder de steen uit de kamer
 
                 // Verwijder het item uit de Items-lijst van de kamer
-                var sankaraStoneItem = player.CurrentRoom.Items.FirstOrDefault(i => i.X == player.Position.X && i.Y == player.Position.Y);
+                var sankaraStoneItem = player.currentRoom.Items.FirstOrDefault(i => i.X == player.Position.X && i.Y == player.Position.Y);
                 if (sankaraStoneItem != null)
                 {
-                    player.CurrentRoom.Items.Remove(sankaraStoneItem);
+                    player.currentRoom.Items.Remove(sankaraStoneItem);
                     Console.WriteLine("Sankara Stone removed from the room.");
                 }
                 else
@@ -148,7 +148,7 @@ public class Room
 
             case 'B': // Boobytrap
                       // Vind het item op de huidige positie van de speler
-                var boobytrapItem = player.CurrentRoom.Items.FirstOrDefault(i => i.X == player.Position.X && i.Y == player.Position.Y);
+                var boobytrapItem = player.currentRoom.Items.FirstOrDefault(i => i.X == player.Position.X && i.Y == player.Position.Y);
 
                 if (boobytrapItem != null && boobytrapItem.Type == "boobytrap")
                 {
@@ -168,13 +168,13 @@ public class Room
 
             case 'D': // Boobytrap
                       // Vind het item op de huidige positie van de speler
-                var dboobytrapItem = player.CurrentRoom.Items.FirstOrDefault(i => i.X == player.Position.X && i.Y == player.Position.Y);
+                var dboobytrapItem = player.currentRoom.Items.FirstOrDefault(i => i.X == player.Position.X && i.Y == player.Position.Y);
 
                 if (dboobytrapItem != null && dboobytrapItem.Type == "disappearing boobytrap")
                 {
                     // Verwerk een normale boobytrap
                     player.Lives--;
-                    player.CurrentRoom.Items.Remove(dboobytrapItem);
+                    player.currentRoom.Items.Remove(dboobytrapItem);
 
                     Console.WriteLine("Boobytrap triggered! Player loses 1 life.");
                 }
@@ -184,10 +184,6 @@ public class Room
                     Console.WriteLine("No normal boobytrap found at the player's position.");
                 }
                 break;
-
-            default:
-                // Console.WriteLine("Nothing to interact with here.");
-                break;
         }
 
         // Debugging: Toon de inhoud van de kamer na de interactie
@@ -195,7 +191,7 @@ public class Room
         InitializeRoomLayout();
 
         Console.WriteLine("Current items in the room after interaction:");
-        foreach (var item in player.CurrentRoom.Items)
+        foreach (var item in player.currentRoom.Items)
         {
             Console.WriteLine($"Item: {item.Type} at ({item.X}, {item.Y})");
         }

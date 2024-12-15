@@ -129,27 +129,26 @@ public class Player
 
             CheckWinCondition(); // Check win condition after picking up an item
         }
+    }
 
-        int GetItemCount()
+    public int GetItemCount()
+    {
+        return Inventory.GetItemCount("sankara stone");
+    }
+
+    //Check if the player has collected all required Sankara Stones
+    public bool CheckWinCondition(int requiredStones = 5)
+    {
+        int collectedStones = Inventory.GetItemCount("sankara stone");
+
+        if (collectedStones >= requiredStones)
         {
-            return Inventory.GetItemCount("sankara stone");
+            HasWon = true;
+            Console.WriteLine("");
+            Console.WriteLine($"You have collected all {requiredStones} Sankara Stones! You win!");
+            return true;
         }
 
-
-        //Check if the player has collected all required Sankara Stones
-        bool CheckWinCondition(int requiredStones = 5)
-        {
-            int collectedStones = Inventory.GetItemCount("sankara stone");
-
-            if (collectedStones >= requiredStones)
-            {
-                HasWon = true;
-                Console.WriteLine("");
-                Console.WriteLine($"You have collected all {requiredStones} Sankara Stones! You win!");
-                return true;
-            }
-
-            return false;
-        }
+        return false;
     }
 }
