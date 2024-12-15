@@ -4,42 +4,8 @@
       "id": 1,
       "type": "room",
       "width": 5,
-      "height": 5,
-      "items": [
-        {
-          "type": "key",
-          "color": "blue",
-          "x": 2,
-          "y": 2
-        },
-        {
-          "type": "sankara stone",
-          "x": 2,
-          "y": 3
-        },
-        {
-          "type": "sankara stone",
-          "x": 2,
-          "y": 3
-        },
-        {
-          "type": "sankara stone",
-          "x": 2,
-          "y": 3
-        },
-        {
-          "type": "sankara stone",
-          "x": 2,
-          "y": 3
-        },
-        {
-          "type": "sankara stone",
-          "x": 2,
-          "y": 3
-        }
-      ]
-    }
-    ,
+      "height": 5
+    },
     {
       "id": 2,
       "type": "room",
