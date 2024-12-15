@@ -1,4 +1,6 @@
-﻿namespace TempleOfDoom.data.Models.Map;
+﻿using TempleOfDoom.data.Models.Items;
+
+namespace TempleOfDoom.data.Models.Map;
 
 public class Player
 {
@@ -98,13 +100,8 @@ public class Player
                 break;
             }
         }
-        else
-        {
-            //Console.WriteLine($"Player cannot move to X:{newPosition.X}, Y:{newPosition.Y} - position is not walkable.");
-        }
-
-
     }
+    
     public void PickUpItem(Room room)
     {
         var itemAtPosition = room.Items.FirstOrDefault(i => i.X == Position.X && i.Y == Position.Y);
