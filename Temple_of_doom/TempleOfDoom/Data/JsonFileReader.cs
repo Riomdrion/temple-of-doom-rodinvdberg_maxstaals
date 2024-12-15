@@ -3,6 +3,7 @@ using Newtonsoft.Json.Serialization;
 using TempleOfDoom.data.Models.Map;
 using TempleOfDoom.Factory;
 using TempleOfDoom.data.DTO;
+using TempleOfDoom.data.Models.Items;
 
 namespace TempleOfDoom.Data;
 
@@ -37,6 +38,25 @@ public static class JsonFileReader
 
         // Create rooms and connections
         var rooms = RoomFactory.CreateRooms(roomsData, connectionsData);
+
+        // Add items to rooms after creation
+        foreach (var room in rooms)
+        {
+            var roomData = ((IEnumerable<RoomDto>)roomsData).FirstOrDefault(r => r.Id == room.Id);
+            if (roomData == null)
+            {
+                throw new KeyNotFoundException($"Room with Id {room.Id} not found in roomsData.");
+            }
+            if (roomData.Items != null)
+            {
+                foreach (var itemData in roomData.Items)
+                {
+                    // Use ItemFactory to convert item data into correct type (Key, SankaraStone, etc.)
+                    var item = ItemFactory.CreateItem(itemData);  // This method should handle the conversion logic
+                    room.Items.Add(item);
+                }
+            }
+        }
 
         // Create player
         var playerJson = parsedJson["player"];

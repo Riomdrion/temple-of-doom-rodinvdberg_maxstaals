@@ -6,6 +6,12 @@ public class ConsoleView
 {
     public void DisplayRoom(Room room, Player player)
     {
+         
+        Console.SetCursorPosition(0, Console.WindowHeight - 2);
+        Console.WriteLine($"Player: ({player.Position.X}, {player.Position.Y})");
+        Console.WriteLine("Aantal levens: " + player.Lives);
+        Console.WriteLine("Aantal sankara stones: "+ player.GetItemCount());
+
         int consoleWidth = Console.WindowWidth;
         int consoleHeight = Console.WindowHeight;
         int startX = (consoleWidth / 2) - (room.Width / 2);
@@ -20,13 +26,32 @@ public class ConsoleView
 
                 Console.SetCursorPosition(cursorX, cursorY);
 
+                // Check if the player is at this position
                 if (player.Position.X == x && player.Position.Y == y)
                 {
                     Console.Write('@');
                 }
                 else
                 {
-                    Console.Write(room.Layout[y, x]); 
+                    // Check if there's an item at this position
+                    var item = room.Items.FirstOrDefault(i => i.X == x && i.Y == y);
+                    if (item != null)
+                    {
+                        Console.Write(item.Type switch
+                        {
+                            "key" => 'K',
+                            "sankara stone" => 'S',
+                            "boobytrap" => 'O',
+                            "disappearing boobytrap" => '@',
+                            "pressure plate" => 'T',
+                            _ => '?', // Default character for unknown items
+                        });
+                    }
+                    else
+                    {
+                        // Default to the room layout if no item is present
+                        Console.Write(room.Layout[y, x]);
+                    }
                 }
             }
         }
@@ -38,7 +63,8 @@ public class ConsoleView
 
     public void DisplayGameOver(bool hasWon)
     {
-        Console.WriteLine(hasWon ? "You have won!" : "Game over!");
+        Console.WriteLine();
+        Console.WriteLine(hasWon ? "You have won! " : "Game over! ");
     }
 
     public string GetPlayerArrowInput()

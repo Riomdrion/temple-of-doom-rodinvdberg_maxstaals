@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using TempleOfDoom.data.DTO;
 using TempleOfDoom.data.Models.Items;
+using TempleOfDoom.data.Models.Map;
 using TempleOfDoom.Factory;
 
 namespace TempleOfDoom.Data;
@@ -26,8 +27,12 @@ public class ItemConverter : JsonConverter
             throw new JsonSerializationException("Item type is missing.");
         }
 
+        // Ensure x and y are being read correctly from the JSON
         int x = jObject["x"]?.Value<int>() ?? 0;
         int y = jObject["y"]?.Value<int>() ?? 0;
+
+        // Debug log for x and y
+        Console.WriteLine($"Debug: Extracted Position - x: {x}, y: {y}");
 
         var itemDto = new ItemDto
         {
