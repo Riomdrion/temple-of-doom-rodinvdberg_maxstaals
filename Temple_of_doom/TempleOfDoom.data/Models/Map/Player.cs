@@ -2,7 +2,7 @@
 
 namespace TempleOfDoom.data.Models.Map;
 
-public class Player
+public class Player : UiObserver
 {
     public int Lives { get; set; }
     public bool HasWon { get; set; }
@@ -70,7 +70,7 @@ public class Player
                 var targetRoom = rooms.FirstOrDefault(r => r.Id == door.TargetRoomId);
                 if (targetRoom == null)
                 {
-                    Console.WriteLine($"Error: TargetRoomId={door.TargetRoomId} not found!");
+                    Update($"Error: TargetRoomId={door.TargetRoomId} not found!");
                     return;
                 }
 
@@ -86,8 +86,7 @@ public class Player
                     _ => throw new Exception("Invalid door direction")
                 };
 
-                Console.WriteLine(
-                    $"Teleported to Room ID={currentRoom.Id} at Position=({Position.X}, {Position.Y})");
+                Update($"Teleported to Room ID={currentRoom.Id} at Position=({Position.X}, {Position.Y})");
 
                 break;
             }
@@ -106,8 +105,8 @@ public class Player
         if (collectedStones >= requiredStones)
         {
             HasWon = true;
-            Console.WriteLine("");
-            Console.WriteLine($"You have collected all {requiredStones} Sankara Stones! You win!");
+            Update("");
+            Update($"You have collected all {requiredStones} Sankara Stones! You win!");
             return true;
         }
 

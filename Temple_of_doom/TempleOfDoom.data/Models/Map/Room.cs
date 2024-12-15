@@ -4,7 +4,7 @@ using TempleOfDoom.data.Models.Items;
 
 namespace TempleOfDoom.data.Models.Map;
 
-public class Room
+public class Room : UiObserver
 {
     public int Id { get; }
     public int Width { get; }
@@ -104,18 +104,18 @@ public class Room
                 if (keyItem != null)
                 {
                     player.currentRoom.Items.Remove(keyItem);
-                    Console.WriteLine("Key removed from the room.");
+                    Update("Key removed from the room.");
                 }
                 else
                 {
-                    Console.WriteLine("Key item not found in the room.");
+                    Update("Key item not found in the room.");
                 }
 
-                Console.WriteLine("You picked up a Key!");
+                Update("You picked up a Key!");
                 break;
 
             case 'S': // Sankara Stone
-                Console.WriteLine("You found a Sankara Stone!");
+                Update("You found a Sankara Stone!");
                 player.Inventory.AddItem("sankara stone"); // Voeg toe aan inventaris
                 Layout[player.Position.Y, player.Position.X] = '.'; // Verwijder de steen uit de kamer
 
@@ -124,24 +124,24 @@ public class Room
                 if (sankaraStoneItem != null)
                 {
                     player.currentRoom.Items.Remove(sankaraStoneItem);
-                    Console.WriteLine("Sankara Stone removed from the room.");
+                    Update("Sankara Stone removed from the room.");
                 }
                 else
                 {
-                    Console.WriteLine("Sankara Stone item not found in the room.");
+                    Update("Sankara Stone item not found in the room.");
                 }
 
-                Console.WriteLine("You picked up a Sankara Stone!");
+                Update("You picked up a Sankara Stone!");
 
                 // Toon de huidige hoeveelheid Sankara Stones in de inventaris
                 int sankaraStoneCount = player.Inventory.GetItemCount("Sankara Stone");
-                Console.WriteLine("You now have " + sankaraStoneCount + " Sankara Stones.");
+                Update("You now have " + sankaraStoneCount + " Sankara Stones.");
 
                 // Controleer of de speler heeft gewonnen (bijvoorbeeld: 5 Sankara Stones verzameld)
                 if (sankaraStoneCount == 5)
                 {
                     player.HasWon = true;
-                    Console.WriteLine("You have collected all 5 Sankara Stones! You win!");
+                    Update("You have collected all 5 Sankara Stones! You win!");
                 }
                 player.CheckWinCondition();
                 break;
@@ -153,16 +153,16 @@ public class Room
                 if (boobytrapItem != null && boobytrapItem.Type == "boobytrap")
                 {
                     // Debugging: Controleer of het een normale boobytrap is
-                    Console.WriteLine($"Normal boobytrap found at position ({player.Position.X}, {player.Position.Y}).");
+                    Update($"Normal boobytrap found at position ({player.Position.X}, {player.Position.Y}).");
 
                     // Verwerk een normale boobytrap
                     player.Lives--;
-                    Console.WriteLine("Boobytrap triggered! Player loses 1 life.");
+                    Update("Boobytrap triggered! Player loses 1 life.");
                 }
                 else
                 {
                     // Debugging: Geen normale boobytrap gevonden
-                    Console.WriteLine("No normal boobytrap found at the player's position.");
+                    Update("No normal boobytrap found at the player's position.");
                 }
                 break;
 
@@ -176,24 +176,24 @@ public class Room
                     player.Lives--;
                     player.currentRoom.Items.Remove(dboobytrapItem);
 
-                    Console.WriteLine("Boobytrap triggered! Player loses 1 life.");
+                    Update("Boobytrap triggered! Player loses 1 life.");
                 }
                 else
                 {
                     // Debugging: Geen normale boobytrap gevonden
-                    Console.WriteLine("No normal boobytrap found at the player's position.");
+                    Update("No normal boobytrap found at the player's position.");
                 }
                 break;
         }
 
         // Debugging: Toon de inhoud van de kamer na de interactie
-        Console.Clear();
+        Clear();
         InitializeRoomLayout();
 
-        Console.WriteLine("Current items in the room after interaction:");
+        Update("Current items in the room after interaction:");
         foreach (var item in player.currentRoom.Items)
         {
-            Console.WriteLine($"Item: {item.Type} at ({item.X}, {item.Y})");
+            Update($"Item: {item.Type} at ({item.X}, {item.Y})");
         }
     }
 }

@@ -46,20 +46,6 @@ public class ItemConverter : JsonConverter
 
     public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
     {
-        if (value is Item item)
-        {
-            // Serialize the Item back into JSON
-            var jObject = new JObject
-            {
-                ["type"] = item.Type,
-                ["x"] = item.X,
-                ["y"] = item.Y
-            };
-            jObject.WriteTo(writer);
-        }
-        else
-        {
-            throw new JsonSerializationException("Unexpected value when converting Item.");
-        }
+        throw new JsonSerializationException("Unexpected value when converting Item.");
     }
 }
