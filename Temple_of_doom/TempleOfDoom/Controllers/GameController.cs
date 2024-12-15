@@ -6,27 +6,16 @@ namespace TempleOfDoom.Controllers
 {
     public class GameController
     {
-        private GameWorld _gameWorld;
-        private ConsoleView _view;
-
-        public GameController()
-        {
-            _view = new ConsoleView();
-        }
+        private GameWorld? _gameWorld;
+        private ConsoleView _view = new();
 
         public void StartGame()
         {
             // Initialize components
             _view = new ConsoleView();
-            try
-            {
-                _gameWorld = JsonFileReader.LoadGameWorld("../../../../TempleOfDoom.data/Levels/TempleOfDoom.json");
 
-                if (_gameWorld?.Player == null)
-                {
-                    throw new Exception("Player object is not initialized in the game world.");
-                }
-                _gameWorld.Player.Position = _gameWorld.Player.GetPlayerStartPosition(_gameWorld.CurrentRoom);
+                _gameWorld = JsonFileReader.LoadGameWorld("../../../../TempleOfDoom.data/Levels/TempleOfDoom.json");
+                _gameWorld.Player.Position = _gameWorld.Player.GetPlayerStartPosition();
 
                 // Start the game loop
                 while (!_gameWorld.IsGameOver)
@@ -40,12 +29,7 @@ namespace TempleOfDoom.Controllers
                 }
 
                 _view.DisplayGameOver(_gameWorld.Player.HasWon);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error: {ex.Message}");
-                Console.WriteLine("Exiting game.");
-            }
+
         }
 
         private void ProcessCommand(string command)
