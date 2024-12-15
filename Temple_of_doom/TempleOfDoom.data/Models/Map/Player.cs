@@ -57,79 +57,83 @@ public class Player
         {
             Position = newPosition;
 
-
-            // Als de speler een deur is tegengekomen, verplaats naar de nieuwe kamer
-            foreach (var door in currentRoom.Doors)
-            {
-                if (door.Position.X == Position.X && door.Position.Y == Position.Y)
-                {
-                    // Teleporteer naar de verbonden kamer
-                    var targetRoom = rooms.FirstOrDefault(r => r.Id == door.TargetRoomId);
-                    if (targetRoom == null)
-                    {
-                        Console.WriteLine($"Error: TargetRoomId={door.TargetRoomId} not found!");
-                        return;
-                    }
-
-                    currentRoom = targetRoom;
-
-                    // Stel de nieuwe positie in
-                    Position = door.Direction switch
-                    {
-                        Direction.NORTH => new Position(door.Position.X, currentRoom.Height / 2),
-                        Direction.SOUTH => new Position(door.Position.X, 0),
-                        Direction.WEST => new Position(currentRoom.Width - 1, door.Position.Y / 2),
-                        Direction.EAST => new Position(0, door.Position.Y),
-                        _ => throw new Exception("Invalid door direction")
-                    };
-
-                    Console.WriteLine(
-                        $"Teleported to Room ID={currentRoom.Id} at Position=({Position.X}, {Position.Y})");
-
-                    break;
-                }
-            }
+            // Handle interactions with items at the new position
+            currentRoom.HandlePlayerInteraction(this); 
         }
 
-        void PickUpItem(Room room)
+        // Als de speler een deur is tegengekomen, verplaats naar de nieuwe kamer
+        foreach (var door in currentRoom.Doors)
         {
-            var itemAtPosition = room.Items.FirstOrDefault(i => i.X == Position.X && i.Y == Position.Y);
-            if (itemAtPosition != null)
+            if (door.Position.X == Position.X && door.Position.Y == Position.Y)
             {
-                // Check if it's a Sankara Stone and add it to the inventory
-                if (itemAtPosition.Type == "sankara stone")
+                // Teleporteer naar de verbonden kamer
+                var targetRoom = rooms.FirstOrDefault(r => r.Id == door.TargetRoomId);
+                if (targetRoom == null)
                 {
-                    Inventory.AddItem("Sankara Stone");
-                    room.Items.Remove(itemAtPosition); // Remove the Sankara Stone from the room
-                }
-                // Handle boobytrap activation
-                else if (itemAtPosition.Type == "boobytrap")
-                {
-                    if (itemAtPosition is Boobytrap boobytrap)
-                    {
-                        boobytrap.Trigger(this); // Apply damage
-                        //Console.WriteLine($"Boobytrap triggered! Player loses 1 life. Remaining lives: {Lives}");
-                    }
+                    Console.WriteLine($"Error: TargetRoomId={door.TargetRoomId} not found!");
+                    return;
                 }
 
-                // Handle disappearing boobytrap activation
-                else if (itemAtPosition.Type == "disappearing boobytrap")
+                currentRoom = targetRoom;
+
+                // Stel de nieuwe positie in
+                Position = door.Direction switch
                 {
-                    if (itemAtPosition is DisappearingBoobytrap disappearingBoobytrap)
-                    {
-                        disappearingBoobytrap.Activate(this); // Apply damage
-                        Console.WriteLine(
-                            $"Disappearing boobytrap triggered! Player loses 1 life. Remaining lives: {Lives}");
-                        room.Items.Remove(itemAtPosition); // Remove the disappearing boobytrap
-                    }
-                }
-                // Additional item types can be handled here similarly
+                    Direction.NORTH => new Position(door.Position.X, currentRoom.Height / 2),
+                    Direction.SOUTH => new Position(door.Position.X, 0),
+                    Direction.WEST => new Position(currentRoom.Width - 1, door.Position.Y / 2),
+                    Direction.EAST => new Position(0, door.Position.Y),
+                    _ => throw new Exception("Invalid door direction")
+                };
+
+                Console.WriteLine(
+                    $"Teleported to Room ID={currentRoom.Id} at Position=({Position.X}, {Position.Y})");
+
+                break;
             }
-            // After picking up an item, check if the player has won
-
-            CheckWinCondition(); // Check win condition after picking up an item
         }
     }
+
+
+    public void PickUpItem(Room room)
+    {
+        var itemAtPosition = room.Items.FirstOrDefault(i => i.X == Position.X && i.Y == Position.Y);
+        if (itemAtPosition != null)
+        {
+            // Check if it's a Sankara Stone and add it to the inventory
+            if (itemAtPosition.Type == "sankara stone")
+            {
+                Inventory.AddItem("Sankara Stone");
+                room.Items.Remove(itemAtPosition); // Remove the Sankara Stone from the room
+            }
+            // Handle boobytrap activation
+            else if (itemAtPosition.Type == "boobytrap")
+            {
+                if (itemAtPosition is Boobytrap boobytrap)
+                {
+                    boobytrap.Trigger(this); // Apply damage
+                    //Console.WriteLine($"Boobytrap triggered! Player loses 1 life. Remaining lives: {Lives}");
+                }
+            }
+
+            // Handle disappearing boobytrap activation
+            else if (itemAtPosition.Type == "disappearing boobytrap")
+            {
+                if (itemAtPosition is DisappearingBoobytrap disappearingBoobytrap)
+                {
+                    disappearingBoobytrap.Activate(this); // Apply damage
+                    Console.WriteLine(
+                        $"Disappearing boobytrap triggered! Player loses 1 life. Remaining lives: {Lives}");
+                    room.Items.Remove(itemAtPosition); // Remove the disappearing boobytrap
+                }
+            }
+            // Additional item types can be handled here similarly
+        }
+        // After picking up an item, check if the player has won
+
+        CheckWinCondition(); // Check win condition after picking up an item
+    }
+
 
     public int GetItemCount()
     {
