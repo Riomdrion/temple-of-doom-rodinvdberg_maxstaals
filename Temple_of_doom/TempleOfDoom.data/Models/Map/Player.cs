@@ -58,40 +58,42 @@ public class Player : UiObserver
             Position = newPosition;
 
             // Handle interactions with items at the new position
-            currentRoom.HandlePlayerInteraction(this); 
+            currentRoom.HandlePlayerInteraction(this);
         }
-
-        // Als de speler een deur is tegengekomen, verplaats naar de nieuwe kamer
+        
+        // Check if the player has reached a door
         foreach (var door in currentRoom.Doors)
         {
             if (door.Position.X == Position.X && door.Position.Y == Position.Y)
             {
-                // Teleporteer naar de verbonden kamer
+                // find new room
                 var targetRoom = rooms.FirstOrDefault(r => r.Id == door.TargetRoomId);
                 if (targetRoom == null)
                 {
-                    Update($"Error: TargetRoomId={door.TargetRoomId} not found!");
+                    Update($"Error: Target room with ID={door.TargetRoomId} not found!");
                     return;
                 }
 
+                // find corresponding door in target room
+                var correspondingDoor = targetRoom.Doors.FirstOrDefault(d =>
+                    d.TargetRoomId == currentRoom.Id && d.Direction == GetOppositeDirection(door.Direction));
+
+                if (correspondingDoor == null)
+                {
+                    Update($"Error: Corresponding door not found in Room ID={targetRoom.Id} for Direction={GetOppositeDirection(door.Direction)}.");
+                    return;
+                }
+
+                // teleport player to new room
+                Position = correspondingDoor.Position;
                 currentRoom = targetRoom;
 
-                // Stel de nieuwe positie in
-                Position = door.Direction switch
-                {
-                    Direction.NORTH => new Position(door.Position.X, currentRoom.Height / 2),
-                    Direction.SOUTH => new Position(door.Position.X, 0),
-                    Direction.WEST => new Position(currentRoom.Width - 1, door.Position.Y / 2),
-                    Direction.EAST => new Position(0, door.Position.Y),
-                    _ => throw new Exception("Invalid door direction")
-                };
-
                 Update($"Teleported to Room ID={currentRoom.Id} at Position=({Position.X}, {Position.Y})");
-
                 break;
             }
         }
     }
+
     public int GetItemCount()
     {
         return Inventory.GetItemCount("sankara stone");
@@ -111,5 +113,17 @@ public class Player : UiObserver
         }
 
         return false;
+    }
+
+    private Direction GetOppositeDirection(Direction direction)
+    {
+        return direction switch
+        {
+            Direction.NORTH => Direction.SOUTH,
+            Direction.SOUTH => Direction.NORTH,
+            Direction.EAST => Direction.WEST,
+            Direction.WEST => Direction.EAST,
+            _ => throw new Exception("Invalid direction")
+        };
     }
 }
