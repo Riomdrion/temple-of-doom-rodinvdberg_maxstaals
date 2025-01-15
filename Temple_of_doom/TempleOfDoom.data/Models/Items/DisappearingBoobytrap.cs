@@ -1,5 +1,4 @@
-﻿using System.Xml.Linq;
-using TempleOfDoom.data.Models.Map;
+﻿using TempleOfDoom.data.Models.Map;
 
 namespace TempleOfDoom.data.Models.Items;
 

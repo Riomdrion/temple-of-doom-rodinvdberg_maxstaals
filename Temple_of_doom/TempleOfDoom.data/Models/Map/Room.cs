@@ -1,6 +1,4 @@
-﻿using TempleOfDoom.data.Enums;
-using TempleOfDoom.data.Models.Door;
-using TempleOfDoom.data.Models.Items;
+﻿using TempleOfDoom.data.Models.Items;
 
 namespace TempleOfDoom.data.Models.Map;
 

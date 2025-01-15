@@ -2,7 +2,6 @@
 using Newtonsoft.Json.Linq;
 using TempleOfDoom.data.DTO;
 using TempleOfDoom.data.Models.Items;
-using TempleOfDoom.data.Models.Map;
 using TempleOfDoom.Factory;
 
 namespace TempleOfDoom.Data;

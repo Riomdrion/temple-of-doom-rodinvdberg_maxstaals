@@ -1,4 +1,5 @@
-﻿using TempleOfDoom.data.Models.Map;
+﻿using TempleOfDoom.data.Enums;
+using TempleOfDoom.data.Models.Map;
 
 namespace TempleOfDoom.ui;
 
@@ -29,7 +30,7 @@ public class ConsoleView
                 // Check if the player is at this position
                 if (player.Position.X == x && player.Position.Y == y)
                 {
-                    Console.Write('X');
+                    Console.Write((char)Symbols.INDY);
                 }
                 else
                 {
@@ -39,11 +40,11 @@ public class ConsoleView
                     {
                         Console.Write(item.Type switch
                         {
-                            "key" => 'K',
-                            "sankara stone" => 'S',
-                            "boobytrap" => 'O',
-                            "disappearing boobytrap" => '@',
-                            "pressure plate" => 'T',
+                            "key" => (char)Symbols.KEY,
+                            "sankara stone" => (char)Symbols.SANKARASTONE,
+                            "boobytrap" => (char)Symbols.BOOBYTRAP,
+                            "disappearing boobytrap" => (char)Symbols.DISSAPINGBOOBYTRAP,
+                            "pressure plate" => (char)Symbols.PRESSUREPLATE,
                             _ => '?', // Default character for unknown items
                         });
                     }

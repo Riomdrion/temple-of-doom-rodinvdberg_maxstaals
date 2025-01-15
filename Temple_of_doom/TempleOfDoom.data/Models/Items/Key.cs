@@ -1,5 +1,4 @@
-﻿using System.Drawing;
-using TempleOfDoom.data.Enums;
+﻿using TempleOfDoom.data.Enums;
 
 namespace TempleOfDoom.data.Models.Items;
 

@@ -1,6 +1,4 @@
-﻿using TempleOfDoom.data.Models.Items;
-
-namespace TempleOfDoom.data.Models.Map;
+﻿namespace TempleOfDoom.data.Models.Map;
 
 public class Player : UiObserver
 {
@@ -8,7 +6,6 @@ public class Player : UiObserver
     public bool HasWon { get; set; }
     public Position Position { get; set; }
     public Inventory Inventory { get; set; }
-    public int StartingRoomId { get; set; }
     public Room currentRoom { get; set; }
 
     public Player(int lives, Position position)

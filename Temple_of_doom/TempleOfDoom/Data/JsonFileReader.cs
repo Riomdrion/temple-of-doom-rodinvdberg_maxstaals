@@ -3,7 +3,6 @@ using Newtonsoft.Json.Serialization;
 using TempleOfDoom.data.Models.Map;
 using TempleOfDoom.Factory;
 using TempleOfDoom.data.DTO;
-using TempleOfDoom.data.Models.Items;
 
 namespace TempleOfDoom.Data;
 
