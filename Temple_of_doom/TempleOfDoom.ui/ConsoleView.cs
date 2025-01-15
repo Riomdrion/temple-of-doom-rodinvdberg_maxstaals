@@ -29,7 +29,7 @@ public class ConsoleView
                 // Check if the player is at this position
                 if (player.Position.X == x && player.Position.Y == y)
                 {
-                    Console.Write('@');
+                    Console.Write('X');
                 }
                 else
                 {
