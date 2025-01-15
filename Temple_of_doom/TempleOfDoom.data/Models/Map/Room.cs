@@ -1,4 +1,5 @@
-﻿using TempleOfDoom.data.Models.Items;
+﻿using TempleOfDoom.data.Enums;
+using TempleOfDoom.data.Models.Items;
 
 namespace TempleOfDoom.data.Models.Map;
 
@@ -51,7 +52,7 @@ public class Room : UiObserver
             {
                 if (y == 0 || y == Height - 1 || x == 0 || x == Width - 1)
                 {
-                    Layout[y, x] = (Layout[y, x] == ' ' || Layout[y, x] == '\0') ? '#' : Layout[y, x];
+                    Layout[y, x] = (Layout[y, x] == ' ' || Layout[y, x] == '\0') ? (char)Symbols.WALL : Layout[y, x];
                 }
             }
         }
@@ -59,8 +60,7 @@ public class Room : UiObserver
         // Stap 3: Voeg deuren toe aan de lay-out
         foreach (var door in Doors)
         {
-            if (door.Position.X >= 0 && door.Position.X < Width &&
-                door.Position.Y >= 0 && door.Position.Y < Height)
+            if (door.Position.X >= 0 && door.Position.X < Width && door.Position.Y >= 0 && door.Position.Y < Height)
             {
                 Layout[door.Position.Y, door.Position.X] = door.Symbol;
             }
@@ -71,11 +71,11 @@ public class Room : UiObserver
             {
                 var itemSymbol = item switch
                 {
-                    Item keyItem when keyItem.Type == "key" => 'K',
-                    Item sankaraStoneItem when sankaraStoneItem.Type == "sankara stone" => 'S',
-                    Item boobytrapItem when boobytrapItem.Type == "boobytrap" => 'B',
-                    Item disappearingBoobytrapItem when disappearingBoobytrapItem.Type == "disappearing boobytrap" => 'D',
-                    Item pressurePlateItem when pressurePlateItem.Type == "pressure plate" => 'T',
+                    Item keyItem when keyItem.Type == "key" => (char)Symbols.KEY,
+                    Item sankaraStoneItem when sankaraStoneItem.Type == "sankara stone" => (char)Symbols.SANKARASTONE,
+                    Item boobytrapItem when boobytrapItem.Type == "boobytrap" => (char)Symbols.BOOBYTRAP,
+                    Item disappearingBoobytrapItem when disappearingBoobytrapItem.Type == "disappearing boobytrap" => (char)Symbols.DISSAPINGBOOBYTRAP,
+                    Item pressurePlateItem when pressurePlateItem.Type == "pressure plate" => (char)Symbols.PRESSUREPLATE,
                     _ => ' '  // Default symbol for unknown item types
                 };
 
@@ -93,7 +93,7 @@ public class Room : UiObserver
 
         switch (currentTile)
         {
-            case 'K': // Key
+            case (char)Symbols.KEY: // Key
                 player.Inventory.AddItem("Key");
                 Layout[player.Position.Y, player.Position.X] = '.'; // Verwijder de key uit de kamer
 
@@ -112,7 +112,7 @@ public class Room : UiObserver
                 Update("You picked up a Key!");
                 break;
 
-            case 'S': // Sankara Stone
+            case (char)Symbols.SANKARASTONE: // Sankara Stone
                 Update("You found a Sankara Stone!");
                 player.Inventory.AddItem("sankara stone"); // Voeg toe aan inventaris
                 Layout[player.Position.Y, player.Position.X] = '.'; // Verwijder de steen uit de kamer
@@ -144,7 +144,7 @@ public class Room : UiObserver
                 player.CheckWinCondition();
                 break;
 
-            case 'B': // Boobytrap
+            case (char)Symbols.BOOBYTRAP: // Boobytrap
                       // Vind het item op de huidige positie van de speler
                 var boobytrapItem = player.currentRoom.Items.FirstOrDefault(i => i.X == player.Position.X && i.Y == player.Position.Y);
 
@@ -164,7 +164,7 @@ public class Room : UiObserver
                 }
                 break;
 
-            case 'D': // Boobytrap
+            case (char)Symbols.DISSAPINGBOOBYTRAP: // dissapearing Boobytrap
                       // Vind het item op de huidige positie van de speler
                 var dboobytrapItem = player.currentRoom.Items.FirstOrDefault(i => i.X == player.Position.X && i.Y == player.Position.Y);
 

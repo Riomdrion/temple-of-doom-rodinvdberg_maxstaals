@@ -80,7 +80,7 @@ public class Player : UiObserver
                     Update($"Error: Corresponding door not found in Room ID={targetRoom.Id} for Direction={GetOppositeDirection(door.Direction)}.");
                     return;
                 }
-
+                
                 // teleport player to new room
                 Position = correspondingDoor.Position;
                 currentRoom = targetRoom;
