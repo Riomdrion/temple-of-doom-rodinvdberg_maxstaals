@@ -1,4 +1,5 @@
-﻿using TempleOfDoom.data.Models.Map;
+﻿using TempleOfDoom.data.Enums;
+using TempleOfDoom.data.Models.Map;
 
 namespace TempleOfDoom.ui;
 
@@ -29,7 +30,7 @@ public class ConsoleView
                 // Check if the player is at this position
                 if (player.Position.X == x && player.Position.Y == y)
                 {
-                    Console.Write('@');
+                    Console.Write((char)Symbols.START);
                 }
                 else
                 {
