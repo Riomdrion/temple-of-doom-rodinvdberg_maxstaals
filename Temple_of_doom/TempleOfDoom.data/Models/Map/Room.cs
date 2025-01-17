@@ -73,11 +73,11 @@ public class Room : UiObserver
             {
                 var itemSymbol = item switch
                 {
-                    Item keyItem when keyItem.Type == "key" => 'K',
-                    Item sankaraStoneItem when sankaraStoneItem.Type == "sankara stone" => 'S',
-                    Item boobytrapItem when boobytrapItem.Type == "boobytrap" => 'B',
-                    Item disappearingBoobytrapItem when disappearingBoobytrapItem.Type == "disappearing boobytrap" => 'D',
-                    Item pressurePlateItem when pressurePlateItem.Type == "pressure plate" => 'T',
+                    Item keyItem when keyItem.Type == "key" => (char)Symbols.KEY,
+                    Item sankaraStoneItem when sankaraStoneItem.Type == "sankara stone" => (char)Symbols.SANKARASTONE,
+                    Item boobytrapItem when boobytrapItem.Type == "boobytrap" => (char)Symbols.BOOBYTRAP,
+                    Item disappearingBoobytrapItem when disappearingBoobytrapItem.Type == "disappearing boobytrap" => (char)Symbols.DISSAPINGBOOBYTRAP,
+                    Item pressurePlateItem when pressurePlateItem.Type == "pressure plate" => (char)Symbols.PRESSUREPLATE,
                     _ => ' '  // Default symbol for unknown item types
                 };
 
