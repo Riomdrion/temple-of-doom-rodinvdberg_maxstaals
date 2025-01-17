@@ -14,7 +14,7 @@ public class GameController
         // Initialize components
         _view = new ConsoleView();
 
-        _gameWorld = JsonFileReader.LoadGameWorld("../../../../TempleOfDoom.data/Levels/TempleOfDoom.json");
+        _gameWorld = JsonFileReader.LoadGameWorld("../../../../TempleOfDoom.data/Levels/TempleOfDoom_B.json");
         _gameWorld.Player.Position = _gameWorld.Player.GetPlayerStartPosition();
 
         // Start the game loop

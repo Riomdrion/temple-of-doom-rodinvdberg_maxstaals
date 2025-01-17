@@ -45,10 +45,7 @@ namespace TempleOfDoom.Factory
 
                 if (currentRoom != null && targetRoom != null)
                 {
-                    var doorPosition = DoorFactory.CalculateDoorPosition(currentRoom, direction);
-                    var door = new SimpleDoor(currentRoom.Id, targetRoom.Id,direction, doorPosition);
-
-                    currentRoom.Doors.Add(door);
+                    DoorFactory.AddDoor(currentRoom, targetRoom, direction, connection.Doors);
                 }
             }
         }

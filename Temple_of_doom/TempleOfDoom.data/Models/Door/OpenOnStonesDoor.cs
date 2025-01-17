@@ -4,9 +4,9 @@ namespace TempleOfDoom.data.Models.Door;
 
 public class OpenOnStonesDoor : DoorDecorator
 {
-    private readonly int RequiredStones;
+    private readonly int? RequiredStones;
 
-    public OpenOnStonesDoor(Door door, int requiredStones) : base(door)
+    public OpenOnStonesDoor(Door door, int? requiredStones) : base(door)
     {
         RequiredStones = requiredStones;
     }
