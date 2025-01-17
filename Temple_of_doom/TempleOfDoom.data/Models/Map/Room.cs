@@ -96,7 +96,7 @@ public class Room : UiObserver
         switch (currentTile)
         {
             case (char)Symbols.KEY: // Key
-                player.Inventory.AddItem("Key");
+                //player.Inventory.AddItem("Key");
                 Layout[player.Position.Y, player.Position.X] = '.'; // Verwijder de key uit de kamer
 
                 // Verwijder het item uit de Items-lijst van de kamer
@@ -116,7 +116,7 @@ public class Room : UiObserver
 
             case (char)Symbols.SANKARASTONE: // Sankara Stone
                 Update("You found a Sankara Stone!");
-                player.Inventory.AddItem("sankara stone"); // Voeg toe aan inventaris
+                //player.Inventory.AddItem("sankara stone"); // Voeg toe aan inventaris
                 Layout[player.Position.Y, player.Position.X] = '.'; // Verwijder de steen uit de kamer
 
                 // Verwijder het item uit de Items-lijst van de kamer

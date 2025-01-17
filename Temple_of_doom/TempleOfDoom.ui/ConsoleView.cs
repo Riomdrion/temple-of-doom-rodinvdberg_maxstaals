@@ -45,7 +45,7 @@ public class ConsoleView
                         switch (item)
                         {
                             case Key keyItem:
-                                SetConsoleColor(keyItem.KeyColor); // Stel de kleur in voor de sleutel
+                                SetConsoleColor(keyItem.Color); // Stel de kleur in voor de sleutel
                                 Console.Write((char)Symbols.KEY);
                                 Console.ResetColor(); // Reset de kleur naar standaard na gebruik
                                 break;
@@ -69,7 +69,37 @@ public class ConsoleView
                     else
                     {
                         // Default to the room layout if no item is present
-                        Console.Write(room.Layout[y, x]);
+                        switch (room.Layout[y, x])
+                        {
+                            case (char)Symbols.WALL:
+                                SetConsoleColor("Yellow");
+                                Console.Write(room.Layout[y, x]);
+                                Console.ResetColor();
+                                break;
+                            case (char)Symbols.REDHORIZONTALDOOR:
+                                SetConsoleColor("red");
+                                Console.Write(room.Layout[y, x]);
+                                Console.ResetColor();
+                                break;
+                            case (char)Symbols.REDVERTICALDOOR:
+                                SetConsoleColor("red");
+                                Console.Write(room.Layout[y, x]);
+                                Console.ResetColor();
+                                break;
+                            case (char)Symbols.GREENHORIZONTALDOOR:
+                                SetConsoleColor("green");
+                                Console.Write(room.Layout[y, x]);
+                                Console.ResetColor();
+                                break;
+                            case (char)Symbols.GREENVERTICALDOOR:
+                                SetConsoleColor("green");
+                                Console.Write(room.Layout[y, x]);
+                                Console.ResetColor();
+                                break;
+                            default:
+                                Console.Write(room.Layout[y, x]);
+                                break;
+                        }
                     }
                 }
             }

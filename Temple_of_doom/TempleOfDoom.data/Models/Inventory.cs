@@ -1,10 +1,12 @@
-﻿namespace TempleOfDoom.data.Models;
+﻿using TempleOfDoom.data.Models.Items;
+
+namespace TempleOfDoom.data.Models;
 
 public class Inventory
 {
-    private readonly List<string> _items = new();
+    private readonly List<dynamic> _items = new();
 
-    public void AddItem(string item)
+    public void AddItem(Item item)
     {
         _items.Add(item);
     }
