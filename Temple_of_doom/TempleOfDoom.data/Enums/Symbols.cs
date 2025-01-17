@@ -13,6 +13,10 @@
     CLOSINGGATE = '∩',        // Deur die dicht gaat na doorgaan
     BOOBYTRAP = 'O',          // Boobytrap die schade doet
     DISSAPINGBOOBYTRAP = '@', // Verdwijnt na schade doen
-    NODOOR = ' '              // geen deur aanwezig
+    NODOOR = ' ',             // geen deur aanwezig
+    REDVERTICALDOOR = '$',
+    REDHORIZONTALDOOR = '%',
+    GREENVERTICALDOOR = '&',
+    GREENHORIZONTALDOOR = '*',
     }
 }

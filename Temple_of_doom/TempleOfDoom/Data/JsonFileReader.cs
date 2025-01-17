@@ -4,6 +4,7 @@ using Newtonsoft.Json.Serialization;
 using TempleOfDoom.data.Models.Map;
 using TempleOfDoom.Factory;
 using TempleOfDoom.data.DTO;
+using TempleOfDoom.data.Models.Items;
 
 namespace TempleOfDoom.Data;
 
@@ -51,35 +52,33 @@ public static class JsonFileReader
                         (int?)conn["east"] == connection.east &&
                         (int?)conn["west"] == connection.west);
 
-                connection.Doors =
-                    matchingConnection?["doors"]?.ToObject<List<DoorDto>>(JsonSerializer.Create(settings)) ??
-                    new List<DoorDto>();
+                connection.Doors = matchingConnection?["doors"]?.ToObject<List<DoorDto>>(JsonSerializer.Create(settings)) ?? new List<DoorDto>();
             }
         }
+        
 
         // Create rooms and connections
-        var rooms = RoomFactory.CreateRooms(roomsData, connectionsData);
+        
 
-        // Add items to rooms after creation
-        foreach (var room in rooms)
+        foreach (var roomDto in roomsData)
         {
-            var roomData = ((IEnumerable<RoomDto>)roomsData).FirstOrDefault(r => r.Id == room.Id);
-            if (roomData == null)
+            if (roomDto.Items == null || roomDto.Items.Count == 0)
             {
-                throw new KeyNotFoundException($"Room with Id {room.Id} not found in roomsData.");
-            }
+                // Verifieer dat 'items' juist geïnitialiseerd is in JSON
+                var roomsitems = parsedJson["rooms"] as JArray;
 
-            if (roomData.Items != null)
-            {
-                foreach (var itemData in roomData.Items)
-                {
-                    // Use ItemFactory to convert item data into correct type (Key, SankaraStone, etc.)
-                    var item = ItemFactory.CreateItem(itemData); // This method should handle the conversion logic
-                    room.Items.Add(item);
-                }
+                var matchingRoom = roomsitems?
+                    .FirstOrDefault(r => (int?)r["id"] == roomDto.Id);
+
+                roomDto.Items = matchingRoom?["items"]?.ToObject<List<ItemDto>>(JsonSerializer.Create(settings)) ?? new List<ItemDto>();
+                
             }
         }
+        
+        var rooms = RoomFactory.CreateRooms(roomsData, connectionsData);
 
+        
+        
         // Create player
         var playerJson = parsedJson["player"];
         var player = new Player(
@@ -98,11 +97,11 @@ public static class JsonFileReader
         }
 
         // Add the ItemConverter to handle item deserialization
-        var converters = new List<JsonConverter>
-        {
-            new ItemConverter() // Custom converter for deserializing items
-        };
-        settings.Converters = converters;
+        // var converters = new List<JsonConverter>
+        // {
+        //     new ItemConverter() // Custom converter for deserializing items
+        // };
+        // settings.Converters = converters;
 
 
         player.currentRoom = startRoom;

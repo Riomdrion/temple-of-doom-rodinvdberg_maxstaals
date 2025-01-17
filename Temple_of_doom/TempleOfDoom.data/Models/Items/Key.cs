@@ -4,10 +4,10 @@ namespace TempleOfDoom.data.Models.Items;
 
 public class Key : Item
 {
-    public string KeyColor { get; set; }
+    public string Color { get; set; }
 
-    public Key(int x, int y) : base(x, y, "key")
+    public Key(int x, int y, string keyColor) : base(x, y, "key")
     {
-        KeyColor = ColorEnum.Yellow.ToString();
+        Color = ((ColorEnum)Enum.Parse(typeof(ColorEnum), keyColor, true)).ToString().ToUpper();    
     }
 }

@@ -22,7 +22,7 @@ public static class DoorFactory
 
         return dto.type switch
         {
-            "colored" => new ColoredDoor(baseDoor, dto.color),
+            "colored" => new ColoredDoor(baseDoor, dto.color.ToUpper(), direction),
             "toggle" => new ToggleDoor(baseDoor),
             "closing gate" => new ClosingGate(baseDoor),
             "open on odd" => new OpenOnOddDoor(baseDoor),
