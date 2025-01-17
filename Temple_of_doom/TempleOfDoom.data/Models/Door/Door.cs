@@ -12,9 +12,8 @@ public abstract class Door : UiObserver
     public Direction Direction { get; private set; }
     public char Symbol { get; protected set; }
 
-    public Door(int id, int targetRoomId, Direction direction, Position position)
+    public Door(int targetRoomId, Direction direction, Position position)
     {
-        Id = id;
         TargetRoomId = targetRoomId;
         Direction = direction;
         Position = position;

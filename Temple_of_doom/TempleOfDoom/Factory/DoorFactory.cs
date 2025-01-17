@@ -6,18 +6,27 @@ namespace TempleOfDoom.Factory;
 
 public static class DoorFactory
 {
-    public static Door CreateDoor(DoorDto dto, Room room)
+    public static void AddDoor(Room currentRoom, Room targetRoom, Direction direction, List<DoorDto> doors)
     {
-        var position = CalculateDoorPosition(room, dto.Direction);
-        Door baseDoor = new SimpleDoor(dto.Id, dto.TargetRoomId, dto.Direction, position);
-
-        return dto.Type switch
+        foreach (var doorDto in doors)
         {
-            "colored" => new ColoredDoor(baseDoor, dto.KeyColor),
+            Door door = CreateDoor(doorDto, currentRoom, targetRoom, direction);
+            currentRoom.Doors.Add(door);
+        }
+    }
+    
+    public static Door CreateDoor(DoorDto dto, Room room, Room targetRoom, Direction direction)
+    {
+        var position = CalculateDoorPosition(room, direction);
+        Door baseDoor = new SimpleDoor(targetRoom.Id, direction, position);
+
+        return dto.type switch
+        {
+            "colored" => new ColoredDoor(baseDoor, dto.color),
             "toggle" => new ToggleDoor(baseDoor),
             "closing gate" => new ClosingGate(baseDoor),
             "open on odd" => new OpenOnOddDoor(baseDoor),
-            "open on stones in room" => new OpenOnStonesDoor(baseDoor, dto.RequiredStones),
+            "open on stones in room" => new OpenOnStonesDoor(baseDoor, dto.no_of_stones),
             _ => baseDoor
         };
     }

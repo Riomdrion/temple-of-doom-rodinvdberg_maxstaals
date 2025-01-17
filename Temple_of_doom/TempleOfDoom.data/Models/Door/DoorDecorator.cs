@@ -6,7 +6,7 @@ public abstract class DoorDecorator : Door
 {
     protected Door WrappedDoor;
 
-    protected DoorDecorator(Door door) : base(door.Id, door.TargetRoomId, door.Direction, door.Position)
+    protected DoorDecorator(Door door) : base(door.TargetRoomId, door.Direction, door.Position)
     {
         WrappedDoor = door;
     }

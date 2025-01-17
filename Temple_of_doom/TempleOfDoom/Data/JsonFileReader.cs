@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using TempleOfDoom.data.Models.Map;
 using TempleOfDoom.Factory;
@@ -32,8 +33,29 @@ public static class JsonFileReader
         // Deserialize JSON
         var parsedJson = JsonConvert.DeserializeObject<dynamic>(json, settings);
         var roomsData = JsonConvert.DeserializeObject<List<RoomDto>>(parsedJson["rooms"].ToString(), settings);
-        var connectionsData = JsonConvert.DeserializeObject<List<ConnectionDto>>(parsedJson["connections"].ToString(), settings);
-        
+        var connectionsData =
+            JsonConvert.DeserializeObject<List<ConnectionDto>>(parsedJson["connections"].ToString(), settings);
+
+        // Controleer en deserialiseer 'doors' indien aanwezig
+        foreach (var connection in connectionsData)
+        {
+            if (connection.Doors == null || connection.Doors.Count == 0)
+            {
+                // Verifieer dat 'doors' juist geïnitialiseerd is in JSON
+                var connections = parsedJson["connections"] as JArray;
+
+                var matchingConnection = connections?
+                    .FirstOrDefault(conn =>
+                        (int?)conn["north"] == connection.north &&
+                        (int?)conn["south"] == connection.south &&
+                        (int?)conn["east"] == connection.east &&
+                        (int?)conn["west"] == connection.west);
+
+                connection.Doors =
+                    matchingConnection?["doors"]?.ToObject<List<DoorDto>>(JsonSerializer.Create(settings)) ??
+                    new List<DoorDto>();
+            }
+        }
 
         // Create rooms and connections
         var rooms = RoomFactory.CreateRooms(roomsData, connectionsData);
@@ -46,12 +68,13 @@ public static class JsonFileReader
             {
                 throw new KeyNotFoundException($"Room with Id {room.Id} not found in roomsData.");
             }
+
             if (roomData.Items != null)
             {
                 foreach (var itemData in roomData.Items)
                 {
                     // Use ItemFactory to convert item data into correct type (Key, SankaraStone, etc.)
-                    var item = ItemFactory.CreateItem(itemData);  // This method should handle the conversion logic
+                    var item = ItemFactory.CreateItem(itemData); // This method should handle the conversion logic
                     room.Items.Add(item);
                 }
             }
