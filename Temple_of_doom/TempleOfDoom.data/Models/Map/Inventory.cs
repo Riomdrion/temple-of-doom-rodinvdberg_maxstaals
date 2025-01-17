@@ -11,16 +11,13 @@ public class Inventory
         _items.Add(item);
     }
 
-    public bool HasItem(string item)
-    {
-        return _items.Contains(item);
-    }
-    public int GetItemCount(string item)
-    {
-        return _items.Count(i => i == item);  // Return the count of specific items (e.g., Sankara Stone)
-    }
     public bool HasKey(String color)
     {
         return _items.OfType<Key>().Any(key => key.Color == color);
+    }
+
+    public int GetItemCount(String itemtype)
+    {
+        return _items.Count(i => i.Equals(itemtype)); // Return the count of specific items (e.g., Sankara Stone)
     }
 }
