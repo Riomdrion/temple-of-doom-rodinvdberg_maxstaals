@@ -19,4 +19,8 @@ public class Inventory
     {
         return _items.Count(i => i == item);  // Return the count of specific items (e.g., Sankara Stone)
     }
+    public bool HasKey(String color)
+    {
+        return _items.OfType<Key>().Any(key => key.Color == color);
+    }
 }
