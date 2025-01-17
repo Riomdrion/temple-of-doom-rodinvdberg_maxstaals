@@ -53,7 +53,7 @@ public class Room : UiObserver
             {
                 if (y == 0 || y == Height - 1 || x == 0 || x == Width - 1)
                 {
-                    Layout[y, x] = (Layout[y, x] == ' ' || Layout[y, x] == '\0') ? '#' : Layout[y, x];
+                    Layout[y, x] = (Layout[y, x] == ' ' || Layout[y, x] == '\0') ? (char)Symbols.WALL : Layout[y, x];
                 }
             }
         }
@@ -95,7 +95,7 @@ public class Room : UiObserver
 
         switch (currentTile)
         {
-            case 'K': // Key
+            case (char)Symbols.KEY: // Key
                 player.Inventory.AddItem("Key");
                 Layout[player.Position.Y, player.Position.X] = '.'; // Verwijder de key uit de kamer
 
@@ -114,7 +114,7 @@ public class Room : UiObserver
                 Update("You picked up a Key!");
                 break;
 
-            case 'S': // Sankara Stone
+            case (char)Symbols.SANKARASTONE: // Sankara Stone
                 Update("You found a Sankara Stone!");
                 player.Inventory.AddItem("sankara stone"); // Voeg toe aan inventaris
                 Layout[player.Position.Y, player.Position.X] = '.'; // Verwijder de steen uit de kamer
@@ -146,7 +146,7 @@ public class Room : UiObserver
                 player.CheckWinCondition();
                 break;
 
-            case 'B': // Boobytrap
+            case (char)Symbols.BOOBYTRAP: // Boobytrap
                       // Vind het item op de huidige positie van de speler
                 var boobytrapItem = player.currentRoom.Items.FirstOrDefault(i => i.X == player.Position.X && i.Y == player.Position.Y);
 
@@ -166,7 +166,7 @@ public class Room : UiObserver
                 }
                 break;
 
-            case 'D': // Boobytrap
+            case (char)Symbols.DISSAPINGBOOBYTRAP: // Boobytrap
                       // Vind het item op de huidige positie van de speler
                 var dboobytrapItem = player.currentRoom.Items.FirstOrDefault(i => i.X == player.Position.X && i.Y == player.Position.Y);
 
