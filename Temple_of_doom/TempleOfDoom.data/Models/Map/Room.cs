@@ -92,108 +92,41 @@ public class Room : UiObserver
             throw new NullReferenceException("Room layout is not initialized.");
 
         var currentTile = Layout[player.Position.Y, player.Position.X];
+        var item = Items.FirstOrDefault(i => i.X == player.Position.X && i.Y == player.Position.Y);
 
-        switch (currentTile)
+        if (item == null)
         {
-            case (char)Symbols.KEY: // Key
-                // player.Inventory.AddItem("Key");
-                Layout[player.Position.Y, player.Position.X] = '.'; // Verwijder de key uit de kamer
-
-                // Verwijder het item uit de Items-lijst van de kamer
-                var keyItem = player.currentRoom.Items.FirstOrDefault(i => i.X == player.Position.X && i.Y == player.Position.Y);
-                if (keyItem != null)
-                {
-                    player.currentRoom.Items.Remove(keyItem);
-                    Update("Key removed from the room.");
-                }
-                else
-                {
-                    Update("Key item not found in the room.");
-                }
-
-                Update("You picked up a Key!");
-                break;
-
-            case (char)Symbols.SANKARASTONE: // Sankara Stone
-                Update("You found a Sankara Stone!");
-                // player.Inventory.AddItem("sankara stone"); // Voeg toe aan inventaris
-                Layout[player.Position.Y, player.Position.X] = '.'; // Verwijder de steen uit de kamer
-
-                // Verwijder het item uit de Items-lijst van de kamer
-                var sankaraStoneItem = player.currentRoom.Items.FirstOrDefault(i => i.X == player.Position.X && i.Y == player.Position.Y);
-                if (sankaraStoneItem != null)
-                {
-                    player.currentRoom.Items.Remove(sankaraStoneItem);
-                    Update("Sankara Stone removed from the room.");
-                }
-                else
-                {
-                    Update("Sankara Stone item not found in the room.");
-                }
-
-                Update("You picked up a Sankara Stone!");
-
-                // Toon de huidige hoeveelheid Sankara Stones in de inventaris
-                int sankaraStoneCount = player.Inventory.GetItemCount("Sankara Stone");
-                Update("You now have " + sankaraStoneCount + " Sankara Stones.");
-
-                // Controleer of de speler heeft gewonnen (bijvoorbeeld: 5 Sankara Stones verzameld)
-                if (sankaraStoneCount == 5)
-                {
-                    player.HasWon = true;
-                    Update("You have collected all 5 Sankara Stones! You win!");
-                }
-                player.CheckWinCondition();
-                break;
-
-            case (char)Symbols.BOOBYTRAP: // Boobytrap
-                      // Vind het item op de huidige positie van de speler
-                var boobytrapItem = player.currentRoom.Items.FirstOrDefault(i => i.X == player.Position.X && i.Y == player.Position.Y);
-
-                if (boobytrapItem != null && boobytrapItem.Type == "boobytrap")
-                {
-                    // Debugging: Controleer of het een normale boobytrap is
-                    Update($"Normal boobytrap found at position ({player.Position.X}, {player.Position.Y}).");
-
-                    // Verwerk een normale boobytrap
-                    player.Lives--;
-                    Update("Boobytrap triggered! Player loses 1 life.");
-                }
-                else
-                {
-                    // Debugging: Geen normale boobytrap gevonden
-                    Update("No normal boobytrap found at the player's position.");
-                }
-                break;
-
-            case (char)Symbols.DISSAPINGBOOBYTRAP: // dissapearing Boobytrap
-                      // Vind het item op de huidige positie van de speler
-                var dboobytrapItem = player.currentRoom.Items.FirstOrDefault(i => i.X == player.Position.X && i.Y == player.Position.Y);
-
-                if (dboobytrapItem != null && dboobytrapItem.Type == "disappearing boobytrap")
-                {
-                    // Verwerk een normale boobytrap
-                    player.Lives--;
-                    player.currentRoom.Items.Remove(dboobytrapItem);
-
-                    Update("Boobytrap triggered! Player loses 1 life.");
-                }
-                else
-                {
-                    // Debugging: Geen normale boobytrap gevonden
-                    Update("No normal boobytrap found at the player's position.");
-                }
-                break;
+            return; // No item to interact with
         }
 
-        // Debugging: Toon de inhoud van de kamer na de interactie
-        Clear();
-        InitializeRoomLayout();
-
-        Update("Current items in the room after interaction:");
-        foreach (var item in player.currentRoom.Items)
+        switch (item)
         {
-            Update($"Item: {item.Type} at ({item.X}, {item.Y})");
+            case Key:
+                player.Inventory.AddItem(item);
+                Items.Remove(item);
+                Layout[player.Position.Y, player.Position.X] = ' ';
+                break;
+
+            case SankaraStone:
+                player.Inventory.AddItem(item);
+                Items.Remove(item);
+                Layout[player.Position.Y, player.Position.X] = ' ';
+                if (player.Inventory.GetItemCount("sankara stone") == 5)
+                {
+                    player.HasWon = true;
+                }
+                break;
+
+            case Boobytrap boobytrap:
+                boobytrap.Trigger(player);
+                break;
+
+            case DisappearingBoobytrap disappearingBoobytrap:
+                disappearingBoobytrap.Activate(player);
+                Items.Remove(disappearingBoobytrap);
+                Layout[player.Position.Y, player.Position.X] = ' ';
+                break;
         }
     }
 }
+

@@ -16,7 +16,7 @@ public static class ItemFactory
             "sankara stone" => new SankaraStone(x, y),
             "pressure plate" => new PressurePlate(x, y),
             "boobytrap" => new Boobytrap(x, y, 1),
-            "disappearing boobytrap" => new DisappearingBoobytrap(x, y, 1),
+            "disappearing boobytrap" => new DisappearingBoobytrap(x, y, itemDto.damage),
             _ => throw new ArgumentException($"Unknown item type: {itemDto.type}")
         };
     }

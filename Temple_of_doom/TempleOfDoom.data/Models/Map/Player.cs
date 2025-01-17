@@ -1,4 +1,6 @@
-﻿namespace TempleOfDoom.data.Models.Map;
+﻿using TempleOfDoom.data.Models.Items;
+
+namespace TempleOfDoom.data.Models.Map;
 
 public class Player : UiObserver
 {
@@ -18,7 +20,7 @@ public class Player : UiObserver
 
     public bool HasKey(string keyColor)
     {
-        return Inventory.HasItem(keyColor);
+        return Inventory.HasKey(keyColor);
     }
 
     public Position GetPlayerStartPosition()
@@ -66,27 +68,16 @@ public class Player : UiObserver
                 // Validatie: Controleer of de deur geopend kan worden
                 if (!door.CanOpen(this))
                 {
-                    Update($"The door at ({door.Position.X}, {door.Position.Y}) cannot be opened.");
-                    return; // Stop beweging als de deur niet geopend kan worden
+                    return;
                 }
 
                 // Zoek de nieuwe kamer
                 var targetRoom = rooms.FirstOrDefault(r => r.Id == door.TargetRoomId);
-                if (targetRoom == null)
-                {
-                    Update($"Error: Target room with ID={door.TargetRoomId} not found!");
-                    return;
-                }
 
                 // Zoek de corresponderende deur in de doelkamer
                 var correspondingDoor = targetRoom.Doors.FirstOrDefault(d =>
                     d.TargetRoomId == currentRoom.Id && d.Direction == GetOppositeDirection(door.Direction));
-
-                if (correspondingDoor == null)
-                {
-                    Update($"Error: Corresponding door not found in Room ID={targetRoom.Id} for Direction={GetOppositeDirection(door.Direction)}.");
-                    return;
-                }
+                
 
                 // Teleporteer speler naar de nieuwe kamer
                 Position = correspondingDoor.Position;
@@ -98,7 +89,7 @@ public class Player : UiObserver
         }
     }
 
-    public int GetItemCount()
+    public int GetItemCount(string itemtype)
     {
         return Inventory.GetItemCount("sankara stone");
     }
