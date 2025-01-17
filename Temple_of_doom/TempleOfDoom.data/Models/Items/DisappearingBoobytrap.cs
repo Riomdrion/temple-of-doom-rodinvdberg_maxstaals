@@ -1,5 +1,4 @@
-﻿using System.Xml.Linq;
-using TempleOfDoom.data.Models.Map;
+﻿using TempleOfDoom.data.Models.Map;
 
 namespace TempleOfDoom.data.Models.Items;
 
@@ -16,6 +15,5 @@ public class DisappearingBoobytrap : Item
     public void Activate(Player player)
     {
         player.Lives -= Damage;
-        //Console.WriteLine($"{Name} activated! {Damage} damage dealt to the player. Remaining lives: {player.Lives}");
     }
 }
