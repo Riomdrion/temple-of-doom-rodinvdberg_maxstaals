@@ -34,7 +34,7 @@ public class ConsoleView
                 // Check if the player is at this position
                 if (player.Position.X == x && player.Position.Y == y)
                 {
-                    Console.Write((char)Symbols.START);
+                    Console.Write((char)Symbols.INDY);
                 }
                 else
                 {
