@@ -1,5 +1,6 @@
 ﻿using TempleOfDoom.data.Enums;
 using TempleOfDoom.data.Models.Map;
+using TempleOfDoom.data.Models.Items;
 
 namespace TempleOfDoom.ui;
 
@@ -41,15 +42,29 @@ public class ConsoleView
                     var item = room.Items.FirstOrDefault(i => i.X == x && i.Y == y);
                     if (item != null)
                     {
-                        Console.Write(item.Type switch
+                        switch (item)
                         {
-                            "key" => (char)Symbols.KEY,
-                            "sankara stone" => (char)Symbols.SANKARASTONE,
-                            "boobytrap" => (char)Symbols.BOOBYTRAP,
-                            "disappearing boobytrap" => (char)Symbols.DISSAPINGBOOBYTRAP,
-                            "pressure plate" => (char)Symbols.PRESSUREPLATE,
-                            _ => '?', // Default character for unknown items
-                        });
+                            case Key keyItem:
+                                SetConsoleColor(keyItem.KeyColor); // Stel de kleur in voor de sleutel
+                                Console.Write((char)Symbols.KEY);
+                                Console.ResetColor(); // Reset de kleur naar standaard na gebruik
+                                break;
+                            case SankaraStone:
+                                Console.Write((char)Symbols.SANKARASTONE);
+                                break;
+                            case Boobytrap:
+                                Console.Write((char)Symbols.BOOBYTRAP);
+                                break;
+                            case DisappearingBoobytrap:
+                                Console.Write((char)Symbols.DISSAPINGBOOBYTRAP);
+                                break;
+                            case PressurePlate:
+                                Console.Write((char)Symbols.PRESSUREPLATE);
+                                break;
+                            default:
+                                Console.Write('?');
+                                break;
+                        }
                     }
                     else
                     {
@@ -63,7 +78,33 @@ public class ConsoleView
         Console.SetCursorPosition(0, consoleHeight-1); 
     }
 
-
+    public static void SetConsoleColor(string color)
+    {
+        switch (color.ToLower())
+        {
+            case "red":
+                Console.ForegroundColor = ConsoleColor.Red;
+                break;
+            case "green":
+                Console.ForegroundColor = ConsoleColor.Green;
+                break;
+            case "blue":
+                Console.ForegroundColor = ConsoleColor.Blue;
+                break;
+            case "yellow":
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                break;
+            case "cyan":
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                break;
+            case "magenta":
+                Console.ForegroundColor = ConsoleColor.Magenta;
+                break;
+            default:
+                Console.ForegroundColor = ConsoleColor.White; // Default kleur
+                break;
+        }
+    }
 
     public static void DisplayGameOver(bool hasWon)
     {

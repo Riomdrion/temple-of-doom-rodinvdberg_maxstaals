@@ -16,7 +16,7 @@ public class ClosingGate : DoorDecorator
 
     public override bool CanOpen(Player player)
     {
-        if (!_isActivated)
+        if (_isActivated == false)
         {
             _isActivated = true;
             _canOpen = false;

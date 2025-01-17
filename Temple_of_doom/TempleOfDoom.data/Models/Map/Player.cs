@@ -63,7 +63,14 @@ public class Player : UiObserver
         {
             if (door.Position.X == Position.X && door.Position.Y == Position.Y)
             {
-                // find new room
+                // Validatie: Controleer of de deur geopend kan worden
+                if (!door.CanOpen(this))
+                {
+                    Update($"The door at ({door.Position.X}, {door.Position.Y}) cannot be opened.");
+                    return; // Stop beweging als de deur niet geopend kan worden
+                }
+
+                // Zoek de nieuwe kamer
                 var targetRoom = rooms.FirstOrDefault(r => r.Id == door.TargetRoomId);
                 if (targetRoom == null)
                 {
@@ -71,7 +78,7 @@ public class Player : UiObserver
                     return;
                 }
 
-                // find corresponding door in target room
+                // Zoek de corresponderende deur in de doelkamer
                 var correspondingDoor = targetRoom.Doors.FirstOrDefault(d =>
                     d.TargetRoomId == currentRoom.Id && d.Direction == GetOppositeDirection(door.Direction));
 
@@ -80,8 +87,8 @@ public class Player : UiObserver
                     Update($"Error: Corresponding door not found in Room ID={targetRoom.Id} for Direction={GetOppositeDirection(door.Direction)}.");
                     return;
                 }
-                
-                // teleport player to new room
+
+                // Teleporteer speler naar de nieuwe kamer
                 Position = correspondingDoor.Position;
                 currentRoom = targetRoom;
 

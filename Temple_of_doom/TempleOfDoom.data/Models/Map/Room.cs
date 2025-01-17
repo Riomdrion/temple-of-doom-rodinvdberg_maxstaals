@@ -31,6 +31,8 @@ public class Room : UiObserver
             position.X < 0 || position.X >= Layout.GetLength(1))
             return false;
 
+        
+
         return Layout[position.Y, position.X] != '#';
     }
 
