@@ -17,6 +17,9 @@ public class ConsoleView
         int consoleHeight = Console.WindowHeight;
         int startX = (consoleWidth / 2) - (room.Width / 2);
         int startY = (consoleHeight / 2) - (room.Height / 2);
+        startX = Math.Max(0, startX);
+        startY = Math.Max(0, startY);
+
 
         for (var y = 0; y < room.Height; y++)
         {

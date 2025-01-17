@@ -5,7 +5,7 @@
     WALL = '#',              // Muur
     INDY = 'X',              // Startpositie van Indy
     SANKARASTONE = 'S',      // Sankara Stone
-    KEY = 'G',               // Sleutel met betreffende kleur
+    KEY = 'K',               // Sleutel met betreffende kleur
     VERTICALDOOR = '|',      // Deur (verticaal)
     HORIZONTALDOOR = '=',    // Deur (horizontaal)
     PRESSUREPLATE = 'T',     // Drukplek
