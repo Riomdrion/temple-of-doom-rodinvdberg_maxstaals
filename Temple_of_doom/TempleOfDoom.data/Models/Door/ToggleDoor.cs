@@ -12,6 +12,6 @@ public class ToggleDoor : DoorDecorator
 
     public override bool CanOpen(Player player)
     {
-        return IsOpen && base.CanOpen(player);
+        return IsOpen;
     }
 }
