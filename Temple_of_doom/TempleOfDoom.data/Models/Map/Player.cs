@@ -21,7 +21,7 @@ public class Player : UiObserver
 
     public bool HasKey(string keyColor)
     {
-        return Inventory.HasItem(keyColor);
+        return Inventory.HasKey(keyColor);
     }
 
     public Position GetPlayerStartPosition()
@@ -69,8 +69,7 @@ public class Player : UiObserver
                 // Validatie: Controleer of de deur geopend kan worden
                 if (!door.CanOpen(this))
                 {
-                    Update($"The door at ({door.Position.X}, {door.Position.Y}) cannot be opened.");
-                    return; // Stop beweging als de deur niet geopend kan worden
+                    return;
                 }
 
                 // find new room
@@ -101,7 +100,7 @@ public class Player : UiObserver
         }
     }
 
-    public int GetItemCount()
+    public int GetItemCount(string itemtype)
     {
         return Inventory.GetItemCount("sankara stone");
     }
