@@ -1,4 +1,5 @@
 ﻿using TempleOfDoom.data.Enums;
+using TempleOfDoom.data.Models.Door;
 using TempleOfDoom.data.Models.Items;
 
 namespace TempleOfDoom.data.Models.Map;
@@ -125,6 +126,14 @@ public class Room : UiObserver
                 disappearingBoobytrap.Activate(player);
                 Items.Remove(disappearingBoobytrap);
                 Layout[player.Position.Y, player.Position.X] = ' ';
+                break;
+            
+            case PressurePlate pressurePlate:
+                pressurePlate.StepOn();
+                foreach (var door in Doors.OfType<ToggleDoor>())
+                {
+                    door.IsOpen = !door.IsOpen;
+                }
                 break;
         }
     }
