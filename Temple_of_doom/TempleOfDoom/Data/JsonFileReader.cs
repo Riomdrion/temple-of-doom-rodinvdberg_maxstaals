@@ -95,15 +95,7 @@ public static class JsonFileReader
             startRoom = room;
             break;
         }
-
-        // Add the ItemConverter to handle item deserialization
-        // var converters = new List<JsonConverter>
-        // {
-        //     new ItemConverter() // Custom converter for deserializing items
-        // };
-        // settings.Converters = converters;
-
-
+        
         player.currentRoom = startRoom;
 
         // Create GameWorld

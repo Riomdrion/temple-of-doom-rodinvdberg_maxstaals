@@ -1,4 +1,5 @@
-﻿using TempleOfDoom.data.Models.Items;
+﻿using TempleOfDoom.data.Models.Door;
+using TempleOfDoom.data.Models.Items;
 
 namespace TempleOfDoom.data.Models.Map;
 
@@ -71,6 +72,10 @@ public class Player : UiObserver
                     return;
                 }
 
+                if (door is ClosingGate gate)
+                {
+                   gate.SetClosed();
+                }
                 // Zoek de nieuwe kamer
                 var targetRoom = rooms.FirstOrDefault(r => r.Id == door.TargetRoomId);
 
@@ -82,6 +87,7 @@ public class Player : UiObserver
                 // Teleporteer speler naar de nieuwe kamer
                 Position = correspondingDoor.Position;
                 currentRoom = targetRoom;
+                
 
                 Update($"Teleported to Room ID={currentRoom.Id} at Position=({Position.X}, {Position.Y})");
                 break;
