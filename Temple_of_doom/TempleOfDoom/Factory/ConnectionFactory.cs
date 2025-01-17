@@ -45,7 +45,18 @@ namespace TempleOfDoom.Factory
 
                 if (currentRoom != null && targetRoom != null)
                 {
-                    DoorFactory.AddDoor(currentRoom, targetRoom, direction, connection.Doors);
+                    // Controleer of er geen deuren zijn opgegeven, en voeg een open doorgang toe
+                    if (connection.Doors == null || !connection.Doors.Any())
+                    {
+                        DoorFactory.AddDoor(currentRoom, targetRoom, direction, new List<DoorDto>
+                        {
+                            new DoorDto { type = "open" }
+                        });
+                    }
+                    else
+                    {
+                        DoorFactory.AddDoor(currentRoom, targetRoom, direction, connection.Doors);
+                    }
                 }
             }
         }

@@ -66,6 +66,13 @@ public class Player : UiObserver
         {
             if (door.Position.X == Position.X && door.Position.Y == Position.Y)
             {
+                // Validatie: Controleer of de deur geopend kan worden
+                if (!door.CanOpen(this))
+                {
+                    Update($"The door at ({door.Position.X}, {door.Position.Y}) cannot be opened.");
+                    return; // Stop beweging als de deur niet geopend kan worden
+                }
+
                 // find new room
                 var targetRoom = rooms.FirstOrDefault(r => r.Id == door.TargetRoomId);
                 if (targetRoom == null)

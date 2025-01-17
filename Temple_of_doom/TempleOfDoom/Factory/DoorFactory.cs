@@ -27,7 +27,7 @@ public static class DoorFactory
             "closing gate" => new ClosingGate(baseDoor),
             "open on odd" => new OpenOnOddDoor(baseDoor),
             "open on stones in room" => new OpenOnStonesDoor(baseDoor, dto.no_of_stones),
-            _ => baseDoor
+            "open" => baseDoor
         };
     }
 
