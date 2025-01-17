@@ -8,6 +8,7 @@ public class OpenOnStonesDoor : DoorDecorator
 
     public OpenOnStonesDoor(Door door, int? requiredStones) : base(door)
     {
+        // Symbol = (char)Enums.Symbols.OPENONSTONESDOOR;
         RequiredStones = requiredStones;
     }
 
