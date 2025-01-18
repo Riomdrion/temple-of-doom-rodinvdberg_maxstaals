@@ -2,23 +2,24 @@
 {
     public enum Symbols
     {
-    WALL = '#',               // Muur
-    INDY = 'X',               // Startpositie van Indy
-    SANKARASTONE = 'S',       // Sankara Stone
-    KEY = 'K',                // Sleutel met betreffende kleur
-    VERTICALDOOR = '|',       // Deur (verticaal)
-    HORIZONTALDOOR = '=',     // Deur (horizontaal)
-    PRESSUREPLATE = 'T',      // Drukplek
-    TOGGLEDOOR = '⊥',         // Deur die met drukplek open/dicht kan
-    CLOSINGGATE = '∩',        // Deur die dicht gaat na doorgaan
-    BOOBYTRAP = 'O',          // Boobytrap die schade doet
-    DISSAPINGBOOBYTRAP = '@', // Verdwijnt na schade doen
-    NODOOR = ' ',             // geen deur aanwezig
-    REDVERTICALDOOR = '$',
-    REDHORIZONTALDOOR = '%',
-    GREENVERTICALDOOR = '&',
-    GREENHORIZONTALDOOR = '*',  
+    WALL = '#',                 // Muur
+    INDY = 'X',                 // Startpositie van Indy
+    SANKARASTONE = 'S',         // Sankara Stone
+    KEY = 'K',                  // Sleutel met betreffende kleur
+    VERTICALDOOR = '|',         // Deur (verticaal)
+    HORIZONTALDOOR = '=',       // Deur (horizontaal)
+    PRESSUREPLATE = 'T',        // Drukplek
+    TOGGLEDOOR = '⊥',           // Deur die met drukplek open/dicht kan
+    CLOSINGGATE = '∩',          // Deur die dicht gaat na doorgaan
+    BOOBYTRAP = 'O',            // Boobytrap die schade doet
+    DISSAPINGBOOBYTRAP = '@',   // Verdwijnt na schade doen
+    NODOOR = ' ',               // geen deur aanwezig
+    REDVERTICALDOOR = '$',      // Deuren met kleur
+    REDHORIZONTALDOOR = '%',    // Deuren met kleur
+    GREENVERTICALDOOR = '&',    // Deuren met kleur
+    GREENHORIZONTALDOOR = '*',  // Deuren met kleur
     ICEFLOORTILE = '~',         // Vloertegel
-    
+    LADDER = 'H',               // Ladder
+    ENEMY = 'E',                // Vijand
     }
 }

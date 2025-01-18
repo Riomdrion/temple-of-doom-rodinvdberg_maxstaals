@@ -19,7 +19,8 @@ public static class RoomFactory
                 items: roomData.Items.Select(itemDto => ItemFactory.CreateItem(itemDto)).ToList(),
                 doors: new List<Door>(),
                 floorTiles: roomData.FloorTile.Select(tileDto => FloorTileFactory.CreateTile(tileDto)).ToList(),
-                enemies: roomData.Enemies.Select(enemyDto => EnemyFactory.CreateEnemy(enemyDto)).ToList()
+                enemies: roomData.Enemies.Select(enemyDto => EnemyFactory.CreateEnemy(enemyDto)).ToList(),
+                ladders: new List<Ladder>()
             );
 
             rooms.Add(room);

@@ -15,16 +15,17 @@ public class Room : UiObserver
     public List<Item> Items { get; set; }
     public List<FloorTile> FloorTiles { get; set; }
     public List<Enemy> Enemies { get; set; }
-
+    public List<Ladder> Ladders { get; set; }
     public char[,] Layout { get; private set; }
 
-    public Room(int id, int width, int height, List<Door.Door> doors, List<Item> items, List<FloorTile> floorTiles, List<Enemy> enemies)
+    public Room(int id, int width, int height, List<Door.Door> doors, List<Item> items, List<FloorTile> floorTiles, List<Enemy> enemies, List<Ladder> ladders)
     {
         Id = id;
         Width = width;
         Height = height;
         Doors = doors;
         Items = items;
+        Ladders = ladders;
         FloorTiles = floorTiles;
         Enemies = enemies;
         Layout = new char[height, width];
@@ -76,6 +77,23 @@ public class Room : UiObserver
             }
         }
         
+        // Stap 4: Voeg ladders toe aan de lay-out
+        foreach (var ladder in Ladders)
+        {
+            if (ladder.UpperPosition.X >= 0 && ladder.UpperPosition.X < Width &&
+                ladder.UpperPosition.Y >= 0 && ladder.UpperPosition.Y < Height)
+            {
+                Layout[ladder.UpperPosition.Y, ladder.UpperPosition.X] = (char)Symbols.LADDER;
+            }
+
+            if (ladder.LowerPosition.X >= 0 && ladder.LowerPosition.X < Width &&
+                ladder.LowerPosition.Y >= 0 && ladder.LowerPosition.Y < Height)
+            {
+                Layout[ladder.LowerPosition.Y, ladder.LowerPosition.X] = (char)Symbols.LADDER; 
+            }
+        }
+        
+        // Stap 5: Voeg items toe aan de lay-out
         foreach (var item in Items)
         {
             if (item.X >= 0 && item.X < Width && item.Y >= 0 && item.Y < Height)
@@ -93,6 +111,7 @@ public class Room : UiObserver
             }
         }
 
+        // Stap 6: Voeg vijanden toe aan de lay-out
         foreach (var floorTile in FloorTiles)
         {
             if (floorTile.position.X >= 0 && floorTile.position.X < Width && floorTile.position.Y >= 0 &&
