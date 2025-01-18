@@ -8,12 +8,18 @@ public class GameController
 {
     private GameWorld? _gameWorld;
     private ConsoleView _view = new();
+    private readonly IDataReader _dataReader;
 
+    public GameController(IDataReader dataReader)
+    {
+        _dataReader = dataReader;
+    }
+    
     public void StartGame()
     {
         // Initialize components
         _view = new ConsoleView();
-        _gameWorld = JsonFileReader.LoadGameWorld("../../../../TempleOfDoom.data/Levels/TempleOfDoom_Extended_A_2122.json");
+        _gameWorld = _dataReader.LoadGameWorld("../../../../TempleOfDoom.data/Levels/TempleOfDoom_Extended_A_2122.json");
         _gameWorld.Player.Position = _gameWorld.Player.GetPlayerStartPosition();
 
         // Start the game loop
