@@ -2,8 +2,7 @@
 
 public class PressurePlate : Item
 {
-    public PressurePlate(int x, int y)
-            : base(x, y, "pressure plate")  // Call the base constructor with required parameters
+    public PressurePlate(int x, int y) : base(x, y, "pressure plate")
     {
         IsActive = false;
     }
