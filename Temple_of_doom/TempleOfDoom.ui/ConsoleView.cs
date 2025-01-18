@@ -12,7 +12,7 @@ public class ConsoleView
         Console.SetCursorPosition(0, Console.WindowHeight - 2);
         Console.WriteLine($"Player: ({player.Position.X}, {player.Position.Y})");
         Console.WriteLine("Aantal levens: " + player.Lives);
-        Console.WriteLine("Aantal sankara stones: "+ player.GetItemCount(""));
+        Console.WriteLine("Aantal sankara stones: "+ player.Inventory.CountSankaraStones());
 
         int consoleWidth = Console.WindowWidth;
         int consoleHeight = Console.WindowHeight;

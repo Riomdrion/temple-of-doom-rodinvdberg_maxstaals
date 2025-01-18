@@ -101,27 +101,6 @@ public class Player : UiObserver
         }
     }
 
-    public int GetItemCount(string itemtype)
-    {
-        return Inventory.GetItemCount("sankara stone");
-    }
-
-    //Check if the player has collected all required Sankara Stones
-    public bool CheckWinCondition(int requiredStones = 5)
-    {
-        int collectedStones = Inventory.GetItemCount("sankara stone");
-
-        if (collectedStones >= requiredStones)
-        {
-            HasWon = true;
-            Update("");
-            Update($"You have collected all {requiredStones} Sankara Stones! You win!");
-            return true;
-        }
-
-        return false;
-    }
-
     private Direction GetOppositeDirection(Direction direction)
     {
         return direction switch
