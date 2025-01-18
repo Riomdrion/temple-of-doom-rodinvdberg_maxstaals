@@ -1,4 +1,5 @@
-﻿using TempleOfDoom.data.Models.Map;
+﻿using TempleOfDoom.data.Models.FloorTiles;
+using TempleOfDoom.data.Models.Map;
 
 namespace TempleOfDoom.data.Models.Enemy
 {
@@ -14,28 +15,51 @@ namespace TempleOfDoom.data.Models.Enemy
         private bool MovingForward { get; set; } = true;
 
 
-        public void Move()
+        public void Move(Room currentRoom)
         {
             int deltaX = 0, deltaY = 0;
 
+            // Beweging op basis van type
             if (Type.ToLower() == "horizontal")
             {
                 deltaX = MovingForward ? 1 : -1;
-                Position = new Position(Position.X + deltaX, Position.Y);
-
-                if (Position.X >= MaxX || Position.X <= MinX)
-                {
-                    MovingForward = !MovingForward;
-                }
             }
             else if (Type.ToLower() == "vertical")
             {
                 deltaY = MovingForward ? 1 : -1;
-                Position = new Position(Position.X, Position.Y + deltaY);
+            }
 
-                if (Position.Y >= MaxY || Position.Y <= MinY)
+            // Bereken nieuwe positie
+            var newPosition = new Position(Position.X + deltaX, Position.Y + deltaY);
+
+            // Controleer of de nieuwe positie geldig is
+            if (currentRoom.IsPositionWalkable(newPosition) &&
+                newPosition.X >= MinX && newPosition.X <= MaxX &&
+                newPosition.Y >= MinY && newPosition.Y <= MaxY)
+            {
+                Position = newPosition; // Verplaats naar de nieuwe positie
+            }
+            else
+            {
+                MovingForward = !MovingForward; // Keer om als de positie niet geldig is
+                return; // Stop verdere verwerking
+            }
+
+            // Controleer of de vijand op een ijstegel staat
+            while (currentRoom.GetFloorTileAt(Position) is IceTile)
+            {
+                // Beweeg verder in dezelfde richting over de ijstegel
+                newPosition = new Position(Position.X + deltaX, Position.Y + deltaY);
+
+                if (currentRoom.IsPositionWalkable(newPosition) &&
+                    newPosition.X >= MinX && newPosition.X <= MaxX &&
+                    newPosition.Y >= MinY && newPosition.Y <= MaxY)
                 {
-                    MovingForward = !MovingForward;
+                    Position = newPosition; // Update positie
+                }
+                else
+                {
+                    break; // Stop als de nieuwe positie niet geldig is
                 }
             }
         }

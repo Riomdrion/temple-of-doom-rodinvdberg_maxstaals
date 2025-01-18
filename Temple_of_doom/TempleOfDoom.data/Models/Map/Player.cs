@@ -64,13 +64,12 @@ public class Player : UiObserver
         
         foreach (var enemy in currentRoom.Enemies)
         {
-            if (Position.Equals(enemy.Position))
+            if (Position.X == enemy.Position.X && Position.Y == enemy.Position.Y)
             {
-                Lives--; // Speler neemt schade
-                Console.WriteLine("Ouch! You were hit by an enemy.");
+                Lives--;
             }
         }
-        currentRoom.MoveEnemies();
+        currentRoom.MoveEnemies(currentRoom);
 
         foreach (var floorTile in currentRoom.FloorTiles)
         {

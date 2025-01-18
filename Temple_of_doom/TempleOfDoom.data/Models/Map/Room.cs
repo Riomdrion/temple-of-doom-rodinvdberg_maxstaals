@@ -158,11 +158,11 @@ public class Room : UiObserver
         return FloorTiles.FirstOrDefault(tile => tile.position.X == position.X && tile.position.Y == position.Y);
     }
 
-    public void MoveEnemies()
+    public void MoveEnemies(Room currentRoom)
     {
         foreach (var enemy in Enemies)
         {
-            enemy.Move();
+            enemy.Move(currentRoom);
         }
     }
 }

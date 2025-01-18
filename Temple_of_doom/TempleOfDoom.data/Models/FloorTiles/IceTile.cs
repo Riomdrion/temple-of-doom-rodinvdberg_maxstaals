@@ -5,7 +5,7 @@ namespace TempleOfDoom.data.Models.FloorTiles;
 
 public class IceTile(Position position) : FloorTile(position)
 {
-    public void HandleIceFloorTile(string command, Room currentRoom, Player player)
+    public void HandleIceFloorTile(string command, Room currentRoom, dynamic player)
     {
         while (currentRoom.GetFloorTileAt(player.Position) is FloorTile iceTile &&
                iceTile.Symbol == (char)Symbols.ICEFLOORTILE)
