@@ -1,6 +1,5 @@
 ﻿using TempleOfDoom.data.Models.Map;
 using TempleOfDoom.data.DTO;
-using TempleOfDoom.data.Models.Enemy;
 
 namespace TempleOfDoom.Factory;
 
