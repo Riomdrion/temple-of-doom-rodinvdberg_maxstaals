@@ -1,4 +1,4 @@
-﻿using TempleOfDoom.data.Models.Items;
+﻿using TempleOfDoom.data.Models.Door;
 
 namespace TempleOfDoom.data.Models.Map;
 
@@ -72,6 +72,10 @@ public class Player : UiObserver
                     return;
                 }
 
+                if (door is ClosingGate gate)
+                {
+                    gate.SetClosed();
+                }
                 // find new room
                 var targetRoom = rooms.FirstOrDefault(r => r.Id == door.TargetRoomId);
                 if (targetRoom == null)
