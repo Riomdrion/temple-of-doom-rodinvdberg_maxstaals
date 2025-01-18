@@ -1,4 +1,6 @@
-﻿using TempleOfDoom.data.Models.Door;
+﻿using System.Numerics;
+using TempleOfDoom.data.Models.Door;
+using TempleOfDoom.data.Models.Items;
 
 namespace TempleOfDoom.data.Models.Map;
 
@@ -72,12 +74,17 @@ public class Player : UiObserver
                     return;
                 }
 
+                var targetRoom = rooms.FirstOrDefault(r => r.Id == door.TargetRoomId);
+
                 if (door is ClosingGate gate)
                 {
                     gate.SetClosed();
+                    foreach (var newDoor in targetRoom.Doors.OfType<ClosingGate>())
+                    {
+                        newDoor.SetClosed();
+                    }
                 }
                 // find new room
-                var targetRoom = rooms.FirstOrDefault(r => r.Id == door.TargetRoomId);
                 if (targetRoom == null)
                 {
                     Update($"Error: Target room with ID={door.TargetRoomId} not found!");
@@ -104,17 +111,18 @@ public class Player : UiObserver
         }
     }
 
-    public int GetItemCount(string itemtype)
+    public int GetItemCount<T>() where T : Item
     {
-        return Inventory.GetItemCount("sankara stone");
+        return Inventory.GetItemCount<T>();
     }
+    
 
     //Check if the player has collected all required Sankara Stones
     public bool CheckWinCondition(int requiredStones = 5)
     {
-        int collectedStones = Inventory.GetItemCount("sankara stone");
+        int sankaraStones = Inventory.GetItemCount<SankaraStone>();
 
-        if (collectedStones >= requiredStones)
+        if (sankaraStones >= requiredStones)
         {
             HasWon = true;
             Update("");

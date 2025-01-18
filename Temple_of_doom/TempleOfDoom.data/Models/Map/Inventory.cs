@@ -16,8 +16,8 @@ public class Inventory
         return _items.OfType<Key>().Any(key => key.Color == color);
     }
 
-    public int GetItemCount(String itemtype)
+    public int GetItemCount<T>() where T : Item
     {
-        return _items.Count(i => i.Equals(itemtype)); // Return the count of specific items (e.g., Sankara Stone)
+        return _items.OfType<T>().Count();
     }
 }

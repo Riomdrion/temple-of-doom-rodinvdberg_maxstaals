@@ -112,7 +112,7 @@ public class Room : UiObserver
                 player.Inventory.AddItem(item);
                 Items.Remove(item);
                 Layout[player.Position.Y, player.Position.X] = ' ';
-                if (player.Inventory.GetItemCount("sankara stone") == 5)
+                if (player.Inventory.GetItemCount<SankaraStone>() == 5)
                 {
                     player.HasWon = true;
                 }
