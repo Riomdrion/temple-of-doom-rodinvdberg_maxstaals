@@ -1,4 +1,5 @@
 ﻿using TempleOfDoom.data.Models.Door;
+using TempleOfDoom.data.Models.FloorTiles;
 using TempleOfDoom.data.Models.Items;
 
 namespace TempleOfDoom.data.Models.Map;
@@ -59,6 +60,14 @@ public class Player : UiObserver
 
             // Handle interactions with items at the new position
             currentRoom.HandlePlayerInteraction(this);
+        }
+
+        foreach (var floorTile in currentRoom.FloorTiles)
+        {
+            if(floorTile is IceTile iceTile)
+            {
+                iceTile.HandleIceFloorTile(command, currentRoom, this);
+            }
         }
         
         // Check if the player has reached a door

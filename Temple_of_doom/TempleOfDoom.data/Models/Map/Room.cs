@@ -149,5 +149,11 @@ public class Room : UiObserver
                 break;
         }
     }
+    
+    public FloorTile GetFloorTileAt(Position position)
+    {
+        return FloorTiles.FirstOrDefault(tile => tile.position.X == position.X && tile.position.Y == position.Y);
+    }
+
 }
 

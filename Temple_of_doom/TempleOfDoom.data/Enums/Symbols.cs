@@ -17,8 +17,8 @@
     REDVERTICALDOOR = '$',
     REDHORIZONTALDOOR = '%',
     GREENVERTICALDOOR = '&',
-    GREENHORIZONTALDOOR = '*',
-    ICEFLOORTILE = '◎',         // Vloertegel
+    GREENHORIZONTALDOOR = '*',  
+    ICEFLOORTILE = '~',         // Vloertegel
     
     }
 }
