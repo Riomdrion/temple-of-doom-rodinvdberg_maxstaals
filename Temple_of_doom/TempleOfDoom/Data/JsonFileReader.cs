@@ -73,6 +73,17 @@ public static class JsonFileReader
                 roomDto.Items = matchingRoom?["items"]?.ToObject<List<ItemDto>>(JsonSerializer.Create(settings)) ?? new List<ItemDto>();
                 
             }
+            
+            // Verifieer of 'FloorTile' juist geïnitialiseerd is
+            if (roomDto.FloorTile == null || roomDto.FloorTile.Count == 0)
+            {
+                var roomsTiles = parsedJson["rooms"] as JArray;
+
+                var matchingRoom = roomsTiles?
+                    .FirstOrDefault(r => (int?)r["id"] == roomDto.Id);
+
+                roomDto.FloorTile = matchingRoom?["specialFloorTiles"]?.ToObject<List<FloorTileDTO>>(JsonSerializer.Create(settings)) ?? new List<FloorTileDTO>();
+            }
         }
         
         var rooms = RoomFactory.CreateRooms(roomsData, connectionsData);

@@ -9,6 +9,7 @@ public class ConsoleView
     public void DisplayRoom(Room room, Player player)
     {
         Console.Clear();
+        Console.OutputEncoding = System.Text.Encoding.UTF8;
         Console.SetCursorPosition(0, Console.WindowHeight - 2);
         Console.WriteLine($"Player: ({player.Position.X}, {player.Position.Y})");
         Console.WriteLine("Aantal levens: " + player.Lives);

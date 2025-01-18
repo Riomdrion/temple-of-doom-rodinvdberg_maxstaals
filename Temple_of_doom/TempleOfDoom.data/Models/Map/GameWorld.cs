@@ -1,7 +1,4 @@
-﻿
-using TempleOfDoom.data.Models.Door;
-
-namespace TempleOfDoom.data.Models.Map;
+﻿namespace TempleOfDoom.data.Models.Map;
 
 public class GameWorld(Player player, List<Room> rooms)
 {

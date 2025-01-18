@@ -1,5 +1,6 @@
 ﻿using TempleOfDoom.data.Enums;
 using TempleOfDoom.data.Models.Door;
+using TempleOfDoom.data.Models.FloorTiles;
 using TempleOfDoom.data.Models.Items;
 
 namespace TempleOfDoom.data.Models.Map;
@@ -11,15 +12,17 @@ public class Room : UiObserver
     public int Height { get; }
     public List<Door.Door> Doors { get; set; }
     public List<Item> Items { get; set; }
+    public List<FloorTile> FloorTiles { get; set; }
     public char[,] Layout { get; private set; }
 
-    public Room(int id, int width, int height, List<Door.Door> doors, List<Item> items)
+    public Room(int id, int width, int height, List<Door.Door> doors, List<Item> items, List<FloorTile> floorTiles)
     {
         Id = id;
         Width = width;
         Height = height;
         Doors = doors;
         Items = items;
+        FloorTiles = floorTiles;
         Layout = new char[height, width];
     }
 
@@ -68,6 +71,7 @@ public class Room : UiObserver
                 Layout[door.Position.Y, door.Position.X] = door.Symbol;
             }
         }
+        
         foreach (var item in Items)
         {
             if (item.X >= 0 && item.X < Width && item.Y >= 0 && item.Y < Height)
@@ -79,10 +83,18 @@ public class Room : UiObserver
                     Item boobytrapItem when boobytrapItem.Type == "boobytrap" => (char)Symbols.BOOBYTRAP,
                     Item disappearingBoobytrapItem when disappearingBoobytrapItem.Type == "disappearing boobytrap" => (char)Symbols.DISSAPINGBOOBYTRAP,
                     Item pressurePlateItem when pressurePlateItem.Type == "pressure plate" => (char)Symbols.PRESSUREPLATE,
-                    _ => ' '  // Default symbol for unknown item types
                 };
 
                 Layout[item.Y, item.X] = itemSymbol;
+            }
+        }
+
+        foreach (var floorTile in FloorTiles)
+        {
+            if (floorTile.position.X >= 0 && floorTile.position.X < Width && floorTile.position.Y >= 0 &&
+                floorTile.position.Y < Height)
+            {
+                Layout[floorTile.position.Y, floorTile.position.X] = floorTile.Symbol;
             }
         }
     }

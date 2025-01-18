@@ -1,5 +1,6 @@
 ﻿using TempleOfDoom.data.DTO;
 using TempleOfDoom.data.Models.Door;
+using TempleOfDoom.data.Models.FloorTiles;
 using TempleOfDoom.data.Models.Items;
 using TempleOfDoom.data.Models.Map;
 
@@ -18,7 +19,8 @@ public static class RoomFactory
                 width: roomData.Width,
                 height: roomData.Height,
                 items: roomData.Items.Select(itemDto => ItemFactory.CreateItem(itemDto)).ToList(),
-                doors: new List<Door>()
+                doors: new List<Door>(),
+                floorTiles: roomData.FloorTile.Select(tileDto => FloorTileFactory.CreateTile(tileDto)).ToList()
             );
 
             rooms.Add(room);

@@ -1,16 +1,17 @@
-﻿using TempleOfDoom.data.Models.FloorTiles;
+﻿using TempleOfDoom.data.DTO;
+using TempleOfDoom.data.Models.FloorTiles;
 using TempleOfDoom.data.Models.Map;
 
 namespace TempleOfDoom.Factory;
 
 public static class FloorTileFactory
 {
-    public static FloorTile CreateTile(string type, int x, int y)
+    public static FloorTile CreateTile(FloorTileDTO tileDto)
     {
-        return type.ToLower() switch
+        return tileDto.type.ToLower() switch
         {
-            "ice" => new IceTile(new Position(x,y)),
-            _ => throw new ArgumentException($"Unknown floor tile type: {type}")
+            "ice" => new IceTile(new Position(tileDto.x,tileDto.y)),
+            _ => new SimpleFloorTile(new Position(tileDto.x,tileDto.y))
         };
     }
 }
