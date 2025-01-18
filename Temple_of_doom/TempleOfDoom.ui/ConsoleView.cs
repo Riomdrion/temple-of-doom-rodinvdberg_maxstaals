@@ -39,6 +39,10 @@ public class ConsoleView
                 }
                 else
                 {
+                    if (room.Enemies.Any(e => e.Position.X == x && e.Position.Y == y))
+                    {
+                        Console.Write('E'); // Weergave voor vijand
+                    }
                     // Check if there's an item at this position
                     var item = room.Items.FirstOrDefault(i => i.X == x && i.Y == y);
                     if (item != null)

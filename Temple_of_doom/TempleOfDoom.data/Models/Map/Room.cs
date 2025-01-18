@@ -13,9 +13,11 @@ public class Room : UiObserver
     public List<Door.Door> Doors { get; set; }
     public List<Item> Items { get; set; }
     public List<FloorTile> FloorTiles { get; set; }
+    public List<Enemy.Enemy> Enemies { get; set; }
+
     public char[,] Layout { get; private set; }
 
-    public Room(int id, int width, int height, List<Door.Door> doors, List<Item> items, List<FloorTile> floorTiles)
+    public Room(int id, int width, int height, List<Door.Door> doors, List<Item> items, List<FloorTile> floorTiles, List<Enemy.Enemy> enemies)
     {
         Id = id;
         Width = width;
@@ -23,6 +25,7 @@ public class Room : UiObserver
         Doors = doors;
         Items = items;
         FloorTiles = floorTiles;
+        Enemies = enemies;
         Layout = new char[height, width];
     }
 
@@ -155,5 +158,12 @@ public class Room : UiObserver
         return FloorTiles.FirstOrDefault(tile => tile.position.X == position.X && tile.position.Y == position.Y);
     }
 
+    public void MoveEnemies()
+    {
+        foreach (var enemy in Enemies)
+        {
+            enemy.Move();
+        }
+    }
 }
 

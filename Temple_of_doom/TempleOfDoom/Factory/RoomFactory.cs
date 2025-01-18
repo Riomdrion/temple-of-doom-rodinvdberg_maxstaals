@@ -1,7 +1,5 @@
 ﻿using TempleOfDoom.data.DTO;
 using TempleOfDoom.data.Models.Door;
-using TempleOfDoom.data.Models.FloorTiles;
-using TempleOfDoom.data.Models.Items;
 using TempleOfDoom.data.Models.Map;
 
 namespace TempleOfDoom.Factory;
@@ -20,7 +18,8 @@ public static class RoomFactory
                 height: roomData.Height,
                 items: roomData.Items.Select(itemDto => ItemFactory.CreateItem(itemDto)).ToList(),
                 doors: new List<Door>(),
-                floorTiles: roomData.FloorTile.Select(tileDto => FloorTileFactory.CreateTile(tileDto)).ToList()
+                floorTiles: roomData.FloorTile.Select(tileDto => FloorTileFactory.CreateTile(tileDto)).ToList(),
+                enemies: roomData.Enemies.Select(enemyDto => EnemyFactory.CreateEnemy(enemyDto)).ToList()
             );
 
             rooms.Add(room);

@@ -61,6 +61,16 @@ public class Player : UiObserver
             // Handle interactions with items at the new position
             currentRoom.HandlePlayerInteraction(this);
         }
+        
+        foreach (var enemy in currentRoom.Enemies)
+        {
+            if (Position.Equals(enemy.Position))
+            {
+                Lives--; // Speler neemt schade
+                Console.WriteLine("Ouch! You were hit by an enemy.");
+            }
+        }
+        currentRoom.MoveEnemies();
 
         foreach (var floorTile in currentRoom.FloorTiles)
         {
@@ -97,14 +107,10 @@ public class Player : UiObserver
                 var correspondingDoor = targetRoom.Doors.FirstOrDefault(d =>
                     d.TargetRoomId == currentRoom.Id && d.Direction == GetOppositeDirection(door.Direction));
                 
-
                 // Teleporteer speler naar de nieuwe kamer
                 Position = correspondingDoor.Position;
                 currentRoom = targetRoom;
                 
-                
-
-                Update($"Teleported to Room ID={currentRoom.Id} at Position=({Position.X}, {Position.Y})");
                 break;
             }
         }
