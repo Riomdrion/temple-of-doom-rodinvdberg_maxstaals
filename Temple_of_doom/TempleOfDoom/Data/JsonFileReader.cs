@@ -55,15 +55,15 @@ public static class JsonFileReader
                 connection.Doors = matchingConnection?["doors"]?.ToObject<List<DoorDto>>(JsonSerializer.Create(settings)) ?? new List<DoorDto>();
             }
             
-            if (connection.Ladders == null || !connection.Ladders.Any())
+            if (connection.Ladder == null)
             {
                 var connectionsJson = parsedJson["connections"] as JArray;
                 var matchingConnection = connectionsJson?
                     .FirstOrDefault(c =>
-                        (int?)c["upper"] == connection.Upper &&
-                        (int?)c["lower"] == connection.Lower);
+                        (int?)c["upper"] == connection.upper &&
+                        (int?)c["lower"] == connection.lower);
 
-                connection.Ladders = matchingConnection?["ladders"]?.ToObject<List<LadderDto>>(JsonSerializer.Create(settings)) ?? new List<LadderDto>();
+                connection.Ladder = matchingConnection?["ladder"]?.ToObject<LadderDto>(JsonSerializer.Create(settings));
             }
         }
 

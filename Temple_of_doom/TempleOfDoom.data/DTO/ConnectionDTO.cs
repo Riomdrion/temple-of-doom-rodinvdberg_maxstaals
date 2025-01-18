@@ -9,5 +9,5 @@ public class ConnectionDto
     public int? upper { get; set; }
     public int? lower { get; set; }
     public List<DoorDto> Doors { get; set; }
-    public List<LadderDto> Ladders { get; set; } 
+    public LadderDto Ladder { get; set; }
 }

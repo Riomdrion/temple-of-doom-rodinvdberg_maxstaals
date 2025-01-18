@@ -80,6 +80,32 @@ public class Player : UiObserver
                 iceTile.HandleIceFloorTile(command, currentRoom, this);
             }
         }
+
+        foreach (var ladder in currentRoom.Ladders)
+        {
+            if (Position.X == ladder.UpperPosition.X && Position.Y == ladder.UpperPosition.Y)
+            {
+                // Ga naar de kamer onderaan de ladder
+                var lowerRoom = rooms.FirstOrDefault(r => r.Id == ladder.LowerRoomId);
+                if (lowerRoom != null)
+                {
+                    currentRoom = lowerRoom;
+                    Position = ladder.LowerPosition;
+                    break;
+                }
+            }
+            else if (Position.X == ladder.LowerPosition.X && Position.Y == ladder.LowerPosition.Y)
+            {
+                // Ga naar de kamer bovenaan de ladder
+                var upperRoom = rooms.FirstOrDefault(r => r.Id == ladder.UpperRoomId);
+                if (upperRoom != null)
+                {
+                    currentRoom = upperRoom;
+                    Position = ladder.UpperPosition;
+                    break;
+                }
+            }
+        }
         
         // Check if the player has reached a door
         foreach (var door in currentRoom.Doors)

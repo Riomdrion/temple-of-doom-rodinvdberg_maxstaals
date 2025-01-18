@@ -6,8 +6,8 @@ public class Ladder
 {
     public Position UpperPosition { get; }
     public Position LowerPosition { get; }
-    private int UpperRoomId { get; }
-    private int LowerRoomId { get; }
+    public int UpperRoomId { get; }
+    public int LowerRoomId { get; }
     public char Symbol { get; } = (char)Symbols.LADDER;
     
     

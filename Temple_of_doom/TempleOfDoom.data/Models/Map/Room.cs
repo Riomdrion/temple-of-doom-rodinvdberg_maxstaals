@@ -77,19 +77,24 @@ public class Room : UiObserver
             }
         }
         
-        // Stap 4: Voeg ladders toe aan de lay-out
+        // Stap 4: Voeg ladder toe aan de lay-out
         foreach (var ladder in Ladders)
         {
-            if (ladder.UpperPosition.X >= 0 && ladder.UpperPosition.X < Width &&
-                ladder.UpperPosition.Y >= 0 && ladder.UpperPosition.Y < Height)
+            if (ladder.LowerRoomId == Id)
             {
-                Layout[ladder.UpperPosition.Y, ladder.UpperPosition.X] = (char)Symbols.LADDER;
+                if (ladder.LowerPosition.X >= 0 && ladder.LowerPosition.X < Width &&
+                    ladder.LowerPosition.Y >= 0 && ladder.LowerPosition.Y < Height)
+                {
+                    Layout[ladder.LowerPosition.Y, ladder.LowerPosition.X] = (char)Symbols.LADDER; 
+                }
             }
-
-            if (ladder.LowerPosition.X >= 0 && ladder.LowerPosition.X < Width &&
-                ladder.LowerPosition.Y >= 0 && ladder.LowerPosition.Y < Height)
+            else
             {
-                Layout[ladder.LowerPosition.Y, ladder.LowerPosition.X] = (char)Symbols.LADDER; 
+                if (ladder.UpperPosition.X >= 0 && ladder.UpperPosition.X < Width &&
+                    ladder.UpperPosition.Y >= 0 && ladder.UpperPosition.Y < Height)
+                {
+                    Layout[ladder.UpperPosition.Y, ladder.UpperPosition.X] = (char)Symbols.LADDER;
+                }
             }
         }
         

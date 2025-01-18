@@ -26,26 +26,20 @@ namespace TempleOfDoom.Factory
                         AddConnection(rooms, connection, direction);
                 }
                 
-                if (connection.Ladders.Any())
+                var upperRoom = rooms.FirstOrDefault(r => r.Id == connection.upper);
+                var lowerRoom = rooms.FirstOrDefault(r => r.Id == connection.lower);
+
+                if (upperRoom != null && lowerRoom != null && connection.Ladder != null)
                 {
-                    var upperRoom = rooms.FirstOrDefault(r => r.Id == connection.upper);
-                    var lowerRoom = rooms.FirstOrDefault(r => r.Id == connection.lower);
+                    var ladder = new Ladder(
+                        connection.upper.Value,
+                        new Position(connection.Ladder.UpperX, connection.Ladder.UpperY),
+                        connection.lower.Value,
+                        new Position(connection.Ladder.LowerX, connection.Ladder.LowerY)
+                    );
 
-                    if (upperRoom != null && lowerRoom != null)
-                    {
-                        foreach (var ladderDto in connection.Ladders)
-                        {
-                            var ladder = new Ladder(
-                                connection.upper.Value,
-                                new Position(ladderDto.UpperX, ladderDto.UpperY),
-                                connection.lower.Value,
-                                new Position(ladderDto.LowerX, ladderDto.LowerY)
-                            );
-
-                            upperRoom.Ladders.Add(ladder);
-                            lowerRoom.Ladders.Add(ladder);
-                        }
-                    }
+                    upperRoom.Ladders.Add(ladder);
+                    lowerRoom.Ladders.Add(ladder);
                 }
             }
         }
