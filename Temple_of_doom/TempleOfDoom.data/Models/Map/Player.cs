@@ -121,6 +121,7 @@ public class Player : UiObserver
                 // Zoek de nieuwe kamer
                 var targetRoom = rooms.FirstOrDefault(r => r.Id == door.TargetRoomId);
 
+                // Als de deur een sluitende poort is, sluit dan alle poorten in de huidige kamer
                 if (door is ClosingGate gate)
                 {
                     gate.SetClosed();
@@ -129,6 +130,8 @@ public class Player : UiObserver
                         newDoor.SetClosed();
                     }
                 }
+                
+                
                 
                 // Zoek de corresponderende deur in de doelkamer
                 var correspondingDoor = targetRoom.Doors.FirstOrDefault(d =>

@@ -15,8 +15,8 @@ public static class DoorFactory
             currentRoom.Doors.Add(door);
         }
     }
-    
-    public static Door CreateDoor(DoorDto dto, Room room, Room targetRoom, Direction direction)
+
+    private static Door CreateDoor(DoorDto dto, Room room, Room targetRoom, Direction direction)
     {
         var position = CalculateDoorPosition(room, direction);
         Door baseDoor = new SimpleDoor(targetRoom.Id, direction, position);
@@ -32,7 +32,7 @@ public static class DoorFactory
         };
     }
 
-    public static Position CalculateDoorPosition(Room room, Direction direction)
+    private static Position CalculateDoorPosition(Room room, Direction direction)
     {
         return direction switch
         {
