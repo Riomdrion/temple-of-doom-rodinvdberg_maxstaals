@@ -1,4 +1,4 @@
-﻿namespace TempleOfDoom.data.Models;
+﻿namespace TempleOfDoom.data.Observers;
 
 public class UiObserver
 {

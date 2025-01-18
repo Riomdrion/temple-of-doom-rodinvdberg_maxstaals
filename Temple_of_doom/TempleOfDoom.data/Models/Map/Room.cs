@@ -2,6 +2,7 @@
 using TempleOfDoom.data.Models.Door;
 using TempleOfDoom.data.Models.FloorTiles;
 using TempleOfDoom.data.Models.Items;
+using TempleOfDoom.data.Observers;
 
 namespace TempleOfDoom.data.Models.Map;
 
@@ -13,11 +14,11 @@ public class Room : UiObserver
     public List<Door.Door> Doors { get; set; }
     public List<Item> Items { get; set; }
     public List<FloorTile> FloorTiles { get; set; }
-    public List<Enemy.Enemy> Enemies { get; set; }
+    public List<Enemy> Enemies { get; set; }
 
     public char[,] Layout { get; private set; }
 
-    public Room(int id, int width, int height, List<Door.Door> doors, List<Item> items, List<FloorTile> floorTiles, List<Enemy.Enemy> enemies)
+    public Room(int id, int width, int height, List<Door.Door> doors, List<Item> items, List<FloorTile> floorTiles, List<Enemy> enemies)
     {
         Id = id;
         Width = width;

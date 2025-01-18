@@ -1,9 +1,8 @@
 ﻿using TempleOfDoom.data.Models.FloorTiles;
-using TempleOfDoom.data.Models.Map;
 
-namespace TempleOfDoom.data.Models.Enemy
+namespace TempleOfDoom.data.Models.Map
 {
-    public class Enemy(string type, Position position, int minX, int maxX, int minY, int maxY, int lives = 1)
+    public class Enemy(string type, Position position, int minX, int maxX, int minY, int maxY, int lives = 3)
     {
         private string Type { get; } = type;
         public Position Position { get; private set; } = position;

@@ -1,4 +1,5 @@
 ﻿using TempleOfDoom.data.DTO;
+using TempleOfDoom.data.Enums;
 using TempleOfDoom.data.Models.Door;
 using TempleOfDoom.data.Models.Map;
 

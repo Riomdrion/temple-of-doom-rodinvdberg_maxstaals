@@ -1,4 +1,4 @@
-﻿namespace TempleOfDoom.data.Models.Map;
+﻿namespace TempleOfDoom.data.Enums;
 
 public enum Direction
 {

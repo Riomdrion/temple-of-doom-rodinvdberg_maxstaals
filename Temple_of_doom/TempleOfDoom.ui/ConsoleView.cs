@@ -158,6 +158,7 @@ public class ConsoleView
             ConsoleKey.LeftArrow => "left",
             ConsoleKey.RightArrow => "right",
             ConsoleKey.Q => "quit",
+            ConsoleKey.Spacebar => "space",
             _ => string.Empty 
         };
     }

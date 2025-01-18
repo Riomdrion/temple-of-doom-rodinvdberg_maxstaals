@@ -1,6 +1,8 @@
-﻿using TempleOfDoom.data.Models.Door;
+﻿using TempleOfDoom.data.Enums;
+using TempleOfDoom.data.Models.Door;
 using TempleOfDoom.data.Models.FloorTiles;
 using TempleOfDoom.data.Models.Items;
+using TempleOfDoom.data.Observers;
 
 namespace TempleOfDoom.data.Models.Map;
 
@@ -114,6 +116,36 @@ public class Player : UiObserver
             }
         }
     }
+    
+    public void Shoot(Room currentRoom)
+    {
+        // Bepaal de posities rondom de speler
+        var adjacentPositions = new List<Position>
+        {
+            new Position(Position.X, Position.Y - 1), // Noord
+            new Position(Position.X, Position.Y + 1), // Zuid
+            new Position(Position.X - 1, Position.Y), // West
+            new Position(Position.X + 1, Position.Y)  // Oost
+        };
+
+        // Controleer op vijanden op de aangrenzende posities
+        foreach (var position in adjacentPositions)
+        {
+            var enemy = currentRoom.Enemies.FirstOrDefault(e => e.Position.X == position.X && e.Position.Y == position.Y);
+            if (enemy != null)
+            {
+                enemy.TakeDamage(); // Schade toebrengen aan de vijand
+                Console.WriteLine($"Hit enemy at position ({position.X}, {position.Y})!");
+
+                if (enemy.IsDead())
+                {
+                    currentRoom.Enemies.Remove(enemy); // Verwijder vijand als hij dood is
+                    Console.WriteLine("Enemy defeated!");
+                }
+            }
+        }
+    }
+
 
     private Direction GetOppositeDirection(Direction direction)
     {
