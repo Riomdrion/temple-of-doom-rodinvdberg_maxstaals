@@ -71,14 +71,19 @@ public class Player : UiObserver
                 {
                     return;
                 }
-
-                if (door is ClosingGate gate)
-                {
-                   gate.SetClosed();
-                }
+                
                 // Zoek de nieuwe kamer
                 var targetRoom = rooms.FirstOrDefault(r => r.Id == door.TargetRoomId);
 
+                if (door is ClosingGate gate)
+                {
+                    gate.SetClosed();
+                    foreach (var newDoor in targetRoom.Doors.OfType<ClosingGate>())
+                    {
+                        newDoor.SetClosed();
+                    }
+                }
+                
                 // Zoek de corresponderende deur in de doelkamer
                 var correspondingDoor = targetRoom.Doors.FirstOrDefault(d =>
                     d.TargetRoomId == currentRoom.Id && d.Direction == GetOppositeDirection(door.Direction));
@@ -87,6 +92,7 @@ public class Player : UiObserver
                 // Teleporteer speler naar de nieuwe kamer
                 Position = correspondingDoor.Position;
                 currentRoom = targetRoom;
+                
                 
 
                 Update($"Teleported to Room ID={currentRoom.Id} at Position=({Position.X}, {Position.Y})");
