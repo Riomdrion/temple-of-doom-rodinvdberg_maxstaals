@@ -14,4 +14,8 @@ public class ToggleDoor : DoorDecorator
     {
         return IsOpen;
     }
+    public void Toggle()
+    {
+        IsOpen = !IsOpen;
+    }
 }

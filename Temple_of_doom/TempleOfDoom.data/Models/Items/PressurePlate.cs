@@ -1,4 +1,7 @@
-﻿namespace TempleOfDoom.data.Models.Items;
+﻿using TempleOfDoom.data.Models.Door;
+using TempleOfDoom.data.Models.Map;
+
+namespace TempleOfDoom.data.Models.Items;
 
 public class PressurePlate : Item
 {
@@ -11,9 +14,11 @@ public class PressurePlate : Item
     public bool IsActive { get; set; }
     public event Action Activated;
 
-    public void StepOn()
+    public void StepOn(Room currentRoom)
     {
-        IsActive = true;
-        Activated?.Invoke();
+        foreach (var door in currentRoom.Doors.OfType<ToggleDoor>())
+        {
+            door.Toggle();
+        }
     }
 }
