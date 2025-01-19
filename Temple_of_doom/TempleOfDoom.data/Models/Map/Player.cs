@@ -95,6 +95,11 @@ public class Player : UiObserver
                     }
                 }
 
+                if (currentRoom.Doors.OfType<ToggleDoor>().Any(d => d.IsOpen))
+                {
+                    targetRoom.Doors.OfType<ToggleDoor>().ToList().ForEach(d => d.Toggle());
+                }
+
                 // Vind de nieuwe kamer
                 if (targetRoom == null)
                 {

@@ -149,17 +149,9 @@ public class Room : UiObserver
                 break;
 
             case PressurePlate pressurePlate:
-                pressurePlate.StepOn();
-                foreach (var door in Doors.OfType<ToggleDoor>())
-                {
-                    door.IsOpen = !door.IsOpen;
-                }
+                pressurePlate.StepOn(this);
                 break;
         }
     }
-    //public FloorTile GetFloorTileAt(Position position)
-    //{
-    //    return FloorTiles.FirstOrDefault(tile => tile.position.X == position.X && tile.position.Y == position.Y);
-    //}
 }
 
