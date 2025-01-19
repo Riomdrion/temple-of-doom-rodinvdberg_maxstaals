@@ -8,4 +8,5 @@ public class RoomDto
     public int Width { get; set; }
     public int Height { get; set; }
     public List<FloorTileDTO> FloorTiles { get; set; }
+    public List<EnemyDto> Enemies { get; set; }
 }
