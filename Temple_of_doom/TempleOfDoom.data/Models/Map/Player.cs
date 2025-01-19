@@ -86,13 +86,20 @@ public class Player : UiObserver
 
         currentRoom.MoveEnemies(currentRoom);
 
-        //**Controleer nogmaals of er een vijand op de speler staat (botsing na beweging)**
+        // Controleer nogmaals of er een vijand op de speler staat (botsing na beweging)
         foreach (var enemy in currentRoom.Enemies)
         {
             if (Position.X == enemy.Position.X && Position.Y == enemy.Position.Y)
             {
                 Lives--;  // Verminder nogmaals levens als de speler eindigt op een vijand
                 Update("You got hit by an enemy!");
+
+                // Verwijder de vijand als hij dood is
+                if (enemy.IsDead())
+                {
+                    currentRoom.Enemies.Remove(enemy);
+                    Console.WriteLine("Enemy defeated!");
+                }
             }
         }
 
@@ -117,6 +124,8 @@ public class Player : UiObserver
                         newDoor.SetClosed();
                     }
                 }
+
+
 
                 if (currentRoom.Doors.OfType<ToggleDoor>().Any(d => d.IsOpen))
                 {
@@ -146,6 +155,40 @@ public class Player : UiObserver
 
                 Update($"Teleported to Room ID={currentRoom.Id} at Position=({Position.X}, {Position.Y})");
                 break;
+            }
+        }
+    }
+
+    public void Shoot(Room currentRoom)
+    {
+        // Bepaal de aangrenzende posities rondom de speler
+        var adjacentPositions = new List<Position>
+    {
+        new Position(Position.X, Position.Y - 1), // Noord
+        new Position(Position.X, Position.Y + 1), // Zuid
+        new Position(Position.X - 1, Position.Y), // West
+        new Position(Position.X + 1, Position.Y)  // Oost
+    };
+
+        // Loop door de aangrenzende posities en controleer op vijanden
+        foreach (var position in adjacentPositions)
+        {
+            // Zoek naar vijand op de huidige positie
+            var enemy = currentRoom.Enemies
+                .FirstOrDefault(e => e.Position.X == position.X && e.Position.Y == position.Y);
+
+            // Als er een vijand is, breng schade toe
+            if (enemy != null)
+            {
+                enemy.TakeDamage();
+                Console.WriteLine($"Hit enemy at position ({position.X}, {position.Y})!");
+
+                // Als de vijand dood is, verwijder deze
+                if (enemy.IsDead())
+                {
+                    currentRoom.Enemies.Remove(enemy);
+                    Console.WriteLine("Enemy defeated!");
+                }
             }
         }
     }

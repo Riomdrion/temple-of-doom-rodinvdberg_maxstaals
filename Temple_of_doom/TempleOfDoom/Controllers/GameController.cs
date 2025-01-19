@@ -40,6 +40,11 @@ public class GameController
             Console.WriteLine("Exiting game.");
             Environment.Exit(0);
         }
+        else if (command == "space")
+        {
+            // Schietactie uitvoeren
+            _gameWorld.Player.Shoot(_gameWorld.Player.currentRoom);
+        }
         else
         {
             _gameWorld.Player.Move(command, _gameWorld.Rooms);

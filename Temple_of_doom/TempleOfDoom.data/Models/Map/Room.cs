@@ -159,9 +159,24 @@ public class Room : UiObserver
     }
     public void MoveEnemies(Room currentRoom)
     {
+        // Maak een lijst van vijanden die verwijderd moeten worden
+        var deadEnemies = new List<Enemy>();
+
         foreach (var enemy in Enemies)
         {
             enemy.Move(currentRoom);
+
+            // Controleer of de vijand dood is en voeg deze toe aan de verwijderlijst
+            if (enemy.IsDead())
+            {
+                deadEnemies.Add(enemy);
+            }
+        }
+
+        // Verwijder de dode vijanden
+        foreach (var deadEnemy in deadEnemies)
+        {
+            Enemies.Remove(deadEnemy);
         }
     }
 }

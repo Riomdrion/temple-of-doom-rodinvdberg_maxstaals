@@ -20,7 +20,7 @@ namespace TempleOfDoom.data.Models.Enemies
         public int Lives { get; private set; }
         private bool MovingForward { get; set; }
 
-        public Enemy(EnemyMovementType movementType, Position position, int minX, int maxX, int minY, int maxY, int lives = 1)
+        public Enemy(EnemyMovementType movementType, Position position, int minX, int maxX, int minY, int maxY, int lives = 2)
         {
             MovementType = movementType;
             Position = position;

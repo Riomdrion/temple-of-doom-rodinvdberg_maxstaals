@@ -22,5 +22,6 @@
         CONVEYORBELTSOUTH = 'v',
         CONVEYORBELTEAST = '>',
         CONVEYORBELTWEST = '<',
+        ENEMY = 'E',
     }
 }

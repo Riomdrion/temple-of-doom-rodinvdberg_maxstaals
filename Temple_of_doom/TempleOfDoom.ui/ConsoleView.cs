@@ -41,7 +41,7 @@ public class ConsoleView
                 {
                     if (room.Enemies.Any(e => e.Position.X == x && e.Position.Y == y))
                     {
-                        Console.Write('E'); // Weergave voor vijand
+                        Console.Write((char)Symbols.ENEMY); // Weergave voor vijand
                     }
 
                     // Check if there's an item at this position
@@ -159,6 +159,7 @@ public class ConsoleView
             ConsoleKey.LeftArrow => "left",
             ConsoleKey.RightArrow => "right",
             ConsoleKey.Q => "quit",
+            ConsoleKey.Spacebar => "space",
             _ => string.Empty 
         };
     }
