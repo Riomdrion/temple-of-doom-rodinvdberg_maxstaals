@@ -18,5 +18,9 @@
         REDHORIZONTALDOOR = '%',
         GREENVERTICALDOOR = '&',
         GREENHORIZONTALDOOR = '*',
+        CONVEYORBELTNORTH = '^',
+        CONVEYORBELTSOUTH = 'v',
+        CONVEYORBELTEAST = '>',
+        CONVEYORBELTWEST = '<',
     }
 }

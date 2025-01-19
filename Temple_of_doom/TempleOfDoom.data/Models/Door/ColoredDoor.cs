@@ -18,7 +18,6 @@ public class ColoredDoor : DoorDecorator
                 Direction.SOUTH => (char)Symbols.REDHORIZONTALDOOR,
                 Direction.EAST => (char)Symbols.REDVERTICALDOOR,
                 Direction.WEST => (char)Symbols.REDVERTICALDOOR,
-                _ => '?'
             };
         }
         else if (keyColor == "GREEN")
@@ -29,7 +28,6 @@ public class ColoredDoor : DoorDecorator
                 Direction.SOUTH => (char)Symbols.GREENHORIZONTALDOOR,
                 Direction.EAST => (char)Symbols.GREENVERTICALDOOR,
                 Direction.WEST => (char)Symbols.GREENVERTICALDOOR,
-                _ => '?'
             };
         }
         else
@@ -40,7 +38,6 @@ public class ColoredDoor : DoorDecorator
                 Direction.SOUTH => (char)Symbols.HORIZONTALDOOR,
                 Direction.EAST => (char)Symbols.VERTICALDOOR,
                 Direction.WEST => (char)Symbols.VERTICALDOOR,
-                _ => '?'
             };
         }
 

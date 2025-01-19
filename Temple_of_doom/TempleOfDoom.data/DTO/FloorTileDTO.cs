@@ -11,9 +11,6 @@ namespace TempleOfDoom.data.DTO
         public string type { get; set; }
         public int x { get; set; }
         public int y { get; set; }
-        public int? north { get; set; }
-        public int? south { get; set; }
-        public int? east { get; set; }
-        public int? west { get; set; }
+        public string Direction { get; set; }
     }
 }

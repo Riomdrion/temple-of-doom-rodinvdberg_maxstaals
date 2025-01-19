@@ -7,7 +7,7 @@ using TempleOfDoom.data.Models.Map;
 
 namespace TempleOfDoom.data.Models.FloorTiles
 {
-    public class Conveyorbelt(Posistion posistion) : FloorTile(posistion)
+    public class NormalFloorTile (Position position) : FloorTile(position)    
     {
         public override void Effect(Player player, Room room)
         {
