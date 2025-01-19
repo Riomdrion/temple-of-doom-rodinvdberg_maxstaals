@@ -75,8 +75,16 @@ public static class JsonFileReader
                     .FirstOrDefault(r => (int?)r["id"] == roomDto.Id);
                 roomDto.FloorTiles = matchingRoom?["specialFloorTiles"]?.ToObject<List<FloorTileDTO>>(JsonSerializer.Create(settings)) ?? new List<FloorTileDTO>();
             }
-        }
 
+            if (roomDto.Enemies == null || roomDto.Enemies.Count == 0)
+            {
+                var roomsEnemies = parsedJson["rooms"] as JArray;
+                var matchingRoom = roomsEnemies?
+                    .FirstOrDefault(r => (int?)r["id"] == roomDto.Id);
+                roomDto.Enemies = matchingRoom?["enemies"]?.ToObject<List<EnemyDto>>(JsonSerializer.Create(settings)) ?? new List<EnemyDto>();
+            }
+
+        }
 
         var rooms = RoomFactory.CreateRooms(roomsData, connectionsData);
 

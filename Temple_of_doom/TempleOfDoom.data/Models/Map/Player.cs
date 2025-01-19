@@ -73,6 +73,16 @@ public class Player : UiObserver
         // 🔹 Nu pas interacties afhandelen (items, deuren, etc.)
         currentRoom.HandlePlayerInteraction(this);
 
+        foreach (var enemy in currentRoom.Enemies)
+        {
+            if (Position.Equals(enemy.Position))
+            {
+                Lives--; // Speler neemt schade
+                Console.WriteLine("Enemy did 1 damage");
+            }
+        }
+        currentRoom.MoveEnemies();
+
         // Controleer of de speler een deur heeft bereikt
         foreach (var door in currentRoom.Doors)
         {
