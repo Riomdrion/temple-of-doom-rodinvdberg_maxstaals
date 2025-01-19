@@ -32,7 +32,7 @@ namespace TempleOfDoom.data.Models.Enemies
             MovingForward = true;
         }
 
-        public void Move()
+        public void Move(Room currentroom)
         {
             int deltaX = 0, deltaY = 0;
 

@@ -55,6 +55,17 @@ public class Player : UiObserver
             }
         );
 
+        //**Controleer of er een vijand op de nieuwe positie staat (botsing vóór beweging)**
+        foreach (var enemy in currentRoom.Enemies)
+        {
+            if (newPosition.X == enemy.Position.X && newPosition.Y == enemy.Position.Y)
+            {
+                Lives--;  // Verminder het aantal levens van de speler
+                Update("You got hit by an enemy!");
+                return; // Stop de beweging (blijf op dezelfde plek)
+            }
+        }
+
         // Controleer of de nieuwe positie binnen de kamergrenzen ligt
         if (currentRoom.IsPositionWalkable(newPosition))
         {
@@ -73,15 +84,17 @@ public class Player : UiObserver
         // 🔹 Nu pas interacties afhandelen (items, deuren, etc.)
         currentRoom.HandlePlayerInteraction(this);
 
+        currentRoom.MoveEnemies(currentRoom);
+
+        //**Controleer nogmaals of er een vijand op de speler staat (botsing na beweging)**
         foreach (var enemy in currentRoom.Enemies)
         {
-            if (Position.Equals(enemy.Position))
+            if (Position.X == enemy.Position.X && Position.Y == enemy.Position.Y)
             {
-                Lives--; // Speler neemt schade
-                Console.WriteLine("Enemy did 1 damage");
+                Lives--;  // Verminder nogmaals levens als de speler eindigt op een vijand
+                Update("You got hit by an enemy!");
             }
         }
-        currentRoom.MoveEnemies();
 
         // Controleer of de speler een deur heeft bereikt
         foreach (var door in currentRoom.Doors)

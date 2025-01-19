@@ -157,11 +157,11 @@ public class Room : UiObserver
         }
 
     }
-    public void MoveEnemies()
+    public void MoveEnemies(Room currentRoom)
     {
         foreach (var enemy in Enemies)
         {
-            enemy.Move();
+            enemy.Move(currentRoom);
         }
     }
 }
