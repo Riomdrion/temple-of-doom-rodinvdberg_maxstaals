@@ -1,6 +1,7 @@
 ﻿using TempleOfDoom.Data;
 using TempleOfDoom.data.Models.Map;
 using TempleOfDoom.ui;
+using System.Data;
 
 namespace TempleOfDoom.Controllers;
 
@@ -8,13 +9,19 @@ public class GameController
 {
     private GameWorld? _gameWorld;
     private ConsoleView _view = new();
+    private readonly IGameWorldReader _gameWorldReader;
+
+    public GameController(IGameWorldReader gameWorldReader)
+    {
+        _gameWorldReader = gameWorldReader;
+    }
 
     public void StartGame()
     {
         // Initialize components
         _view = new ConsoleView();
 
-        _gameWorld = JsonFileReader.LoadGameWorld("../../../../TempleOfDoom.data/Levels/TempleOfDoom_B.json");
+        _gameWorld = _gameWorldReader.LoadGameWorld("../../../../TempleOfDoom.data/Levels/TempleOfDoom_B.json");
         _gameWorld.Player.Position = _gameWorld.Player.GetPlayerStartPosition();
 
         // Start the game loop

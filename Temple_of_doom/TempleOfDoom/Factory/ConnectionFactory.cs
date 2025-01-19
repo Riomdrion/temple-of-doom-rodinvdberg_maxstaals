@@ -8,6 +8,9 @@ namespace TempleOfDoom.Factory
 {
     public static class ConnectionFactory
     {
+        /// <summary>
+        /// Creëert deuren tussen kamers op basis van verbindingen.
+        /// </summary>
         public static void CreateRoomDoors(List<Room> rooms, List<ConnectionDto> connections)
         {
             foreach (var connection in connections)
@@ -29,6 +32,9 @@ namespace TempleOfDoom.Factory
             }
         }
 
+        /// <summary>
+        /// Creëert portalen tussen kamers op basis van verbindingen.
+        /// </summary>
         public static void CreateRoomPortals(List<Room> rooms, List<ConnectionDto> connections)
         {
             foreach (var connection in connections)
@@ -53,6 +59,9 @@ namespace TempleOfDoom.Factory
             }
         }
 
+        /// <summary>
+        /// Voegt een verbinding tussen kamers toe, inclusief deuren indien opgegeven.
+        /// </summary>
         private static void AddConnection(List<Room> rooms, ConnectionDto connection, Direction direction)
         {
             var (currentRoomId, targetRoomId) = direction switch
