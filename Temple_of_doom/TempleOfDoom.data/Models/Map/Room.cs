@@ -105,6 +105,14 @@ public class Room : UiObserver
             throw new NullReferenceException("Room layout is not initialized.");
 
         var currentTile = Layout[player.Position.Y, player.Position.X];
+        var floorTile = FloorTiles.FirstOrDefault(tile =>
+        tile.position.X == player.Position.X && tile.position.Y == player.Position.Y);
+
+        if (floorTile is Conveyorbelt conveyorBelt)
+        {
+            conveyorBelt.Effect(player, this);
+        }
+
         var item = Items.FirstOrDefault(i => i.X == player.Position.X && i.Y == player.Position.Y);
 
         if (item == null)
@@ -149,5 +157,9 @@ public class Room : UiObserver
                 break;
         }
     }
+    //public FloorTile GetFloorTileAt(Position position)
+    //{
+    //    return FloorTiles.FirstOrDefault(tile => tile.position.X == position.X && tile.position.Y == position.Y);
+    //}
 }
 

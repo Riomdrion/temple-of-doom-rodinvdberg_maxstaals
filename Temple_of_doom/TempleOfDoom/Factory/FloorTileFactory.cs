@@ -13,10 +13,24 @@ namespace TempleOfDoom.Factory
     {
         public static FloorTile CreateTile(FloorTileDTO floorTileDTO)
         {
-            return floorTileDTO.type.ToLower() switch
+            if (floorTileDTO.type.ToLower() == "conveyor belt")
             {
-                "conveyor belt" => new Conveyorbelt(new Position(floorTileDTO.x, floorTileDTO.y)),
-                _ => throw new ArgumentException($"Unknown floor tile type: {floorTileDTO.type}")
+                Direction direction = ParseDirection(floorTileDTO.Direction);
+                return new Conveyorbelt(new Position(floorTileDTO.x, floorTileDTO.y), direction);
+            }
+
+            throw new ArgumentException($"Unknown floor tile type: {floorTileDTO.type}");
+
+        }
+        private static Direction ParseDirection(string direction)
+        {
+            return direction.ToUpper() switch
+            {
+                "NORTH" => Direction.NORTH,
+                "SOUTH" => Direction.SOUTH,
+                "EAST" => Direction.EAST,
+                "WEST" => Direction.WEST,
+                _ => throw new ArgumentException($"Invalid direction: {direction}")
             };
         }
     }

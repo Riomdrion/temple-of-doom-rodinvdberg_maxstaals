@@ -1,5 +1,6 @@
 ﻿using System.Numerics;
 using TempleOfDoom.data.Models.Door;
+using TempleOfDoom.data.Models.FloorTiles;
 using TempleOfDoom.data.Models.Items;
 
 namespace TempleOfDoom.data.Models.Map;
@@ -58,17 +59,26 @@ public class Player : UiObserver
         if (currentRoom.IsPositionWalkable(newPosition))
         {
             Position = newPosition;
-
-            // Handle interactions with items at the new position
-            currentRoom.HandlePlayerInteraction(this);
         }
 
-        // Check if the player has reached a door
+        // 🔹 Check of de speler op een Conveyor Belt staat en voer het effect direct uit
+        var currentTile = currentRoom.FloorTiles.FirstOrDefault(tile =>
+            tile.position.X == Position.X && tile.position.Y == Position.Y);
+
+        if (currentTile is Conveyorbelt conveyorBelt)
+        {
+            conveyorBelt.Effect(this, currentRoom);
+        }
+
+        // 🔹 Nu pas interacties afhandelen (items, deuren, etc.)
+        currentRoom.HandlePlayerInteraction(this);
+
+        // Controleer of de speler een deur heeft bereikt
         foreach (var door in currentRoom.Doors)
         {
             if (door.Position.X == Position.X && door.Position.Y == Position.Y)
             {
-                // Validatie: Controleer of de deur geopend kan worden
+                // Controleer of de deur geopend kan worden
                 if (!door.CanOpen(this))
                 {
                     return;
@@ -84,14 +94,15 @@ public class Player : UiObserver
                         newDoor.SetClosed();
                     }
                 }
-                // find new room
+
+                // Vind de nieuwe kamer
                 if (targetRoom == null)
                 {
                     Update($"Error: Target room with ID={door.TargetRoomId} not found!");
                     return;
                 }
 
-                // find corresponding door in target room
+                // Vind de corresponderende deur in de nieuwe kamer
                 var correspondingDoor = targetRoom.Doors.FirstOrDefault(d =>
                     d.TargetRoomId == currentRoom.Id && d.Direction == GetOppositeDirection(door.Direction));
 
@@ -101,7 +112,7 @@ public class Player : UiObserver
                     return;
                 }
 
-                // teleport player to new room
+                // Teleporteer de speler naar de nieuwe kamer
                 Position = correspondingDoor.Position;
                 currentRoom = targetRoom;
 
