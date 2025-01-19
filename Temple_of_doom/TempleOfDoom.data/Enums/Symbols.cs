@@ -23,6 +23,6 @@
         CONVEYORBELTEAST = '>',
         CONVEYORBELTWEST = '<',
         ENEMY = 'E',
-        PORTAL = '{'
+        PORTAL = 'O'
     }
 }

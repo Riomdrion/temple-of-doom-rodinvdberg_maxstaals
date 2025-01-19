@@ -29,6 +29,7 @@ public static class RoomFactory
         }
 
         ConnectionFactory.CreateRoomDoors(rooms, connectionData);
+        ConnectionFactory.CreateRoomPortals(rooms, connectionData);
 
         foreach (var room in rooms)
         {

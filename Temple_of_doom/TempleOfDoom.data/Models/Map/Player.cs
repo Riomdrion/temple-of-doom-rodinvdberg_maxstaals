@@ -2,6 +2,7 @@
 using TempleOfDoom.data.Models.Door;
 using TempleOfDoom.data.Models.FloorTiles;
 using TempleOfDoom.data.Models.Items;
+using TempleOfDoom.data.Models.Portals;
 
 namespace TempleOfDoom.data.Models.Map;
 
@@ -155,8 +156,43 @@ public class Player : UiObserver
 
                 Update($"Teleported to Room ID={currentRoom.Id} at Position=({Position.X}, {Position.Y})");
                 break;
+
             }
         }
+        // Controleer of de speler op een portaal staat
+        foreach (var portal in currentRoom.Portals)
+        {
+            if (portal.Position.X == Position.X && portal.Position.Y == Position.Y)
+            {
+                TeleportToRoom(portal, rooms);
+                break;
+            }
+        }
+    }
+
+    private void TeleportToRoom(Portal portal, List<Room> rooms)
+    {
+        var targetRoom = rooms.FirstOrDefault(r => r.Id == portal.RoomId);
+
+        if (targetRoom == null)
+        {
+            Update($"Error: Target room with ID={portal.RoomId} not found!");
+            return;
+        }
+
+        // Vind het corresponderende portaal in de nieuwe kamer
+        var correspondingPortal = targetRoom.Portals.FirstOrDefault(p => p.RoomId == currentRoom.Id);
+
+        if (correspondingPortal == null)
+        {
+            Update($"Error: Corresponding portal not found in Room ID={targetRoom.Id}.");
+            return;
+        }
+        // Teleporteer de speler naar de nieuwe kamer en positie
+        Position = correspondingPortal.Position;
+        currentRoom = targetRoom;
+
+        Update($"Teleported to Room ID={currentRoom.Id} at Position=({Position.X}, {Position.Y})");
     }
 
     public void Shoot(Room currentRoom)

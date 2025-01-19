@@ -120,6 +120,8 @@ public class Room : UiObserver
             throw new NullReferenceException("Room layout is not initialized.");
 
         var currentTile = Layout[player.Position.Y, player.Position.X];
+
+
         var floorTile = FloorTiles.FirstOrDefault(tile =>
         tile.position.X == player.Position.X && tile.position.Y == player.Position.Y);
 

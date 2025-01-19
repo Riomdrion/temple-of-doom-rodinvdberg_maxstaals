@@ -33,7 +33,23 @@ namespace TempleOfDoom.Factory
         {
             foreach (var connection in connections)
             {
-               
+                if (connection.Portals == null || connection.Portals.Count != 2)
+                    continue; // Zorg ervoor dat een portal altijd een paar heeft
+
+                var portalA = connection.Portals[0];
+                var portalB = connection.Portals[1];
+
+                var roomA = rooms.FirstOrDefault(r => r.Id == portalA.roomId);
+                var roomB = rooms.FirstOrDefault(r => r.Id == portalB.roomId);
+
+                if (roomA != null && roomB != null)
+                {
+                    var newPortalA = new Portal(new Position(portalA.x, portalA.y), roomB.Id);
+                    var newPortalB = new Portal(new Position(portalB.x, portalB.y), roomA.Id);
+
+                    roomA.Portals.Add(newPortalA);
+                    roomB.Portals.Add(newPortalB);
+                }
             }
         }
 
