@@ -11,12 +11,12 @@ namespace TempleOfDoom.Factory
 {
     public class FloorTileFactory
     {
-        public static FloorTile CreateTile(string type, int x, int y)
+        public static FloorTile CreateTile(FloorTileDTO floorTileDTO)
         {
-            return type.ToLower() switch
+            return floorTileDTO.type.ToLower() switch
             {
-                "ice" => new Conveyorbelt(new Position(x, y)),
-                _ => throw new ArgumentException($"Unknown floor tile type: {type}")
+                "conveyor belt" => new Conveyorbelt(new Position(floorTileDTO.x, floorTileDTO.y)),
+                _ => throw new ArgumentException($"Unknown floor tile type: {floorTileDTO.type}")
             };
         }
     }

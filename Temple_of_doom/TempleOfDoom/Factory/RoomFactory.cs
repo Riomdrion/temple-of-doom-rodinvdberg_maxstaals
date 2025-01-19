@@ -18,7 +18,8 @@ public static class RoomFactory
                 width: roomData.Width,
                 height: roomData.Height,
                 items: roomData.Items.Select(itemDto => ItemFactory.CreateItem(itemDto)).ToList(),
-                doors: new List<Door>()
+                doors: new List<Door>(),
+                floorTiles: roomData.FloorTiles.Select(floorTileDto => FloorTileFactory.CreateTile(floorTileDto)).ToList()
             );
 
             rooms.Add(room);
