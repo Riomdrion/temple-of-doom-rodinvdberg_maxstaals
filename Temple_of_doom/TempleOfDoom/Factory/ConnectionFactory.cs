@@ -1,6 +1,8 @@
 ﻿using TempleOfDoom.data.DTO;
+using TempleOfDoom.data.Enums;
 using TempleOfDoom.data.Models.Door;
 using TempleOfDoom.data.Models.Map;
+using TempleOfDoom.data.Models.Portals;
 
 namespace TempleOfDoom.Factory
 {
@@ -24,6 +26,14 @@ namespace TempleOfDoom.Factory
                     if (targetRoomId.HasValue)
                         AddConnection(rooms, connection, direction);
                 }
+            }
+        }
+
+        public static void CreateRoomPortals(List<Room> rooms, List<ConnectionDto> connections)
+        {
+            foreach (var connection in connections)
+            {
+               
             }
         }
 

@@ -53,6 +53,19 @@ public static class JsonFileReader
 
                 connection.Doors = matchingConnection?["doors"]?.ToObject<List<DoorDto>>(JsonSerializer.Create(settings)) ?? new List<DoorDto>();
             }
+
+            if (connection.Portal == null || connection.Portal.Count == 0)
+            {
+                var connections = parsedJson["connections"] as JArray;
+
+                // Zoek naar de juiste connectie met een portal
+                var matchingConnection = connections?
+                    .FirstOrDefault(c => c["portal"] != null); // Zoek naar connecties met een portal aanwezig
+
+                // Zet de portal om naar een lijst van PortalDTO, als deze bestaat
+                connection.Portal = matchingConnection?["portal"]?.ToObject<List<PortalDTO>>(JsonSerializer.Create(settings)) ?? new List<PortalDTO>();
+            }
+
         }
 
 

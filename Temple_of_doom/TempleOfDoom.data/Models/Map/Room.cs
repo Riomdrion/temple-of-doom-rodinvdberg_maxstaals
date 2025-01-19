@@ -3,6 +3,7 @@ using TempleOfDoom.data.Models.Door;
 using TempleOfDoom.data.Models.Enemies;
 using TempleOfDoom.data.Models.FloorTiles;
 using TempleOfDoom.data.Models.Items;
+using TempleOfDoom.data.Models.Portals;
 
 namespace TempleOfDoom.data.Models.Map;
 
@@ -15,9 +16,10 @@ public class Room : UiObserver
     public List<Item> Items { get; set; }
     public List<FloorTile> FloorTiles { get; set; }
     public List<Enemy> Enemies { get; set; }
+    public List<Portal> Portals { get; set; }
     public char[,] Layout { get; private set; }
 
-    public Room(int id, int width, int height, List<Door.Door> doors, List<Item> items, List<FloorTile> floorTiles, List<Enemy> enemies)
+    public Room(int id, int width, int height, List<Door.Door> doors, List<Item> items, List<FloorTile> floorTiles, List<Enemy> enemies, List<Portal> portals)
     {
         Id = id;
         Width = width;
@@ -26,6 +28,7 @@ public class Room : UiObserver
         Items = items;
         FloorTiles = floorTiles;
         Enemies = enemies;
+        Portals = portals;
         Layout = new char[height, width];
     }
 
@@ -74,6 +77,15 @@ public class Room : UiObserver
                 Layout[door.Position.Y, door.Position.X] = door.Symbol;
             }
         }
+
+        foreach (var portal in Portals)
+        {
+            if (portal.Position.X >= 0 && portal.Position.X < Width && portal.Position.Y >= 0 && portal.Position.Y < Height)
+            {
+                Layout[portal.Position.Y, portal.Position.X] = portal.Symbol;
+            }
+        }
+
         foreach (var item in Items)
         {
             if (item.X >= 0 && item.X < Width && item.Y >= 0 && item.Y < Height)
