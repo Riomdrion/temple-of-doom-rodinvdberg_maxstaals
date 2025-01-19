@@ -7,4 +7,5 @@ public class RoomDto
     public List<DoorDto> Doors { get; set; }
     public int Width { get; set; }
     public int Height { get; set; }
+    public List<FloorTileDTO> FloorTiles { get; set; }
 }
