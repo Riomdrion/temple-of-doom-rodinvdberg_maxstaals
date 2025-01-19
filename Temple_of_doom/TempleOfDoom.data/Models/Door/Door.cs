@@ -30,8 +30,4 @@ public abstract class Door : UiObserver
     }
     
     public abstract bool CanOpen(Player player);
-
-    public void Open() => IsOpen = true;
-
-    public void Close() => IsOpen = false;
 }

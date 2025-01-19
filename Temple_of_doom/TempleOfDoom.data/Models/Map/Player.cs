@@ -131,8 +131,10 @@ public class Player : UiObserver
                     }
                 }
                 
-                
-                
+if (currentRoom.Doors.OfType<ToggleDoor>().Any(d => d.IsOpen))
+{
+    targetRoom.Doors.OfType<ToggleDoor>().ToList().ForEach(d => d.Toggle());
+}
                 // Zoek de corresponderende deur in de doelkamer
                 var correspondingDoor = targetRoom.Doors.FirstOrDefault(d =>
                     d.TargetRoomId == currentRoom.Id && d.Direction == GetOppositeDirection(door.Direction));

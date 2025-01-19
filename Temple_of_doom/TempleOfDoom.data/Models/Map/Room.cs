@@ -169,11 +169,7 @@ public class Room : UiObserver
                 break;
             
             case PressurePlate pressurePlate:
-                pressurePlate.StepOn();
-                foreach (var door in Doors.OfType<ToggleDoor>())
-                {
-                    door.IsOpen = !door.IsOpen;
-                }
+                pressurePlate.StepOn(this);
                 break;
         }
     }
